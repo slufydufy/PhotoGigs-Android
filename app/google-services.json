@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "226898985690",
+    "firebase_url": "https://photogigs-79bd9.firebaseio.com",
+    "project_id": "photogigs-79bd9",
+    "storage_bucket": "photogigs-79bd9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226898985690:android:bd76efe6cc35757a",
+        "android_client_info": {
+          "package_name": "com.malmalmal.photogigs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226898985690-hu7getf2dcd7b8eq3fudlkrlb0jrsaq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbumYdUSic7OndTHkXpaI0l5rV0plHZSE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
