@@ -7,11 +7,19 @@
 
     <TextView
             android:text="TextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/content_textView" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" android:layout_marginRight="8dp" android:textColor="@android:color/white"
-            android:textSize="14sp"/>
+            android:id="@+id/content_textView"
+            android:layout_marginTop="8dp"
+            android:gravity="fill_horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:lineSpacingExtra="8sp"/>
 </android.support.constraint.ConstraintLayout>

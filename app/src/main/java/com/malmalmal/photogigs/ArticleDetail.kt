@@ -59,6 +59,7 @@ class DetailContent(val content : String) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
         viewHolder.itemView.content_textView.text = content
+
     }
 
     override fun getLayout(): Int {
