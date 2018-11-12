@@ -51,7 +51,6 @@ class ArticleMain : AppCompatActivity() {
             override fun onCancelled(p0: DatabaseError) {
 
             }
-
         })
 
     }
@@ -62,7 +61,7 @@ class ImageRow(val article : Article) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
         val image = viewHolder.itemView.article_card_imageView
-        Picasso.get().load("https://www.canon.co.uk/Images/eos-1d-x-markii-image-management_tcm14-1345922.jpg").into(image)
+        Picasso.get().load(article.image).into(image)
         viewHolder.itemView.title_card_textView.text = article.title
         viewHolder.itemView.subTitle_textView.text = article.subtitle
 
@@ -70,6 +69,7 @@ class ImageRow(val article : Article) : Item<ViewHolder>() {
             val intent = Intent(it.context, ArticleDetail::class.java)
             intent.putExtra("TITLE", article.title)
             intent.putExtra("SUBTITLE", article.subtitle)
+            intent.putExtra("IMAGE", article.image)
             intent.putExtra("CONTENT", article.content)
 
             it.context.startActivity(intent)
