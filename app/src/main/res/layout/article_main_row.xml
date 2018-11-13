@@ -25,6 +25,12 @@
                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:scaleType="centerCrop"/>
+            <View
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:background="#000000"
+                    android:alpha=".35"
+                    android:id="@+id/view_mask"/>
             <TextView
                     android:text="Article Sub View"
                     android:layout_width="0dp"
@@ -33,10 +39,10 @@
                     android:layout_marginBottom="16dp" app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/white" android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp" android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"/>
+                    android:layout_marginStart="16dp" app:fontFamily="@font/basic"/>
             <TextView
                     android:text="Article Title"
                     android:layout_width="0dp"
@@ -45,8 +51,9 @@
                     android:layout_marginEnd="16dp" android:layout_marginRight="16dp"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp" android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/subTitle_textView" android:textSize="24sp"
-                    android:textColor="@android:color/white" android:textStyle="bold"/>
+                    app:layout_constraintBottom_toTopOf="@+id/subTitle_textView" android:textSize="18sp"
+                    android:textColor="@android:color/white" android:textStyle="bold"
+                    app:fontFamily="@font/basic"/>
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

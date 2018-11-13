@@ -21,5 +21,5 @@
             android:layout_marginRight="8dp"
             android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:lineSpacingExtra="8sp"/>
+            android:lineSpacingExtra="8sp" app:fontFamily="@font/basic"/>
 </android.support.constraint.ConstraintLayout>

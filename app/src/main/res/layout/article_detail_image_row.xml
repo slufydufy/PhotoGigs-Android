@@ -12,6 +12,15 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" android:layout_marginRight="8dp" android:scaleType="centerCrop"/>
+    <View
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:background="#000000"
+            android:alpha=".35"
+            android:id="@+id/view_mask2"
+            app:layout_constraintEnd_toEndOf="@+id/article_detail_imageView"
+            app:layout_constraintStart_toStartOf="@+id/article_detail_imageView"
+            app:layout_constraintTop_toTopOf="@+id/article_detail_imageView"/>
     <TextView
             android:text="Subtitle"
             android:layout_width="0dp"
@@ -19,7 +28,8 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp" android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp" android:layout_marginRight="16dp" android:textColor="@android:color/white"/>
+            android:layout_marginEnd="16dp" android:layout_marginRight="16dp" android:textColor="@android:color/white"
+            app:fontFamily="@font/basic"/>
     <TextView
             android:text="Title"
             android:layout_width="0dp"
@@ -27,6 +37,6 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/subtitle_textView"
             app:layout_constraintStart_toStartOf="@+id/subtitle_textView"
-            app:layout_constraintEnd_toEndOf="@+id/subtitle_textView" android:textSize="24sp" android:textStyle="bold"
-            android:textColor="@android:color/white"/>
+            app:layout_constraintEnd_toEndOf="@+id/subtitle_textView" android:textSize="18sp" android:textStyle="bold"
+            android:textColor="@android:color/white" app:fontFamily="@font/basic"/>
 </android.support.constraint.ConstraintLayout>

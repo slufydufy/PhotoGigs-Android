@@ -22,6 +22,19 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Register"
+                  android:label="Register"
+                  android:launchMode="singleTop">
+        </activity>
+
+        <activity android:name=".Login"
+                  android:label="Login"
+                  android:launchMode="singleTop">
+
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".Register"/>
+        </activity>
+
         <activity android:name=".ArticleMain"
                   android:label="Article"
                   android:launchMode="singleTop">
@@ -29,6 +42,7 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".Home"/>
         </activity>
+
 
         <activity android:name=".ArticleDetail"
                   android:label="Article Detail"
