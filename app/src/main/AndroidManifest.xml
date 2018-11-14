@@ -52,6 +52,14 @@
                        android:value=".ArticleMain"/>
         </activity>
 
+        <activity android:name=".PostMain"
+                  android:label="Photo Feed"
+                  android:launchMode="singleTop">
+
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".Home"/>
+        </activity>
+
     </application>
 
 </manifest>

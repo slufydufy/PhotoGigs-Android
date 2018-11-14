@@ -87,7 +87,11 @@ class PostsRow : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.home_category_button.text = "posts"
 
+        viewHolder.itemView.home_category_button.setOnClickListener {
+            val intent = Intent(it.context, PostMain::class.java)
 
+            it.context.startActivity(intent)
+        }
     }
 
     override fun getLayout(): Int {
