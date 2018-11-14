@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             android:background="#000000">
+
+    <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp" app:srcCompat="@mipmap/ic_launcher_round"
+            android:id="@+id/profile_pic_imageView"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_launcher"
+            android:id="@+id/post_main_imageView" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/profile_pic_imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="centerCrop"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/userName_textView"
+            app:fontFamily="@font/basic"
+            android:textColor="@android:color/white" android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/profile_pic_imageView" android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp" app:layout_constraintTop_toTopOf="@+id/profile_pic_imageView"
+            android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="16dp" android:textSize="18sp"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/date_textView"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_pic_imageView"
+            app:layout_constraintStart_toEndOf="@+id/profile_pic_imageView"
+            android:layout_marginLeft="16dp" android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp" android:layout_marginRight="16dp" android:textSize="12sp"
+            android:textColor="@android:color/darker_gray" app:fontFamily="@font/basic"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/story_textView" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/post_main_imageView" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp" android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="9dp" android:layout_marginRight="9dp" app:fontFamily="@font/basic"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="64dp" app:layout_constraintBottom_toBottomOf="parent"/>
+</android.support.constraint.ConstraintLayout>
