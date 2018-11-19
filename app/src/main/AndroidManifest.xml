@@ -45,11 +45,13 @@
 
 
         <activity android:name=".ArticleDetail"
-                  android:label="Article Detail"
-                  android:launchMode="singleTop">
+                  android:launchMode="singleTop"
+                  android:label=""
+                  android:theme="@style/AppTransparent">
 
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".ArticleMain"/>
+
         </activity>
 
         <activity android:name=".PostMain"
@@ -58,6 +60,20 @@
 
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".Home"/>
+        </activity>
+
+        <activity android:name=".PostDetail"
+                  android:label=""
+                  android:theme="@style/AppTransparent">
+
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".PostMain"/>
+
+        </activity>
+
+        <activity android:name=".PostAdd"
+                  android:label="">
+
         </activity>
 
     </application>

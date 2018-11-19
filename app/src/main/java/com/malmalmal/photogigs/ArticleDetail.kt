@@ -10,7 +10,7 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.article_detail.*
 import kotlinx.android.synthetic.main.article_detail_content_row.view.*
 import kotlinx.android.synthetic.main.article_detail_image_row.view.*
-import kotlinx.android.synthetic.main.article_main_row.view.*
+
 
 class ArticleDetail : AppCompatActivity() {
 
@@ -23,7 +23,7 @@ class ArticleDetail : AppCompatActivity() {
         val subtitle = intent.getStringExtra("SUBTITLE")
         val image = intent.getStringExtra("IMAGE")
         val content = intent.getStringExtra("CONTENT")
-        supportActionBar?.title = title
+
 
         val adapter = GroupAdapter<ViewHolder>()
 
@@ -46,6 +46,7 @@ class DetailImage(val title : String, val subtitle : String, val image : String)
         Picasso.get().load(image).into(imageView)
         viewHolder.itemView.title_textView.text = title
         viewHolder.itemView.subtitle_textView.text = subtitle
+
     }
 
     override fun getLayout(): Int {
@@ -58,7 +59,7 @@ class DetailContent(val content : String) : Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.itemView.content_textView.text = content
+        viewHolder.itemView.okokaja.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
 
     }
 
