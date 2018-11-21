@@ -1,6 +1,5 @@
 package com.malmalmal.photogigs
 
-import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -16,7 +15,6 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.article_main_row.view.*
-import kotlinx.android.synthetic.main.home.*
 
 class ArticleMain : AppCompatActivity() {
 
@@ -32,26 +30,10 @@ class ArticleMain : AppCompatActivity() {
         fetchArticle()
 
         floatingActionButtonArticle.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 0)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            val uri = data.data
-
             val intent = Intent(this, PostAdd::class.java)
-            intent.putExtra("URIDRAW", intent)
+//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
-
-
         }
-
-
     }
 
     private fun fetchArticle() {
@@ -98,7 +80,6 @@ class ImageRow(val article : Article) : Item<ViewHolder>() {
 
             it.context.startActivity(intent)
         }
-
 
     }
 

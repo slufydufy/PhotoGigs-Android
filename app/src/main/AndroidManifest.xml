@@ -72,8 +72,13 @@
         </activity>
 
         <activity android:name=".PostAdd"
-                  android:label="">
+                  android:label="Add Post">
+        </activity>
 
+        <activity android:name=".ProfileMain"
+                  android:launchMode="singleTop"
+                  android:label=""
+                  android:theme="@style/AppTransparent">
         </activity>
 
     </application>

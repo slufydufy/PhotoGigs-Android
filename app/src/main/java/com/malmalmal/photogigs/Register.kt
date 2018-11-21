@@ -72,5 +72,3 @@ class Register : AppCompatActivity() {
 
 }
 
-
-class User(val uuid : String, val name : String)

@@ -2,21 +2,53 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                             android:background="#000000"
                                              android:layout_height="match_parent">
 
     <ImageView
             android:layout_width="0dp"
-            android:layout_height="wrap_content" app:srcCompat="@mipmap/ic_launcher"
-            android:id="@+id/post_add_imageView" android:layout_marginTop="8dp"
+            android:layout_height="220dp" app:srcCompat="@android:drawable/ic_input_add"
+            android:id="@+id/post_add_imageView"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"/>
-    <TextView
-            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="center"/>
+    <View
+            android:layout_height="1dp"
+            android:id="@+id/view"
+            android:background="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"/>
+
+    <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:srcCompat="@mipmap/caption"
+            android:id="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"/>
+
+    <EditText
             android:layout_width="0dp"
+            android:hint="Tambah caption"
+            android:textColorHint="@android:color/darker_gray"
             android:layout_height="wrap_content"
-            android:id="@+id/textView" android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/post_add_imageView" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="16dp" android:layout_marginStart="16dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp" android:layout_marginRight="16dp"/>
+            android:id="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp"
+            app:fontFamily="@font/basic"
+            android:singleLine="true"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintTop_toTopOf="@+id/imageView" android:inputType="textPersonName"/>
+
 </android.support.constraint.ConstraintLayout>

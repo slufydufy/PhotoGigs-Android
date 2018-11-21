@@ -1,13 +1,9 @@
 package com.malmalmal.photogigs
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
@@ -35,26 +31,10 @@ class Home : AppCompatActivity() {
         checkUserLogin()
 
         floatingActionButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 0)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            val uri = data.data
-
             val intent = Intent(this, PostAdd::class.java)
-            intent.putExtra("URIDRAW", intent)
+//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
-
-
         }
-
-
     }
 
     fun checkUserLogin() {
@@ -130,6 +110,12 @@ class ProfileRow : Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.home_category_button.text = "profile"
+
+        viewHolder.itemView.home_category_button.setOnClickListener {
+            val intent = Intent(it.context, ProfileMain::class.java)
+
+            it.context.startActivity(intent)
+        }
     }
 
     override fun getLayout(): Int {

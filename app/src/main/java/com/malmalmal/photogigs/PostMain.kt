@@ -1,7 +1,6 @@
 package com.malmalmal.photogigs
 
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -14,7 +13,6 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.home.*
 import kotlinx.android.synthetic.main.post_main.*
 import kotlinx.android.synthetic.main.post_main_row.view.*
 
@@ -32,28 +30,11 @@ class PostMain : AppCompatActivity() {
         fetchPost()
 
         floatingActionButtonPost.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 0)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            val uri = data.data
-
             val intent = Intent(this, PostAdd::class.java)
-            intent.putExtra("URIDRAW", intent)
+//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
-
-
         }
-
-
     }
-
 
     private fun fetchPost() {
 
