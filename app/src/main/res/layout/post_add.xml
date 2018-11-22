@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
                                              android:background="#000000"
                                              android:layout_height="match_parent">
 
     <ImageView
             android:layout_width="0dp"
-            android:layout_height="220dp" app:srcCompat="@android:drawable/ic_input_add"
+            android:layout_height="220dp"
+            app:srcCompat="@android:drawable/ic_input_add"
             android:id="@+id/post_add_imageView"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:scaleType="center"/>
     <View
@@ -25,7 +28,7 @@
     <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            app:srcCompat="@mipmap/caption"
+            app:srcCompat="@drawable/camera_float1"
             android:id="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/view"
             app:layout_constraintStart_toStartOf="parent"

@@ -54,7 +54,7 @@ class Register : AppCompatActivity() {
 
         val uuid = FirebaseAuth.getInstance().uid ?:""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uuid")
-        val user = User(uuid, username_register.text.toString())
+        val user = User(uuid, username_register.text.toString(), "", "")
         ref.setValue(user)
             .addOnSuccessListener {
 
