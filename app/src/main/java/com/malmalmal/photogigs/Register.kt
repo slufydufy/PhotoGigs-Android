@@ -30,9 +30,10 @@ class Register : AppCompatActivity() {
 
         val email = email_register.text.toString()
         val pass = password_register.text.toString()
+        val user = username_register.text.toString()
 
-        if (email.isEmpty() || pass.isEmpty()) {
-            Toast.makeText(this, "Masukkan email dan password", Toast.LENGTH_SHORT).show()
+        if (email.isEmpty() || pass.isEmpty() || user.isEmpty()) {
+            Toast.makeText(this, "Masukkan username, email, dan password", Toast.LENGTH_SHORT).show()
             return
         }
 
