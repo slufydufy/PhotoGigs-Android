@@ -31,35 +31,27 @@ class PostMain : AppCompatActivity() {
 
         floatingActionButtonPost.setOnClickListener {
             val intent = Intent(this, PostAdd::class.java)
-//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
     }
 
     private fun fetchPost() {
-
         val adapter = GroupAdapter<ViewHolder>()
         val ref = FirebaseDatabase.getInstance().getReference("/posts")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
-
             override fun onDataChange(p0: DataSnapshot) {
                 p0.children.forEach {
                     val post = it.getValue(Post::class.java)
                     if (post != null) {
                         adapter.add(PostRow(post))
                     }
-
                     post_main_recyclerView.adapter = adapter
                 }
             }
-
             override fun onCancelled(p0: DatabaseError) {
-
             }
         })
-
     }
-
 }
 
 class PostRow(val post : Post) : Item<ViewHolder>() {
@@ -67,8 +59,8 @@ class PostRow(val post : Post) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
         viewHolder.itemView.userName_textView.text = post.name
-        viewHolder.itemView.date_textView.text = post.datePost
-        viewHolder.itemView.story_textView.text = post.story
+        viewHolder.itemView.date_textView.text = post.pd
+        viewHolder.itemView.story_textView.text = post.caption
 
         val image = viewHolder.itemView.post_main_imageView
         Picasso.get().load(post.imageUrl).into(image)
@@ -87,8 +79,4 @@ class PostRow(val post : Post) : Item<ViewHolder>() {
 
         return R.layout.post_main_row
     }
-}
-
-class Post(val name : String, val datePost : String, val imageUrl : String, val story : String, val userImageUrl : String) {
-    constructor() : this("", "", "", "", "")
 }

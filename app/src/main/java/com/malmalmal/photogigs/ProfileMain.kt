@@ -61,8 +61,9 @@ class ProfileMain : AppCompatActivity() {
                     val user = p0.getValue(User::class.java)
                     username_textView.setText(user!!.name)
                     aboutInfo = user.about
-                    if (user.about.isEmpty())  return
-                    about_textView.setText(user.about)
+                    if (user.about.isEmpty()) {
+                        about_textView.setText("")
+                    } else {about_textView.setText(user.about)}
                     profileImageData = user.userImageUrl
                     if (user.userImageUrl.isEmpty()) return
                     Picasso.get().load(profileImageData).into(profile_imageView)

@@ -42,7 +42,7 @@ class Login : AppCompatActivity() {
             }
 
             .addOnFailureListener {
-                Toast.makeText(this, "failed : ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "error : ${it.message}", Toast.LENGTH_SHORT).show()
                 return@addOnFailureListener
             }
 
