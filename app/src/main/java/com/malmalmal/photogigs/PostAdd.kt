@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +33,7 @@ class PostAdd : AppCompatActivity() {
         setContentView(R.layout.post_add)
         //enabled back button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        progressBar2.visibility = View.INVISIBLE
 
         //open gallery if image tap
         post_add_imageView.setOnClickListener {
@@ -77,7 +80,9 @@ class PostAdd : AppCompatActivity() {
             post_add_imageView.requestLayout()
             post_add_imageView.layoutParams.width = 0
             post_add_imageView.layoutParams.width = 0
-            post_add_imageView.setImageBitmap(bitmap)
+            Glide.with(this).load(selectedPhotoUri).into(post_add_imageView)
+//            Picasso.get().load(selectedPhotoUri).into(post_add_imageView)
+//            post_add_imageView.setImageBitmap(bitmap)
         }
     }
 
@@ -89,6 +94,7 @@ class PostAdd : AppCompatActivity() {
     //save image to firebase storage
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
+        progressBar2.visibility = View.VISIBLE
         when (item?.itemId) {
             R.id.menu_post -> {
                 val filename = UUID.randomUUID().toString()

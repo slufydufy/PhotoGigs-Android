@@ -10,13 +10,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.profile_main.*
 import java.util.*
 
@@ -50,7 +50,7 @@ class ProfileMain : AppCompatActivity() {
     var profileImageData : String? = ""
     var aboutInfo : String? = ""
 
-    fun fetchUser() {
+    private fun fetchUser() {
         val uuid = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uuid")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
@@ -66,7 +66,7 @@ class ProfileMain : AppCompatActivity() {
                     } else {about_textView.setText(user.about)}
                     profileImageData = user.userImageUrl
                     if (user.userImageUrl.isEmpty()) return
-                    Picasso.get().load(profileImageData).into(profile_imageView)
+                    Glide.with(view.context).load(profileImageData).into(profile_imageView)
                 }
             }
 
@@ -78,7 +78,7 @@ class ProfileMain : AppCompatActivity() {
     }
 
     //set picked image to image profile
-    var selectedPhotoUri : Uri? = null
+    private var selectedPhotoUri : Uri? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -124,7 +124,7 @@ class ProfileMain : AppCompatActivity() {
     }
 
     //save change to firebase
-    fun saveUserInfoToFirebase(piu : String) {
+    private fun saveUserInfoToFirebase(piu : String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
         if (username_textView.text.isEmpty()) {

@@ -22,4 +22,17 @@
             android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent" app:backgroundTint="@android:color/white"
             android:tint="@android:color/black"/>
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@+id/post_main_recyclerView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"/>
 </android.support.constraint.ConstraintLayout>

@@ -3,7 +3,7 @@ package com.malmalmal.photogigs
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -43,7 +43,7 @@ class DetailImage(val title : String, val subtitle : String, val image : String)
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
         val imageView = viewHolder.itemView.article_detail_imageView
-        Picasso.get().load(image).into(imageView)
+        Glide.with(viewHolder.itemView.context).load(image).into(imageView)
         viewHolder.itemView.title_textView.text = title
         viewHolder.itemView.subtitle_textView.text = subtitle
 
