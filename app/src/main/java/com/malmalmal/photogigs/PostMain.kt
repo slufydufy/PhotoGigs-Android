@@ -38,7 +38,7 @@ class PostMain : AppCompatActivity() {
 
     private fun fetchPost() {
         val adapter = GroupAdapter<ViewHolder>()
-        val ref = FirebaseDatabase.getInstance().getReference("/posts")
+        val ref = FirebaseDatabase.getInstance().getReference("/posts").orderByChild("pd")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 p0.children.forEach {
@@ -72,7 +72,13 @@ class PostRow(val post : Post) : Item<ViewHolder>() {
 
         viewHolder.itemView.post_main_imageView.setOnClickListener {
             val intent = Intent(it.context, PostDetail::class.java)
-            intent.putExtra("IMAGE", post.imageUrl)
+            intent.putExtra("POST", post.postId)
+            it.context.startActivity(intent)
+        }
+
+        viewHolder.itemView.comment_imageView.setOnClickListener {
+            val intent = Intent(it.context, PostDetail::class.java)
+            intent.putExtra("POST", post.postId)
             it.context.startActivity(intent)
         }
 

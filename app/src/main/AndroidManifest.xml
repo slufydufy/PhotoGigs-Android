@@ -65,8 +65,8 @@
         </activity>
 
         <activity android:name=".PostDetail"
-                  android:label=""
-                  android:theme="@style/AppTransparent">
+                  android:label="Post"
+                  android:launchMode="singleTop">
 
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".PostMain"/>

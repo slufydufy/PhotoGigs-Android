@@ -118,8 +118,9 @@ class PostAdd : AppCompatActivity() {
         val postId = UUID.randomUUID().toString()
         val pd = Timestamp(System.currentTimeMillis()).toString()
         val postCaption = caption_textView.text.toString()
+        val comment = ""
         val postRef = FirebaseDatabase.getInstance().getReference("/posts/$postId")
-        val post = Post(name!!, pd, imageUrlFireBase, postCaption, userImageUrl)
+        val post = Post(name!!, pd, imageUrlFireBase, postCaption, userImageUrl, postId, comment)
         postRef.setValue(post)
             .addOnSuccessListener {
                 Log.d("add post", "suksess $it")
