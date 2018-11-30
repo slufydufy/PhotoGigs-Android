@@ -120,7 +120,7 @@ class PostAdd : AppCompatActivity() {
         val postCaption = caption_textView.text.toString()
         val comment = ""
         val postRef = FirebaseDatabase.getInstance().getReference("/posts/$postId")
-        val post = Post(name!!, pd, imageUrlFireBase, postCaption, userImageUrl, postId, comment)
+        val post = Post(name!!, pd, imageUrlFireBase, postCaption, userImageUrl, postId)
         postRef.setValue(post)
             .addOnSuccessListener {
                 Log.d("add post", "suksess $it")

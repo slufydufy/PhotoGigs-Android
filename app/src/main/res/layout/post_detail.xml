@@ -3,7 +3,7 @@
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
-                                             android:layout_height="wrap_content"
+                                             android:layout_height="match_parent"
                                              android:background="#000000">
 
     <android.support.v7.widget.RecyclerView
@@ -11,15 +11,16 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/postDetail_rycyclerView"
-            app:layout_constraintBottom_toTopOf="@+id/view3"/>
+            android:id="@+id/recyclerView_post_detail"
+            android:paddingBottom="60dp"/>
     <View
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:id="@+id/view3"
-            android:background="#FFFFFF"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintBottom_toBottomOf="parent"
     />
 
@@ -28,16 +29,21 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/commentAdd_text"
             app:layout_constraintStart_toStartOf="@+id/view3"
             app:layout_constraintTop_toTopOf="@+id/view3"
-            app:layout_constraintBottom_toBottomOf="@+id/view3" android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp" app:layout_constraintEnd_toStartOf="@+id/imageView3"
-            android:layout_marginEnd="8dp" android:layout_marginRight="8dp" android:hint="Comment"/>
+            app:layout_constraintBottom_toBottomOf="@+id/view3"
+            app:layout_constraintEnd_toStartOf="@+id/comment_send_btn"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:hint="Comment"
+            android:textColorHint="#FFFFFF"
+            android:textSize="14sp" android:layout_marginLeft="16dp" android:layout_marginStart="16dp"
+            android:textColor="@android:color/white"/>
     <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp" app:srcCompat="@drawable/commenticon"
-            android:id="@+id/imageView3"
+            android:id="@+id/comment_send_btn"
             app:layout_constraintEnd_toEndOf="@+id/view3" android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/view3"

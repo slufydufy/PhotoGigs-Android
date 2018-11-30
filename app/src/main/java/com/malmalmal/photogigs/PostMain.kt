@@ -38,7 +38,7 @@ class PostMain : AppCompatActivity() {
 
     private fun fetchPost() {
         val adapter = GroupAdapter<ViewHolder>()
-        val ref = FirebaseDatabase.getInstance().getReference("/posts").orderByChild("pd")
+        val ref = FirebaseDatabase.getInstance().getReference("/posts")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 p0.children.forEach {
