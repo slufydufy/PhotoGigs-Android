@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -27,7 +28,29 @@ class ProfileMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_main)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        profile_progressBar.visibility = View.INVISIBLE
+
+            profile_bottomNavigationView.menu.getItem(3).setChecked(true)
+            profile_bottomNavigationView.setOnNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.bottom_home -> {
+                        val intent = Intent(this, Home::class.java)
+                        startActivity(intent)
+                        return@setOnNavigationItemSelectedListener true
+                    }
+                    R.id.bottom_post -> {
+                        val intent = Intent(this, PostMain::class.java)
+                        startActivity(intent)
+                        return@setOnNavigationItemSelectedListener true
+                    }
+                    R.id.bottom_article -> {
+                        val intent = Intent(this, ArticleMain::class.java)
+                        startActivity(intent)
+                        return@setOnNavigationItemSelectedListener true
+                    }
+                }
+                return@setOnNavigationItemSelectedListener false
+            }
 
 
         //pick profile image
@@ -40,11 +63,6 @@ class ProfileMain : AppCompatActivity() {
         fetchUser()
     }
 
-    //enable back button
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return super.onSupportNavigateUp()
-    }
 
     //fetch user info
     var profileImageData : String? = ""
@@ -98,6 +116,7 @@ class ProfileMain : AppCompatActivity() {
     //save menu button action
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
+        profile_progressBar.visibility = View.VISIBLE
         when (item?.itemId) {
             R.id.menu_save_profile -> {
                 if (selectedPhotoUri == null) {
@@ -143,6 +162,7 @@ class ProfileMain : AppCompatActivity() {
             .addOnSuccessListener {
                 val intent = Intent(this, Home::class.java)
                 startActivity(intent)
+                profile_progressBar.visibility = View.INVISIBLE
             }
 
             .addOnFailureListener {

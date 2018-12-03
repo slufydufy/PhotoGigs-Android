@@ -19,6 +19,27 @@ class Home : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home)
 
+        home_bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.bottom_post -> {
+                    val intent = Intent(this, PostMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bottom_article -> {
+                    val intent = Intent(this, ArticleMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bottom_profile -> {
+                    val intent = Intent(this, ProfileMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+            }
+            return@setOnNavigationItemSelectedListener false
+        }
+
         val adapter = GroupAdapter<ViewHolder>()
 
         adapter.add(ArticleRow())

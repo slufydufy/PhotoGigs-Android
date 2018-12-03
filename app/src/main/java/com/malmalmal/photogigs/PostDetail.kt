@@ -23,24 +23,20 @@ import java.util.*
 
 class PostDetail : AppCompatActivity() {
 
-    var name : String? = null
-    var userImageUrl : String = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_detail)
 
-        fetchUser()
-
         val pid = intent.getStringExtra("POST")
+        val uid = intent.getStringExtra("USER")
 
         val adapter = GroupAdapter<ViewHolder>()
-        adapter.add(PostDetailRow(pid))
+        adapter.add(PostDetailRow(pid,uid))
 
         recyclerView_post_detail.layoutManager = LinearLayoutManager(this)
         recyclerView_post_detail.adapter = adapter
 
-        fetchComment(pid)
+        fetchComment(pid,uid)
 
         comment_send_btn.setOnClickListener {
             sendComment(pid)
@@ -48,27 +44,9 @@ class PostDetail : AppCompatActivity() {
 
     }
 
-    private fun fetchUser() {
-        val uuid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uuid")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(User::class.java)
-                    name = user!!.name
-                    userImageUrl = user.userImageUrl
-                }
-            }
-            override fun onCancelled(p0: DatabaseError) {
-                Log.d("fetch user", "err : $p0")
-            }
-        })
-    }
-
-    private fun fetchComment(pid : String) {
+    private fun fetchComment(pid : String, uid: String) {
         val adapter = GroupAdapter<ViewHolder>()
-        adapter.add(PostDetailRow(pid))
+        adapter.add(PostDetailRow(pid,uid))
         val ref = FirebaseDatabase.getInstance().getReference("/comments/$pid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -87,18 +65,19 @@ class PostDetail : AppCompatActivity() {
     }
 
 
-    fun sendComment(pid : String) {
+    private fun sendComment(pid : String) {
 
         if (commentAdd_text.text != null) {
+            val uuid = FirebaseAuth.getInstance().uid
             val commentId = UUID.randomUUID().toString()
             val pd = Timestamp(System.currentTimeMillis()).toString()
             val commentText = commentAdd_text.text.toString()
             val postRef = FirebaseDatabase.getInstance().getReference("/comments/$pid/$commentId")
-            val comment = Comment(userImageUrl,name!!,commentText,pd)
+            val comment = Comment(uuid!!,commentText,pd)
             postRef.setValue(comment)
                 .addOnSuccessListener {
                     Log.d("add comment", "suksess $it")
-                    fetchComment(pid)
+                    fetchComment(pid,uuid)
                     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     if (imm.isAcceptingText) {
                         imm.hideSoftInputFromWindow(this.currentFocus.windowToken, 0)
@@ -114,25 +93,38 @@ class PostDetail : AppCompatActivity() {
     }
 }
 
-class PostDetailRow(pid : String) : Item<ViewHolder>() {
+class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
 
-    val postId = pid
+    private val postId = pid
+    private val userId = uid
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
-            val ref = FirebaseDatabase.getInstance().getReference("/posts/$postId")
-            ref.addListenerForSingleValueEvent(object : ValueEventListener {
+        val refUser = FirebaseDatabase.getInstance().getReference("/users/$userId")
+        refUser.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user: User? = p0.getValue(User::class.java)
+                    viewHolder.itemView.userName_textView.text = user!!.name
+                    val imageUser = viewHolder.itemView.profile_pic_imageView
+                    Glide.with(viewHolder.itemView.profile_pic_imageView.context).load(user.userImageUrl).into(imageUser)
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d("fetch user", "err : $p0")
+            }
+        })
+
+        val refPost = FirebaseDatabase.getInstance().getReference("/posts/$postId")
+        refPost.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     if (p0.exists()) {
                         val post = p0.getValue(Post::class.java)
-                        viewHolder.itemView.userName_textView.text = post!!.name
-                        viewHolder.itemView.date_textView.text = post.pd
+                        viewHolder.itemView.date_textView.text = post!!.pd
                         viewHolder.itemView.story_textView.text = post.caption
 
                         val image =  viewHolder.itemView.post_main_imageView
                         Glide.with(image.context).load(post.imageUrl).into(image)
-                        val imageUser =  viewHolder.itemView.profile_pic_imageView
-                        Glide.with(imageUser.context).load(post.userImageUrl).into(imageUser)
                     }
 
                 }
@@ -146,16 +138,27 @@ class PostDetailRow(pid : String) : Item<ViewHolder>() {
     }
 }
 
-class PostCommentRow(val comment : Comment) : Item<ViewHolder>() {
+class PostCommentRow(private val comment : Comment) : Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.itemView.comment_username_textView.text = comment.name
+        val refUser = FirebaseDatabase.getInstance().getReference("/users/${comment.uid}")
+        refUser.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user: User? = p0.getValue(User::class.java)
+                    viewHolder.itemView.comment_username_textView.text = user!!.name
+                    val imageUser = viewHolder.itemView.comment_profile_imageView
+                    Glide.with(imageUser.context).load(user.userImageUrl).into(imageUser)
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d("fetch user", "err : $p0")
+            }
+        })
+
         viewHolder.itemView.comment_textView.text = comment.comment
         viewHolder.itemView.comment_date_textView.text = comment.pd
-
-        val userImage = viewHolder.itemView.comment_profile_imageView
-        Glide.with(userImage.context).load(comment.profileImage).into(userImage)
     }
 
     override fun getLayout(): Int {
@@ -163,6 +166,6 @@ class PostCommentRow(val comment : Comment) : Item<ViewHolder>() {
     }
 }
 
-class Comment(val profileImage : String, val name : String, val comment : String, val pd : String) {
-    constructor() : this("","","","")
+class Comment(val uid : String, val comment : String, val pd : String) {
+    constructor() : this("","","")
 }

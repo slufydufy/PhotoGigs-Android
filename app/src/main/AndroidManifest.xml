@@ -14,7 +14,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-        <activity android:name=".Home">
+        <activity android:name=".Home"
+                  android:theme="@style/noTransition">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -39,10 +40,8 @@
 
         <activity android:name=".ArticleMain"
                   android:label="Article"
-                  android:launchMode="singleTop">
-
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".Home"/>
+                  android:launchMode="singleTop"
+                  android:theme="@style/noTransition">
         </activity>
 
 
@@ -58,10 +57,8 @@
 
         <activity android:name=".PostMain"
                   android:label="Photo Feed"
-                  android:launchMode="singleTop">
-
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".Home"/>
+                  android:launchMode="singleTop"
+                  android:theme="@style/noTransition">
         </activity>
 
         <activity android:name=".PostDetail"
@@ -79,8 +76,8 @@
 
         <activity android:name=".ProfileMain"
                   android:launchMode="singleTop"
-                  android:label=""
-                  android:theme="@style/AppTransparent">
+                  android:label="Profile"
+                  android:theme="@style/noTransition">
         </activity>
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
 

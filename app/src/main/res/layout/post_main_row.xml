@@ -6,6 +6,14 @@
                                              android:layout_height="wrap_content"
                                              android:background="#000000">
 
+    <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp" app:srcCompat="@drawable/user123"
+            android:id="@+id/imageView4"
+            app:layout_constraintTop_toTopOf="@+id/profile_pic_imageView"
+            app:layout_constraintEnd_toEndOf="@+id/profile_pic_imageView"
+            app:layout_constraintStart_toStartOf="@+id/profile_pic_imageView"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_pic_imageView"/>
     <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -57,7 +65,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
-            app:srcCompat="@drawable/ic_launcher_foreground"/>
+    />
     <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp" app:srcCompat="@drawable/commenticon"

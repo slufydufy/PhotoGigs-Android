@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
@@ -20,11 +19,13 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.post_add.*
+import kotlinx.android.synthetic.main.post_main.*
 import java.sql.Timestamp
 import java.util.*
 
 class PostAdd : AppCompatActivity() {
 
+    var uuid : String? = null
     var name : String? = null
     var userImageUrl : String = ""
 
@@ -33,7 +34,7 @@ class PostAdd : AppCompatActivity() {
         setContentView(R.layout.post_add)
         //enabled back button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        progressBar2.visibility = View.INVISIBLE
+        addPost_progressBar.visibility = View.INVISIBLE
 
         //open gallery if image tap
         post_add_imageView.setOnClickListener {
@@ -46,7 +47,8 @@ class PostAdd : AppCompatActivity() {
     }
 
     private fun fetchUser() {
-        val uuid = FirebaseAuth.getInstance().uid
+        val userId = FirebaseAuth.getInstance().uid
+        uuid = userId
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uuid")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
 
@@ -76,13 +78,10 @@ class PostAdd : AppCompatActivity() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
             post_add_imageView.requestLayout()
             post_add_imageView.layoutParams.width = 0
             post_add_imageView.layoutParams.width = 0
             Glide.with(this).load(selectedPhotoUri).into(post_add_imageView)
-//            Picasso.get().load(selectedPhotoUri).into(post_add_imageView)
-//            post_add_imageView.setImageBitmap(bitmap)
         }
     }
 
@@ -94,7 +93,7 @@ class PostAdd : AppCompatActivity() {
     //save image to firebase storage
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        progressBar2.visibility = View.VISIBLE
+        addPost_progressBar.visibility = View.VISIBLE
         when (item?.itemId) {
             R.id.menu_post -> {
                 val filename = UUID.randomUUID().toString()
@@ -115,18 +114,18 @@ class PostAdd : AppCompatActivity() {
     }
     //save post to firebase database
     private fun savePost(imageUrlFireBase : String) {
+        val userId = FirebaseAuth.getInstance().uid
         val postId = UUID.randomUUID().toString()
         val pd = Timestamp(System.currentTimeMillis()).toString()
         val postCaption = caption_textView.text.toString()
-        val comment = ""
         val postRef = FirebaseDatabase.getInstance().getReference("/posts/$postId")
-        val post = Post(name!!, pd, imageUrlFireBase, postCaption, userImageUrl, postId)
+        val post = Post(postId,pd,imageUrlFireBase,postCaption,userId!!)
         postRef.setValue(post)
             .addOnSuccessListener {
                 Log.d("add post", "suksess $it")
                 val intent = Intent(this, PostMain::class.java)
-//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
+                post_progressBar.visibility = View.INVISIBLE
             }
 
             .addOnFailureListener {

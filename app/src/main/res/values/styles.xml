@@ -14,4 +14,7 @@
         <item name="windowActionBarOverlay">true</item>
     </style>
 
+    <style name="noTransition" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
 </resources>
