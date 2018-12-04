@@ -79,6 +79,10 @@
                   android:label="Profile"
                   android:theme="@style/noTransition">
         </activity>
+        <activity android:name=".ImageFullscreen"
+                  android:label=""
+                  android:theme="@style/fullScreen">
+        </activity>
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
 
     </application>

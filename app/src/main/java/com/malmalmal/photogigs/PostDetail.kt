@@ -1,12 +1,14 @@
 package com.malmalmal.photogigs
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -19,6 +21,7 @@ import kotlinx.android.synthetic.main.comment_row.view.*
 import kotlinx.android.synthetic.main.post_detail.*
 import kotlinx.android.synthetic.main.post_main_row.view.*
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.util.*
 
 class PostDetail : AppCompatActivity() {
@@ -70,18 +73,18 @@ class PostDetail : AppCompatActivity() {
         if (commentAdd_text.text != null) {
             val uuid = FirebaseAuth.getInstance().uid
             val commentId = UUID.randomUUID().toString()
-            val pd = Timestamp(System.currentTimeMillis()).toString()
+            val sdf = SimpleDateFormat("MMM dd yyyy")
+            val timeStamp = Timestamp(System.currentTimeMillis())
+            val date = sdf.format(timeStamp)
             val commentText = commentAdd_text.text.toString()
             val postRef = FirebaseDatabase.getInstance().getReference("/comments/$pid/$commentId")
-            val comment = Comment(uuid!!,commentText,pd)
+            val comment = Comment(uuid!!,commentText,date)
             postRef.setValue(comment)
                 .addOnSuccessListener {
                     Log.d("add comment", "suksess $it")
                     fetchComment(pid,uuid)
                     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    if (imm.isAcceptingText) {
-                        imm.hideSoftInputFromWindow(this.currentFocus.windowToken, 0)
-                    }
+                    if (imm.isAcceptingText) imm.hideSoftInputFromWindow(this.currentFocus.windowToken, 0)
                     commentAdd_text.text.clear()
 
                 }
@@ -107,7 +110,9 @@ class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
                     val user: User? = p0.getValue(User::class.java)
                     viewHolder.itemView.userName_textView.text = user!!.name
                     val imageUser = viewHolder.itemView.profile_pic_imageView
-                    Glide.with(viewHolder.itemView.profile_pic_imageView.context).load(user.userImageUrl).into(imageUser)
+                    val ro = RequestOptions()
+                    ro.placeholder(R.drawable.baseline_person_white_24dp)
+                    Glide.with(imageUser.context).applyDefaultRequestOptions(ro).load(user.userImageUrl).into(imageUser)
                 }
             }
             override fun onCancelled(p0: DatabaseError) {
@@ -124,7 +129,15 @@ class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
                         viewHolder.itemView.story_textView.text = post.caption
 
                         val image =  viewHolder.itemView.post_main_imageView
-                        Glide.with(image.context).load(post.imageUrl).into(image)
+                        val ro = RequestOptions()
+                        ro.placeholder(R.drawable.baseline_photo_white_48dp)
+                        Glide.with(image.context).applyDefaultRequestOptions(ro).load(post.imageUrl).into(image)
+
+                        image.setOnClickListener {
+                            val intent = Intent(it.context, ImageFullscreen::class.java)
+                            intent.putExtra("IMAGE", post.imageUrl)
+                            it.context.startActivity(intent)
+                        }
                     }
 
                 }
@@ -149,7 +162,9 @@ class PostCommentRow(private val comment : Comment) : Item<ViewHolder>() {
                     val user: User? = p0.getValue(User::class.java)
                     viewHolder.itemView.comment_username_textView.text = user!!.name
                     val imageUser = viewHolder.itemView.comment_profile_imageView
-                    Glide.with(imageUser.context).load(user.userImageUrl).into(imageUser)
+                    val ro = RequestOptions()
+                    ro.placeholder(R.drawable.baseline_person_white_24dp)
+                    Glide.with(imageUser.context).applyDefaultRequestOptions(ro).load(user.userImageUrl).into(imageUser)
                 }
             }
             override fun onCancelled(p0: DatabaseError) {

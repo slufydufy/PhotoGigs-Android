@@ -19,8 +19,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.post_add.*
-import kotlinx.android.synthetic.main.post_main.*
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.util.*
 
 class PostAdd : AppCompatActivity() {
@@ -115,17 +115,19 @@ class PostAdd : AppCompatActivity() {
     //save post to firebase database
     private fun savePost(imageUrlFireBase : String) {
         val userId = FirebaseAuth.getInstance().uid
+        val sdf = SimpleDateFormat("MMM dd yyyy")
+        val timeStamp = Timestamp(System.currentTimeMillis())
+        val date = sdf.format(timeStamp)
         val postId = UUID.randomUUID().toString()
-        val pd = Timestamp(System.currentTimeMillis()).toString()
         val postCaption = caption_textView.text.toString()
         val postRef = FirebaseDatabase.getInstance().getReference("/posts/$postId")
-        val post = Post(postId,pd,imageUrlFireBase,postCaption,userId!!)
+        val post = Post(postId,date,imageUrlFireBase,postCaption,userId!!)
         postRef.setValue(post)
             .addOnSuccessListener {
                 Log.d("add post", "suksess $it")
+                addPost_progressBar.visibility = View.INVISIBLE
                 val intent = Intent(this, PostMain::class.java)
                 startActivity(intent)
-                post_progressBar.visibility = View.INVISIBLE
             }
 
             .addOnFailureListener {

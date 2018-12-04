@@ -15,16 +15,6 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="0dp"/>
 
-    <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            app:srcCompat="@drawable/user123"
-            android:id="@+id/profile_based_imageView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/view"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
     <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="60dp"
             android:layout_height="60dp"

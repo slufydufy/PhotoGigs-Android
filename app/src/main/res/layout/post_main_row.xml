@@ -6,14 +6,7 @@
                                              android:layout_height="wrap_content"
                                              android:background="#000000">
 
-    <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp" app:srcCompat="@drawable/user123"
-            android:id="@+id/imageView4"
-            app:layout_constraintTop_toTopOf="@+id/profile_pic_imageView"
-            app:layout_constraintEnd_toEndOf="@+id/profile_pic_imageView"
-            app:layout_constraintStart_toStartOf="@+id/profile_pic_imageView"
-            app:layout_constraintBottom_toBottomOf="@+id/profile_pic_imageView"/>
+
     <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -65,17 +58,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
-    />
+            tools:srcCompat="@drawable/baseline_photo_white_24dp"/>
     <ImageView
             android:layout_width="20dp"
-            android:layout_height="20dp" app:srcCompat="@drawable/commenticon"
+            android:layout_height="20dp" app:srcCompat="@drawable/baseline_chat_bubble_outline_white_24dp"
             android:id="@+id/comment_imageView" android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/post_main_imageView"
             app:layout_constraintStart_toEndOf="@+id/like_imageView" android:layout_marginLeft="32dp"
             android:layout_marginStart="32dp"/>
     <ImageView
             android:layout_width="25dp"
-            android:layout_height="20dp" app:srcCompat="@drawable/likeicon"
+            android:layout_height="20dp" app:srcCompat="@drawable/baseline_favorite_border_white_24dp"
             android:id="@+id/like_imageView" android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/post_main_imageView" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="16dp" android:layout_marginStart="16dp"/>

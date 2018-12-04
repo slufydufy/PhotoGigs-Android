@@ -2,6 +2,7 @@ package com.malmalmal.photogigs
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,6 +13,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -19,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.profile_main.*
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 
@@ -83,8 +86,9 @@ class ProfileMain : AppCompatActivity() {
                         about_textView.setText("")
                     } else {about_textView.setText(user.about)}
                     profileImageData = user.userImageUrl
-                    if (user.userImageUrl.isEmpty()) return
-                    Glide.with(view.context).load(profileImageData).into(profile_imageView)
+                    val ro = RequestOptions()
+                    ro.placeholder(R.drawable.baseline_person_white_24dp)
+                    Glide.with(profile_imageView.context).applyDefaultRequestOptions(ro).load(profileImageData).into(profile_imageView)
                 }
             }
 
@@ -102,8 +106,7 @@ class ProfileMain : AppCompatActivity() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
-            profile_imageView.setImageBitmap(bitmap)
+            Glide.with(view.context).load(selectedPhotoUri).into(profile_imageView)
         }
     }
 
@@ -126,7 +129,11 @@ class ProfileMain : AppCompatActivity() {
 
                     val filename = UUID.randomUUID().toString()
                     val ref = FirebaseStorage.getInstance().getReference("/profileImage/$filename")
-                    ref.putFile(selectedPhotoUri!!)
+                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
+                    val baos = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+                    val data = baos.toByteArray()
+                    ref.putBytes(data)
                         .addOnSuccessListener {
 
                             //get image url from firebase

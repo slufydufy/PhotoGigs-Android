@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -90,7 +91,9 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
                     val user: User? = p0.getValue(User::class.java)
                     viewHolder.itemView.userName_textView.text = user!!.name
                     val imageUser = viewHolder.itemView.profile_pic_imageView
-                    Glide.with(viewHolder.itemView.profile_pic_imageView.context).load(user.userImageUrl).into(imageUser)
+                    val ro = RequestOptions()
+                    ro.placeholder(R.drawable.baseline_person_white_24dp)
+                    Glide.with(imageUser.context).applyDefaultRequestOptions(ro).load(user.userImageUrl).into(imageUser)
                 }
             }
             override fun onCancelled(p0: DatabaseError) {
@@ -102,12 +105,13 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
         viewHolder.itemView.story_textView.text = post.caption
 
         val image = viewHolder.itemView.post_main_imageView
-        Glide.with(viewHolder.itemView.post_main_imageView.context).load(post.imageUrl).into(image)
+        val ro = RequestOptions()
+        ro.placeholder(R.drawable.baseline_photo_white_48dp)
+        Glide.with(image.context).applyDefaultRequestOptions(ro).load(post.imageUrl).into(image)
 
         viewHolder.itemView.post_main_imageView.setOnClickListener {
-            val intent = Intent(it.context, PostDetail::class.java)
-            intent.putExtra("POST", post.postId)
-            intent.putExtra("USER", post.uuid)
+            val intent = Intent(it.context, ImageFullscreen::class.java)
+            intent.putExtra("IMAGE", post.imageUrl)
             it.context.startActivity(intent)
         }
 
