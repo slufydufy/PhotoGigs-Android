@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.View
 import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,6 +22,7 @@ class ArticleMain : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.article_main)
 
+            article_bottomNavigationView.itemIconTintList = null
             article_bottomNavigationView.menu.getItem(2).setChecked(true)
             article_bottomNavigationView.setOnNavigationItemSelectedListener {
                 when (it.itemId) {

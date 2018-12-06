@@ -19,6 +19,7 @@ class Home : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home)
 
+        home_bottomNavigationView.itemIconTintList = null
         home_bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottom_post -> {
@@ -133,7 +134,7 @@ class ProfileRow : Item<ViewHolder>() {
         viewHolder.itemView.home_category_button.text = "profile"
 
         viewHolder.itemView.home_category_button.setOnClickListener {
-            val intent = Intent(it.context, ProfileMain::class.java)
+            val intent = Intent(it.context, ProfileEdit::class.java)
 
             it.context.startActivity(intent)
         }

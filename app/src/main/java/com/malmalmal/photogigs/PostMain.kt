@@ -24,6 +24,7 @@ class PostMain : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_main)
 
+        post_bottomNavigationView.itemIconTintList = null
         post_bottomNavigationView.menu.getItem(1).setChecked(true)
         post_bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -60,6 +61,7 @@ class PostMain : AppCompatActivity() {
         }
     }
 
+    //fetch post
     private fun fetchPost() {
         val adapter = GroupAdapter<ViewHolder>()
         val ref = FirebaseDatabase.getInstance().getReference("/posts")
@@ -84,6 +86,7 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
+        //fetch user
         val ref = FirebaseDatabase.getInstance().getReference("/users/${post.uuid}")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -91,8 +94,7 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
                     val user: User? = p0.getValue(User::class.java)
                     viewHolder.itemView.userName_textView.text = user!!.name
                     val imageUser = viewHolder.itemView.profile_pic_imageView
-                    val ro = RequestOptions()
-                    ro.placeholder(R.drawable.baseline_person_white_24dp)
+                    val ro = RequestOptions().placeholder(R.drawable.baseline_person_white_24dp)
                     Glide.with(imageUser.context).applyDefaultRequestOptions(ro).load(user.userImageUrl).into(imageUser)
                 }
             }
@@ -104,16 +106,30 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
         viewHolder.itemView.date_textView.text = post.pd
         viewHolder.itemView.story_textView.text = post.caption
 
-        val image = viewHolder.itemView.post_main_imageView
-        val ro = RequestOptions()
-        ro.placeholder(R.drawable.baseline_photo_white_48dp)
-        Glide.with(image.context).applyDefaultRequestOptions(ro).load(post.imageUrl).into(image)
+        val postImage = viewHolder.itemView.post_main_imageView
+        val ro = RequestOptions().placeholder(R.drawable.baseline_photo_white_48dp)
+        Glide.with(postImage.context).applyDefaultRequestOptions(ro).load(post.imageUrl).into(postImage)
 
-        viewHolder.itemView.post_main_imageView.setOnClickListener {
+        postImage.setOnClickListener {
             val intent = Intent(it.context, ImageFullscreen::class.java)
             intent.putExtra("IMAGE", post.imageUrl)
             it.context.startActivity(intent)
         }
+
+        //fetch message counter
+        val refMessageCounter = FirebaseDatabase.getInstance().getReference("/comments/${post.postId}")
+        refMessageCounter.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val total = p0.childrenCount.toString()
+                viewHolder.itemView.comment_counter_textView.text = total + " comment"
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+        })
 
         viewHolder.itemView.comment_imageView.setOnClickListener {
             val intent = Intent(it.context, PostDetail::class.java)
@@ -121,6 +137,17 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
             intent.putExtra("USER", post.uuid)
             it.context.startActivity(intent)
         }
+
+        viewHolder.itemView.comment_counter_textView.setOnClickListener {
+            val intent = Intent(it.context, PostDetail::class.java)
+            intent.putExtra("POST", post.postId)
+            intent.putExtra("USER", post.uuid)
+            it.context.startActivity(intent)
+        }
+
+        //like counter counter
+//        val refLike = FirebaseDatabase.getInstance().getReference("/posts/${post.postId}/cool")
+
     }
 
     override fun getLayout(): Int {

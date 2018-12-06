@@ -74,15 +74,24 @@
                   android:label="Add Post">
         </activity>
 
-        <activity android:name=".ProfileMain"
+        <activity android:name=".ProfileEdit"
                   android:launchMode="singleTop"
-                  android:label="Profile"
-                  android:theme="@style/noTransition">
+                  android:label="Profile Edit"
+                  android:theme="@style/AppTransparent">
+
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".ProfileMain"/>
         </activity>
         <activity android:name=".ImageFullscreen"
                   android:label=""
                   android:theme="@style/fullScreen">
         </activity>
+        <activity android:name=".ProfileMain"
+                  android:label="Profile Main"
+                  android:launchMode="singleTop"
+                  android:theme="@style/noTransition">
+        </activity>
+
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
 
     </application>

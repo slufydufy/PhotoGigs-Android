@@ -34,13 +34,13 @@
             android:tint="@android:color/black" android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toTopOf="@+id/post_bottomNavigationView"/>
     <android.support.design.widget.BottomNavigationView
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/post_bottomNavigationView"
             app:menu="@menu/bottom_nav_menu"
             app:itemIconTint="@android:color/white"
-            app:labelVisibilityMode="unlabeled"/>
+            app:labelVisibilityMode="labeled" app:itemTextColor="@android:color/white"/>
 </android.support.constraint.ConstraintLayout>

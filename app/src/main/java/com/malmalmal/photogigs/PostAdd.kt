@@ -93,7 +93,6 @@ class PostAdd : AppCompatActivity() {
     //save image to firebase storage
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        addPost_progressBar.visibility = View.VISIBLE
         when (item?.itemId) {
             R.id.menu_post -> {
                 val filename = UUID.randomUUID().toString()
@@ -102,6 +101,7 @@ class PostAdd : AppCompatActivity() {
                     Toast.makeText(this, "Gambar harus dipilih", Toast.LENGTH_SHORT).show()
                     return false
                 }
+                addPost_progressBar.visibility = View.VISIBLE
                 ref.putFile(selectedPhotoUri!!)
                     .addOnSuccessListener {
                         ref.downloadUrl.addOnSuccessListener {

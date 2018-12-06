@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -41,7 +42,7 @@ class PostDetail : AppCompatActivity() {
 
         fetchComment(pid,uid)
 
-        comment_send_btn.setOnClickListener {
+        comment_send_button.setOnClickListener {
             sendComment(pid)
         }
 
@@ -70,29 +71,30 @@ class PostDetail : AppCompatActivity() {
 
     private fun sendComment(pid : String) {
 
-        if (commentAdd_text.text != null) {
-            val uuid = FirebaseAuth.getInstance().uid
-            val commentId = UUID.randomUUID().toString()
-            val sdf = SimpleDateFormat("MMM dd yyyy")
-            val timeStamp = Timestamp(System.currentTimeMillis())
-            val date = sdf.format(timeStamp)
-            val commentText = commentAdd_text.text.toString()
-            val postRef = FirebaseDatabase.getInstance().getReference("/comments/$pid/$commentId")
-            val comment = Comment(uuid!!,commentText,date)
-            postRef.setValue(comment)
-                .addOnSuccessListener {
-                    Log.d("add comment", "suksess $it")
-                    fetchComment(pid,uuid)
-                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    if (imm.isAcceptingText) imm.hideSoftInputFromWindow(this.currentFocus.windowToken, 0)
-                    commentAdd_text.text.clear()
-
-                }
-
-                .addOnFailureListener {
-                    Log.d("add post", "error $it")
-                }
+        if (commentAdd_text.text.isEmpty()) {
+            Toast.makeText(this, "Masukkan komentar anda", Toast.LENGTH_SHORT).show()
+            return
         }
+        val uuid = FirebaseAuth.getInstance().uid
+        val commentId = UUID.randomUUID().toString()
+        val sdf = SimpleDateFormat("MMM dd yyyy")
+        val timeStamp = Timestamp(System.currentTimeMillis())
+        val date = sdf.format(timeStamp)
+        val commentText = commentAdd_text.text.toString()
+        val postRef = FirebaseDatabase.getInstance().getReference("/comments/$pid/$commentId")
+        val comment = Comment(uuid!!,commentText,date)
+        postRef.setValue(comment)
+            .addOnSuccessListener {
+                Log.d("add comment", "suksess $it")
+                fetchComment(pid,uuid)
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                if (imm.isAcceptingText) imm.hideSoftInputFromWindow(this.currentFocus.windowToken, 0)
+                commentAdd_text.text.clear()
+            }
+
+            .addOnFailureListener {
+                Log.d("add post", "error $it")
+            }
     }
 }
 
