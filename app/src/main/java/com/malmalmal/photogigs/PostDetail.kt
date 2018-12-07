@@ -31,6 +31,9 @@ class PostDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_detail)
 
+        //enabled back button
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val pid = intent.getStringExtra("POST")
         val uid = intent.getStringExtra("USER")
 
@@ -46,6 +49,11 @@ class PostDetail : AppCompatActivity() {
             sendComment(pid)
         }
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
     private fun fetchComment(pid : String, uid: String) {

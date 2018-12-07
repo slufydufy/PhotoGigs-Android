@@ -25,7 +25,7 @@ import java.util.*
 
 class PostAdd : AppCompatActivity() {
 
-    var uuid : String? = null
+
     var name : String? = null
     var userImageUrl : String = ""
 
@@ -48,8 +48,7 @@ class PostAdd : AppCompatActivity() {
 
     private fun fetchUser() {
         val userId = FirebaseAuth.getInstance().uid
-        uuid = userId
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uuid")
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$userId")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {

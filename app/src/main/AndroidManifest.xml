@@ -64,10 +64,6 @@
         <activity android:name=".PostDetail"
                   android:label="Post"
                   android:launchMode="singleTop">
-
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".PostMain"/>
-
         </activity>
 
         <activity android:name=".PostAdd"

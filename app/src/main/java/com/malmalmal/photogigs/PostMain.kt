@@ -64,7 +64,7 @@ class PostMain : AppCompatActivity() {
     //fetch post
     private fun fetchPost() {
         val adapter = GroupAdapter<ViewHolder>()
-        val ref = FirebaseDatabase.getInstance().getReference("/posts")
+        val ref = FirebaseDatabase.getInstance().getReference("/posts").orderByChild("pd")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 p0.children.forEach {
@@ -102,6 +102,12 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
                 Log.d("fetch user", "err : $p0")
             }
         })
+
+        //like counter
+        viewHolder.itemView.like_imageView.setOnClickListener {
+
+            val refLike = FirebaseDatabase.getInstance().getReference("/posts/${post.postId}").orderByChild("pd")
+        }
 
         viewHolder.itemView.date_textView.text = post.pd
         viewHolder.itemView.story_textView.text = post.caption

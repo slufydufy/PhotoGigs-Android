@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+            app:layout_constraintTop_toBottomOf="@+id/gallery_imageView"/>
 
     <EditText
         android:id="@+id/textView_pass_login"
@@ -55,7 +55,7 @@
     <ImageView
             android:layout_width="0dp"
             android:layout_height="200dp" app:srcCompat="@drawable/photogigs"
-            android:id="@+id/imageView"
+            android:id="@+id/gallery_imageView"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:scaleType="fitCenter" android:layout_marginTop="16dp"/>
