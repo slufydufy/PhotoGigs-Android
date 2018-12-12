@@ -22,28 +22,7 @@ class ArticleMain : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.article_main)
 
-            article_bottomNavigationView.itemIconTintList = null
-            article_bottomNavigationView.menu.getItem(2).setChecked(true)
-            article_bottomNavigationView.setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.bottom_home -> {
-                        val intent = Intent(this, Home::class.java)
-                        startActivity(intent)
-                        return@setOnNavigationItemSelectedListener true
-                    }
-                    R.id.bottom_post -> {
-                        val intent = Intent(this, PostMain::class.java)
-                        startActivity(intent)
-                        return@setOnNavigationItemSelectedListener true
-                    }
-                    R.id.bottom_profile -> {
-                        val intent = Intent(this, ProfileMain::class.java)
-                        startActivity(intent)
-                        return@setOnNavigationItemSelectedListener true
-                    }
-                }
-                return@setOnNavigationItemSelectedListener false
-            }
+        showBottomBar()
 
         val adapter = GroupAdapter<ViewHolder>()
 
@@ -59,13 +38,11 @@ class ArticleMain : AppCompatActivity() {
     }
 
     private fun fetchArticle() {
-
         val adapter = GroupAdapter<ViewHolder>()
         val ref = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/artikel/en-US")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {
-
                 p0.children.forEach {
                     Log.d("FETCH ARTICLES", it.toString())
                     val article = it.getValue(Article::class.java)
@@ -75,14 +52,37 @@ class ArticleMain : AppCompatActivity() {
                 }
                 article_card_recyclerView.adapter = adapter
 //                article_progressBar.visibility = View.INVISIBLE
-
             }
 
             override fun onCancelled(p0: DatabaseError) {
 
             }
         })
+    }
 
+    fun showBottomBar() {
+        article_bottomNavigationView.itemIconTintList = null
+        article_bottomNavigationView.menu.getItem(2).setChecked(true)
+        article_bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.bottom_home -> {
+                    val intent = Intent(this, Home::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bottom_post -> {
+                    val intent = Intent(this, PostMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bottom_profile -> {
+                    val intent = Intent(this, ProfileMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+            }
+            return@setOnNavigationItemSelectedListener false
+        }
     }
 }
 

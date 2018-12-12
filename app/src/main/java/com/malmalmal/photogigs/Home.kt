@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Menu
-import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -19,27 +17,8 @@ class Home : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home)
 
-        home_bottomNavigationView.itemIconTintList = null
-        home_bottomNavigationView.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.bottom_post -> {
-                    val intent = Intent(this, PostMain::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.bottom_article -> {
-                    val intent = Intent(this, ArticleMain::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.bottom_profile -> {
-                    val intent = Intent(this, ProfileMain::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
-            }
-            return@setOnNavigationItemSelectedListener false
-        }
+        showBottomBar()
+
 
         val adapter = GroupAdapter<ViewHolder>()
 
@@ -62,32 +41,35 @@ class Home : AppCompatActivity() {
     fun checkUserLogin() {
         val uid = FirebaseAuth.getInstance().uid
         if (uid == null) {
-            val intent = Intent(this, Register::class.java)
+            val intent = Intent(this, MainLogin::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
 
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
-        when (item?.itemId) {
-            R.id.menu_sign_out -> {
-                FirebaseAuth.getInstance().signOut()
-                val intent = Intent(this, Register::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+    fun showBottomBar() {
+        home_bottomNavigationView.itemIconTintList = null
+        home_bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.bottom_post -> {
+                    val intent = Intent(this, PostMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bottom_article -> {
+                    val intent = Intent(this, ArticleMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bottom_profile -> {
+                    val intent = Intent(this, ProfileMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
             }
+            return@setOnNavigationItemSelectedListener false
         }
-
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
-        menuInflater.inflate(R.menu.nav_menu, menu)
-
-        return super.onCreateOptionsMenu(menu)
     }
 
 }

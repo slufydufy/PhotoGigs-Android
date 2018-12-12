@@ -56,32 +56,23 @@
         app:layout_constraintTop_toBottomOf="@+id/username_register" />
 
     <Button
-        android:id="@+id/button_registerMain"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/rounded_button"
-        android:text="REGISTER"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="@+id/password_register"
-        app:layout_constraintStart_toStartOf="@+id/password_register"
-        app:layout_constraintTop_toBottomOf="@+id/password_register" />
+            android:id="@+id/button_registerMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_button"
+            android:text="REGISTER"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="@+id/password_register"
+            app:layout_constraintStart_toStartOf="@+id/password_register"
+            app:layout_constraintTop_toBottomOf="@+id/password_register"/>
 
-    <TextView
-        android:id="@+id/already_have_text_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Already have an account?"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="@+id/button_registerMain"
-        app:layout_constraintStart_toStartOf="@+id/button_registerMain"
-        app:layout_constraintTop_toBottomOf="@+id/button_registerMain" />
     <ImageView
             android:layout_width="0dp"
-            android:layout_height="200dp" app:srcCompat="@drawable/photogigs"
+            android:layout_height="150dp" app:srcCompat="@drawable/photogigs"
             android:id="@+id/imageView2"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"/>
+
 </android.support.constraint.ConstraintLayout>

@@ -32,8 +32,6 @@ class ProfileMain : AppCompatActivity() {
 
         val adapter = GroupAdapter<ViewHolder>()
         profile_main_recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-//        profile_main_recyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-//        val decoration = RecyclerView.ItemDecoration
         profile_main_recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         profile_main_recyclerView.adapter = adapter
 

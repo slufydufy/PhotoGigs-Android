@@ -15,18 +15,14 @@ class Register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+
+        //register User by email
         button_registerMain.setOnClickListener {
             createUser()
         }
-
-        already_have_text_register.setOnClickListener {
-            val intent = Intent(this, Login::class.java)
-            startActivity(intent)
-        }
-
     }
 
-    fun createUser() {
+    private fun createUser() {
 
         val email = email_register.text.toString()
         val pass = password_register.text.toString()
@@ -51,7 +47,7 @@ class Register : AppCompatActivity() {
             }
     }
 
-    fun saveUserToFirebase() {
+    private fun saveUserToFirebase() {
 
         val uuid = FirebaseAuth.getInstance().uid ?:""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uuid")

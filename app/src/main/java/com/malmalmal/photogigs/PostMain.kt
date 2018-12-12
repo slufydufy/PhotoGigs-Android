@@ -24,28 +24,7 @@ class PostMain : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_main)
 
-        post_bottomNavigationView.itemIconTintList = null
-        post_bottomNavigationView.menu.getItem(1).setChecked(true)
-        post_bottomNavigationView.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.bottom_home -> {
-                    val intent = Intent(this, Home::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.bottom_article -> {
-                    val intent = Intent(this, ArticleMain::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.bottom_profile -> {
-                    val intent = Intent(this, ProfileMain::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
-            }
-            return@setOnNavigationItemSelectedListener false
-        }
+        showBottomBar()
 
         val adapter = GroupAdapter<ViewHolder>()
 
@@ -79,6 +58,32 @@ class PostMain : AppCompatActivity() {
             override fun onCancelled(p0: DatabaseError) {
             }
         })
+    }
+
+    //show bottom bar view
+    fun showBottomBar() {
+        post_bottomNavigationView.itemIconTintList = null
+        post_bottomNavigationView.menu.getItem(1).setChecked(true)
+        post_bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.bottom_home -> {
+                    val intent = Intent(this, Home::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bottom_article -> {
+                    val intent = Intent(this, ArticleMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bottom_profile -> {
+                    val intent = Intent(this, ProfileMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+            }
+            return@setOnNavigationItemSelectedListener false
+        }
     }
 }
 
