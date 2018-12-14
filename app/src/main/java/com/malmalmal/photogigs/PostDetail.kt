@@ -140,7 +140,7 @@ class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
                         viewHolder.itemView.story_textView.text = post.caption
 
                         val image =  viewHolder.itemView.post_main_imageView
-                        val ro = RequestOptions().placeholder(R.drawable.baseline_photo_white_48dp)
+                        val ro = RequestOptions().placeholder(R.drawable.placeholder1)
                         Glide.with(image.context).applyDefaultRequestOptions(ro).load(post.imageUrl).into(image)
 
                         image.setOnClickListener {

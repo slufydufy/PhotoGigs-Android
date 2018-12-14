@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.View
@@ -67,7 +65,7 @@ class ProfileMain : AppCompatActivity() {
         })
     }
 
-    fun fetchUserPost() {
+    private fun fetchUserPost() {
 
         val uuid = FirebaseAuth.getInstance().uid
         val adapter = GroupAdapter<ViewHolder>()
@@ -88,7 +86,7 @@ class ProfileMain : AppCompatActivity() {
         })
     }
 
-    fun showBottomBar() {
+    private fun showBottomBar() {
         profile_main__bottomNavigationView.itemIconTintList = null
         profile_main__bottomNavigationView.menu.getItem(3).setChecked(true)
         profile_main__bottomNavigationView.setOnNavigationItemSelectedListener {
@@ -120,7 +118,7 @@ class ProfileGallery(private val post : Post) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
         val image = viewHolder.itemView.gallery_imageView
-        val ro = RequestOptions().placeholder(R.drawable.baseline_photo_white_48dp)
+        val ro = RequestOptions().placeholder(R.drawable.placeholder1)
         Glide.with(image.context).applyDefaultRequestOptions(ro).load(post.imageUrl).into(image)
 
         image.setOnClickListener {

@@ -58,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:scaleType="fitCenter" android:adjustViewBounds="true"
-            tools:srcCompat="@drawable/baseline_photo_white_24dp"/>
+            tools:srcCompat="@drawable/placeholder"/>
     <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp" app:srcCompat="@drawable/baseline_chat_bubble_outline_white_24dp"
