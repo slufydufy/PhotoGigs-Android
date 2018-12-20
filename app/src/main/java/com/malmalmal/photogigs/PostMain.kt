@@ -17,13 +17,14 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.post_main.*
 import kotlinx.android.synthetic.main.post_main_row.view.*
 import java.math.BigDecimal
-import java.util.*
+
 
 class PostMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_main)
 
+        checkUserLogin()
         showBottomBar()
 
         val adapter = GroupAdapter<ViewHolder>()
@@ -37,6 +38,17 @@ class PostMain : AppCompatActivity() {
         floatingActionButtonPost.setOnClickListener {
             val intent = Intent(this, PostAdd::class.java)
             startActivity(intent)
+        }
+    }
+
+    //check user login otherwise to mainlogin
+    private fun checkUserLogin() {
+        val uid = FirebaseAuth.getInstance().uid
+        if (uid == null) {
+            val intent = Intent(this, MainLogin::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+
         }
     }
 
@@ -63,14 +75,9 @@ class PostMain : AppCompatActivity() {
     //show bottom bar view
     private fun showBottomBar() {
         post_bottomNavigationView.itemIconTintList = null
-        post_bottomNavigationView.menu.getItem(1).setChecked(true)
+//        post_bottomNavigationView.menu.getItem(0).setChecked(true)
         post_bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.bottom_home -> {
-                    val intent = Intent(this, Home::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
                 R.id.bottom_article -> {
                     val intent = Intent(this, ArticleMain::class.java)
                     startActivity(intent)

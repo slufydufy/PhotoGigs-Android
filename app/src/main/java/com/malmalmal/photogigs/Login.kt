@@ -18,6 +18,11 @@ class Login : AppCompatActivity() {
         button_login.setOnClickListener {
             loginFirebase()
         }
+
+        daftar_textView.setOnClickListener {
+            val intent = Intent(it.context, Register::class.java)
+            it.context.startActivity(intent)
+        }
     }
 
 
@@ -36,7 +41,7 @@ class Login : AppCompatActivity() {
                 if (!it.isSuccessful) return@addOnCompleteListener
                 Log.d("login", "Sukses login : ${it.result.user.uid}")
 
-                val intent = Intent(this, Home::class.java)
+                val intent = Intent(this, PostMain::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }

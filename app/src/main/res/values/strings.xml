@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PhotoGigs</string>
+    <string name="app_name"></string>
 
     <string name="facebook_app_id">242880936560479</string>
     <string name="fb_login_protocol_scheme">fb242880936560479</string>

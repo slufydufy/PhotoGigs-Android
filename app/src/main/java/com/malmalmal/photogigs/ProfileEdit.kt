@@ -3,6 +3,7 @@ package com.malmalmal.photogigs
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -22,6 +23,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.profile_edit.*
 import java.io.ByteArrayOutputStream
+import java.lang.reflect.Array
 import java.util.*
 
 
@@ -41,7 +43,7 @@ class ProfileEdit : AppCompatActivity() {
         }
 
         //sign out
-        signOut_textView.setOnClickListener {
+        signout_button.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(this, MainLogin::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -62,7 +64,6 @@ class ProfileEdit : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {
-
                 if (p0.exists()) {
                     val user = p0.getValue(User::class.java)
                     username_textView.setText(user!!.name)
@@ -71,8 +72,7 @@ class ProfileEdit : AppCompatActivity() {
                         about_textView.setText("")
                     } else {about_textView.setText(user.about)}
                     profileImageData = user.userImageUrl
-                    val ro = RequestOptions()
-                    ro.placeholder(R.drawable.baseline_person_white_24dp)
+                    val ro = RequestOptions().placeholder(R.drawable.user123)
                     Glide.with(profile_imageView.context).applyDefaultRequestOptions(ro).load(profileImageData).into(profile_imageView)
                 }
             }
@@ -115,6 +115,8 @@ class ProfileEdit : AppCompatActivity() {
                     val filename = UUID.randomUUID().toString()
                     val ref = FirebaseStorage.getInstance().getReference("/profileImage/$filename")
                     val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
+
+
                     val baos = ByteArrayOutputStream()
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos)
                     val data = baos.toByteArray()

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.View
@@ -17,86 +18,36 @@ import com.google.firebase.database.ValueEventListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.post_main_row.view.*
 import kotlinx.android.synthetic.main.profile_main.*
+import kotlinx.android.synthetic.main.profile_main_bottom.view.*
+import kotlinx.android.synthetic.main.profile_main_top.*
+import kotlinx.android.synthetic.main.profile_main_top.view.*
 import kotlinx.android.synthetic.main.profile_main_user_gallery.view.*
 
 class ProfileMain : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_main)
 
         showBottomBar()
-        fetchUser()
 
         val adapter = GroupAdapter<ViewHolder>()
-        profile_main_recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        profile_main_recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+
+        adapter.add(ProfileMainTop())
+        adapter.add(ProfileMainBottom())
+
+        profile_main_recyclerView.layoutManager = LinearLayoutManager(this)
         profile_main_recyclerView.adapter = adapter
-
-        edit_imageView.setOnClickListener {
-            val intent = Intent(this, ProfileEdit::class.java)
-            startActivity(intent)
-        }
-
-        fetchUserPost()
-    }
-
-
-
-    private fun fetchUser() {
-        val uuid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uuid")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
-            override fun onDataChange(p0: DataSnapshot) {
-
-                if (p0.exists()) {
-                    profile_main_progressBar.visibility = View.INVISIBLE
-                    val user = p0.getValue(User::class.java)
-                    profile_main_usernameTextView.text = user!!.name
-                    val ro = RequestOptions().placeholder(R.drawable.baseline_person_white_24dp)
-                    Glide.with(profile_main_userImageView.context).applyDefaultRequestOptions(ro).load(user.userImageUrl).into(profile_main_userImageView)
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-                Log.d("fetch user", "err : $p0")
-            }
-        })
-    }
-
-    private fun fetchUserPost() {
-
-        val uuid = FirebaseAuth.getInstance().uid
-        val adapter = GroupAdapter<ViewHolder>()
-        val ref = FirebaseDatabase.getInstance().getReference("/posts").orderByChild("uuid").equalTo("$uuid")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                p0.children.forEach {
-                    val post = it.getValue(Post::class.java)
-                    if (post != null) {
-                        adapter.add(ProfileGallery(post))
-                    }
-                    profile_main_recyclerView.adapter = adapter
-//                    post_progressBar.visibility = View.INVISIBLE
-                }
-            }
-            override fun onCancelled(p0: DatabaseError) {
-            }
-        })
     }
 
     private fun showBottomBar() {
         profile_main__bottomNavigationView.itemIconTintList = null
-        profile_main__bottomNavigationView.menu.getItem(3).setChecked(true)
+        profile_main__bottomNavigationView.menu.getItem(2).setChecked(true)
         profile_main__bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottom_home -> {
-                    val intent = Intent(this, Home::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.bottom_post -> {
                     val intent = Intent(this, PostMain::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
@@ -112,9 +63,93 @@ class ProfileMain : AppCompatActivity() {
     }
 }
 
+class ProfileMainTop : Item<ViewHolder>() {
 
-class ProfileGallery(private val post : Post) : Item<ViewHolder>() {
+    override fun bind(viewHolder: ViewHolder, position: Int) {
 
+        val uuid = FirebaseAuth.getInstance().uid
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uuid")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+//                    profile_main_progressBar.visibility = View.INVISIBLE
+                    val user = p0.getValue(User::class.java)
+                    viewHolder.itemView.user_textView.text = user!!.name
+
+                    val image = viewHolder.itemView.profile_imageView
+                    val ro = RequestOptions().placeholder(R.drawable.user123)
+                    Glide.with(image.context).applyDefaultRequestOptions(ro).load(user.userImageUrl).into(image)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                Log.d("fetch user", "err : $p0")
+            }
+        })
+
+        val btn = viewHolder.itemView.edit_imageView
+        btn.setOnClickListener {
+
+                val intent = Intent(it.context, ProfileEdit::class.java)
+                it.context.startActivity(intent)
+            }
+
+
+
+//        viewHolder.itemView.cv.setOnClickListener {
+//            val intent = Intent(it.context, ProfileEdit::class.java)
+//            it.context.startActivity(intent)
+//        }
+
+
+
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.profile_main_top
+    }
+}
+
+
+
+class ProfileMainBottom : Item<ViewHolder>() {
+
+//    val adapter = GroupAdapter<ViewHolder>()
+//    profile_main_recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+//    profile_main_recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+//    profile_main_recyclerView.adapter = adapter
+
+
+    override fun bind(viewHolder: ViewHolder, position: Int) {
+
+        val rV = viewHolder.itemView.profile_main_bottom_recycleView
+        rV.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        rV.addItemDecoration(CustomItemDecoration(5,5))
+
+        val uuid = FirebaseAuth.getInstance().uid
+        val adapter = GroupAdapter<ViewHolder>()
+        val ref = FirebaseDatabase.getInstance().getReference("/posts").orderByChild("uuid").equalTo("$uuid")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                p0.children.forEach {
+                    val post = it.getValue(Post::class.java)
+                    if (post != null) {
+                        adapter.add(ImageGallery(post))
+                    }
+                    rV.adapter = adapter
+                }
+            }
+            override fun onCancelled(p0: DatabaseError) {
+            }
+        })
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.profile_main_bottom
+    }
+}
+
+class ImageGallery(val post : Post) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
         val image = viewHolder.itemView.gallery_imageView
@@ -127,6 +162,7 @@ class ProfileGallery(private val post : Post) : Item<ViewHolder>() {
             intent.putExtra("USER", post.uuid)
             it.context.startActivity(intent)
         }
+
     }
 
     override fun getLayout(): Int {

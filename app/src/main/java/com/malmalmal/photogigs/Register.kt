@@ -56,7 +56,7 @@ class Register : AppCompatActivity() {
             .addOnSuccessListener {
 
                 Log.d("create", "sukses create to Firebase db")
-                val intent = Intent(this, Home::class.java)
+                val intent = Intent(this, PostMain::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
