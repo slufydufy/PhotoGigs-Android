@@ -7,6 +7,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -42,6 +43,16 @@ class ProfileMain : AppCompatActivity() {
         profile_main_recyclerView.adapter = adapter
     }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            val intent = Intent(this, PostMain::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            return true;
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
     private fun showBottomBar() {
         profile_main__bottomNavigationView.itemIconTintList = null
         profile_main__bottomNavigationView.menu.getItem(2).setChecked(true)
@@ -49,6 +60,7 @@ class ProfileMain : AppCompatActivity() {
             when (it.itemId) {
                 R.id.bottom_home -> {
                     val intent = Intent(this, PostMain::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }

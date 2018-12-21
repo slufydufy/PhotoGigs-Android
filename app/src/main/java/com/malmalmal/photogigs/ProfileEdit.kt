@@ -1,6 +1,8 @@
 package com.malmalmal.photogigs
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.ExifInterface
@@ -42,15 +44,36 @@ class ProfileEdit : AppCompatActivity() {
             startActivityForResult(intent, 0)
         }
 
-        //sign out
+        //sign out btn action
         signout_button.setOnClickListener {
+            signOutDialog()
+        }
+
+        fetchUser()
+    }
+
+    //sign Out Dialog
+    private fun signOutDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Sign Out")
+        builder.setMessage("Apakah anda ingin keluar ?")
+        builder.setCancelable(true)
+        builder.setPositiveButton(
+            "Ya"
+        ) { dialog, which ->
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(this, MainLogin::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
+        builder.setNeutralButton(
+            "Tidak"
+        ) {dialog, which ->
+            return@setNeutralButton
+        }
 
-        fetchUser()
+        val dialog : AlertDialog = builder.create()
+        dialog.show()
     }
 
 
