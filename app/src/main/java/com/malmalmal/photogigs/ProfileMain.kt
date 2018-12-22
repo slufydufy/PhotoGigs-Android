@@ -49,11 +49,13 @@ class ProfileMain : AppCompatActivity() {
             when (it.itemId) {
                 R.id.bottom_home -> {
                     val intent = Intent(this, PostMain::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.bottom_article -> {
                     val intent = Intent(this, ArticleMain::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
