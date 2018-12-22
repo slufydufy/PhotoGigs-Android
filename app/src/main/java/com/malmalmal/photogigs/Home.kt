@@ -52,11 +52,6 @@ class Home : AppCompatActivity() {
         home_bottomNavigationView.itemIconTintList = null
         home_bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.bottom_post -> {
-                    val intent = Intent(this, PostMain::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
                 R.id.bottom_article -> {
                     val intent = Intent(this, ArticleMain::class.java)
                     startActivity(intent)

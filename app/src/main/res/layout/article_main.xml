@@ -20,13 +20,13 @@
             android:layout_marginLeft="8dp" android:layout_marginStart="8dp"/>
     <android.support.v7.widget.RecyclerView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="#000000"
 
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/article_card_recyclerView" android:paddingBottom="64dp"
-    />
+            android:id="@+id/article_card_recyclerView"
+            app:layout_constraintBottom_toTopOf="@+id/article_bottomNavigationView"/>
 
     <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -48,6 +48,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/article_bottomNavigationView"
             app:menu="@menu/bottom_nav_menu"
-            app:itemIconTint="@android:color/white"
             app:labelVisibilityMode="labeled" app:itemTextColor="@android:color/white"/>
 </android.support.constraint.ConstraintLayout>

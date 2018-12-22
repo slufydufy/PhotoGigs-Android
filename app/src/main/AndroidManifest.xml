@@ -4,6 +4,8 @@
 
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
 
@@ -14,7 +16,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-        <activity android:name=".Home"
+        <activity android:name=".PostMain"
+                  android:launchMode="singleTop"
                   android:theme="@style/noTransition">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -30,22 +33,20 @@
 
         <activity android:name=".Register"
                   android:label=""
-                  android:launchMode="singleTop"
-                  android:theme="@style/AppTransparent">
+                  android:launchMode="singleTop">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".Login"/>
         </activity>
 
         <activity android:name=".Login"
                   android:label=""
-                  android:launchMode="singleTop"
-                  android:theme="@style/AppTransparent">
+                  android:launchMode="singleTop">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".MainLogin"/>
         </activity>
 
         <activity android:name=".ArticleMain"
-                  android:label="Article"
+                  android:label=""
                   android:launchMode="singleTop"
                   android:theme="@style/noTransition">
         </activity>
@@ -57,12 +58,6 @@
                   android:theme="@style/AppTransparent">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".ArticleMain"/>
-        </activity>
-
-        <activity android:name=".PostMain"
-                  android:label="Photo Feed"
-                  android:launchMode="singleTop"
-                  android:theme="@style/noTransition">
         </activity>
 
         <activity android:name=".PostDetail"
@@ -88,7 +83,6 @@
         </activity>
 
         <activity android:name=".ProfileMain"
-                  android:label="Profile Main"
                   android:launchMode="singleTop"
                   android:theme="@style/noTransition">
         </activity>

@@ -62,15 +62,10 @@ class ArticleMain : AppCompatActivity() {
 
     fun showBottomBar() {
         article_bottomNavigationView.itemIconTintList = null
-        article_bottomNavigationView.menu.getItem(2).setChecked(true)
+        article_bottomNavigationView.menu.getItem(1).setChecked(true)
         article_bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottom_home -> {
-                    val intent = Intent(this, Home::class.java)
-                    startActivity(intent)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.bottom_post -> {
                     val intent = Intent(this, PostMain::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true

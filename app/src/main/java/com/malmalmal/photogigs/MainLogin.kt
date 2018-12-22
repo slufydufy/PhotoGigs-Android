@@ -198,7 +198,7 @@ class MainLogin : AppCompatActivity() {
 
     //intent for success login
     private fun updateUI() {
-        val intent = Intent(this, Home::class.java)
+        val intent = Intent(this, PostMain::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }
