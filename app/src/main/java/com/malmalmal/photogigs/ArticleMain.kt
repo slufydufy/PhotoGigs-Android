@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.KeyEvent
 import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -37,6 +38,16 @@ class ArticleMain : AppCompatActivity() {
         }
     }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            val intent = Intent(this, PostMain::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            return true;
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
     private fun fetchArticle() {
         val adapter = GroupAdapter<ViewHolder>()
         val ref = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/artikel/en-US")
@@ -62,18 +73,17 @@ class ArticleMain : AppCompatActivity() {
 
     fun showBottomBar() {
         article_bottomNavigationView.itemIconTintList = null
-        article_bottomNavigationView.menu.getItem(1).setChecked(true)
+        this.article_bottomNavigationView.menu.getItem(1).setChecked(true)
         article_bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottom_home -> {
                     val intent = Intent(this, PostMain::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.bottom_profile -> {
                     val intent = Intent(this, ProfileMain::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }

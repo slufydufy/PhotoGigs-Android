@@ -3,10 +3,13 @@ package com.malmalmal.photogigs
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +23,7 @@ import java.math.BigDecimal
 
 
 class PostMain : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_main)
@@ -39,6 +43,14 @@ class PostMain : AppCompatActivity() {
             val intent = Intent(this, PostAdd::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish()
+            return true;
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     //check user login otherwise to mainlogin
@@ -75,7 +87,7 @@ class PostMain : AppCompatActivity() {
     //show bottom bar view
     private fun showBottomBar() {
         post_bottomNavigationView.itemIconTintList = null
-//        post_bottomNavigationView.menu.getItem(0).setChecked(true)
+        post_bottomNavigationView.menu.getItem(0).setChecked(true)
         post_bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottom_article -> {

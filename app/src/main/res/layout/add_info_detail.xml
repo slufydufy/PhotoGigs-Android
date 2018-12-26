@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/expandable_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#000000">
+
+    <TextView
+        android:id="@+id/expandable_textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="left"
+        android:text="Info Tambahan"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/expand_imageView"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/expandable_textView"
+        app:layout_constraintEnd_toEndOf="@+id/expandable_textView"
+        app:layout_constraintTop_toTopOf="@+id/expandable_textView"
+        app:srcCompat="@drawable/baseline_keyboard_arrow_down_white_24dp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Kamera"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expandable_textView" />
+
+    <EditText
+        android:id="@+id/kamera_editText"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_white_textview"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="Lensa"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/kamera_editText" />
+
+    <EditText
+        android:id="@+id/lensa_editText"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_white_textview"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="Lokasi"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lensa_editText" />
+
+    <EditText
+        android:id="@+id/lokasi_editText"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_white_textview"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+</android.support.constraint.ConstraintLayout>
