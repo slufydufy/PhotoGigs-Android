@@ -1,33 +1,31 @@
 package com.malmalmal.photogigs
 
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import com.xwray.groupie.*
 import kotlinx.android.synthetic.main.post_add.*
+import kotlinx.android.synthetic.main.post_add_top.view.*
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
 class PostAdd : AppCompatActivity() {
 
-
-    var name : String? = null
-    var userImageUrl : String = ""
+    var selectedPhotoUri : Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,52 +34,23 @@ class PostAdd : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         addPost_progressBar.visibility = View.INVISIBLE
 
-        //open gallery if image tap
-        post_add_imageView.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 0)
-        }
+//        openGallery()
+        val uriString = intent.getStringExtra("IMAGE")
+        val uri = Uri.parse(uriString)
+        selectedPhotoUri = uri
 
-        fetchUser()
-    }
+        val adapter = GroupAdapter<ViewHolder>()
+        adapter.add(PostAddTop(uri))
+        adapter.add(InfoTambahan())
 
-    private fun fetchUser() {
-        val userId = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$userId")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(User::class.java)
-                    name = user!!.name
-                    userImageUrl = user.userImageUrl
-                }
-            }
-            override fun onCancelled(p0: DatabaseError) {
-                Log.d("fetch user", "err : $p0")
-            }
-        })
+        post_add_recycleView.layoutManager = LinearLayoutManager(this)
+        post_add_recycleView.adapter = adapter
     }
 
     //back button dismiss
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return super.onSupportNavigateUp()
-    }
-
-    //displayed choosen image
-    private var selectedPhotoUri : Uri? = null
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            selectedPhotoUri = data.data
-            post_add_imageView.requestLayout()
-            post_add_imageView.layoutParams.width = 0
-            post_add_imageView.layoutParams.width = 0
-            Glide.with(this).load(selectedPhotoUri).into(post_add_imageView)
-        }
     }
 
     //enabled post button action bar
@@ -118,12 +87,14 @@ class PostAdd : AppCompatActivity() {
         val timeStamp = Timestamp(System.currentTimeMillis())
         val date = sdf.format(timeStamp)
         val postId = UUID.randomUUID().toString()
-        val postCaption = caption_textView.text.toString()
+        val ca = findViewById<EditText>(R.id.caption_textView)
+        val captionText = ca.text.toString()
         val postRef = FirebaseDatabase.getInstance().getReference("/posts/$postId")
-        val post = Post(postId,date,imageUrlFireBase,postCaption,userId!!)
+        val post = Post(postId,date,imageUrlFireBase,captionText,userId!!)
         postRef.setValue(post)
             .addOnSuccessListener {
                 Log.d("add post", "suksess $it")
+                addInfo(postId)
                 addPost_progressBar.visibility = View.INVISIBLE
                 val intent = Intent(this, PostMain::class.java)
                 startActivity(intent)
@@ -133,4 +104,60 @@ class PostAdd : AppCompatActivity() {
                 Log.d("add post", "error $it")
             }
     }
+
+    //save additional info
+    fun addInfo(postId : String) {
+        val kamera = findViewById<EditText>(R.id.kamera_editText).text.toString()
+        val lensa = findViewById<EditText>(R.id.lensa_editText).text.toString()
+        val lokasi = findViewById<EditText>(R.id.lokasi_editText).text.toString()
+        val infoRef = FirebaseDatabase.getInstance().getReference("/addInfo/$postId")
+        val addInfo = AddInfo(postId, kamera, lensa, lokasi)
+        infoRef.setValue(addInfo)
+                .addOnSuccessListener {
+                    Log.d("add info", "sukses $it")
+                }
+                .addOnFailureListener {
+                    Log.d("add info", "error $it")
+                }
+    }
+}
+
+class PostAddTop(val uri : Uri) : Item<ViewHolder>() {
+
+    override fun bind(p0: ViewHolder, p1: Int) {
+        val image = p0.itemView.post_add_top_imageView
+        Glide.with(image.context).load(uri).into(image)
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.post_add_top
+    }
+}
+
+class InfoTambahan : Item<ViewHolder>() /*,ExpandableItem*/ {
+
+//    private lateinit var expandableGroup: ExpandableGroup
+
+    override fun bind(p0: ViewHolder, p1: Int) {
+//        p0.itemView.expand_imageView.setImageIcon(rotateImage())
+//        p0.itemView.expandable_root.setOnClickListener {
+//            expandableGroup.onToggleExpanded()
+//            p0.itemView.expand_imageView.setImageIcon(rotateImage())
+//        }
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.post_add_expandable_header
+    }
+
+//    override fun setExpandableGroup(p0: ExpandableGroup) {
+//        expandableGroup = p0
+//    }
+
+//    private fun rotateImage() : Icon {
+//        if (expandableGroup.isExpanded)
+//            R.drawable.baseline_keyboard_arrow_up_white_24dp
+//        else
+//            R.drawable.baseline_keyboard_arrow_down_white_24dp
+//    }
 }

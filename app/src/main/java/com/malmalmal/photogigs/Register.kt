@@ -15,7 +15,6 @@ class Register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-
         //register User by email
         button_registerMain.setOnClickListener {
             createUser()

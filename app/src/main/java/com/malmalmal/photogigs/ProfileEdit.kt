@@ -2,10 +2,8 @@ package com.malmalmal.photogigs
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -25,7 +23,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.profile_edit.*
 import java.io.ByteArrayOutputStream
-import java.lang.reflect.Array
 import java.util.*
 
 
@@ -75,7 +72,6 @@ class ProfileEdit : AppCompatActivity() {
         val dialog : AlertDialog = builder.create()
         dialog.show()
     }
-
 
     //fetch user info
     var profileImageData : String? = ""
@@ -185,6 +181,4 @@ class ProfileEdit : AppCompatActivity() {
                 Log.d("profile save", "error : $it")
             }
     }
-
-
 }

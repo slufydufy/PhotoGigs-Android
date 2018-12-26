@@ -2,18 +2,18 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/expandable_root"
+    android:id="@+id/addInfo_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#000000">
 
     <TextView
-        android:id="@+id/expandable_textView"
+        android:id="@+id/addInfo_textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:gravity="left"
         android:text="Info Tambahan"
         android:textColor="@android:color/white"
@@ -22,108 +22,116 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/expand_imageView"
+        android:id="@+id/addInfo_imageView"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/expandable_textView"
-        app:layout_constraintEnd_toEndOf="@+id/expandable_textView"
-        app:layout_constraintTop_toTopOf="@+id/expandable_textView"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/addInfo_textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addInfo_textView"
         app:srcCompat="@drawable/baseline_keyboard_arrow_down_white_24dp" />
 
-    <TextView
-        android:id="@+id/textView8"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/addInfo_cons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:text="Kamera"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expandable_textView" />
-
-    <EditText
-        android:id="@+id/kamera_editText"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/rounded_white_textview"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:paddingLeft="10dp"
-        android:singleLine="true"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView8"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:text="Lensa"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kamera_editText" />
+        app:layout_constraintTop_toBottomOf="@+id/addInfo_textView">
 
-    <EditText
-        android:id="@+id/lensa_editText"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/rounded_white_textview"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:paddingLeft="10dp"
-        android:singleLine="true"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView8"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Kamera"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:text="Lokasi"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lensa_editText" />
+        <TextView
+            android:id="@+id/lokasi_textView"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_white_textview"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView10"
+            app:layout_constraintStart_toStartOf="@+id/textView10"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-    <EditText
-        android:id="@+id/lokasi_editText"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_white_textview"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:paddingLeft="10dp"
-        android:singleLine="true"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView8"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        <TextView
+            android:id="@+id/kamera_textView"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_white_textview"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="0dp"
+            android:layout_height="11dp"
+            android:layout_marginTop="8dp"
+            android:text="Lensa"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@+id/kamera_textView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/kamera_textView"
+            app:layout_constraintTop_toBottomOf="@+id/kamera_textView" />
+
+        <TextView
+            android:id="@+id/lensa_textView"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_white_textview"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/textView9"
+            app:layout_constraintStart_toStartOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Lokasi"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@+id/lensa_textView"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/lensa_textView"
+            app:layout_constraintTop_toBottomOf="@+id/lensa_textView" />
+    </android.support.constraint.ConstraintLayout>
+
 </android.support.constraint.ConstraintLayout>

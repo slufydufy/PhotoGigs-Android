@@ -1,14 +1,13 @@
 package com.malmalmal.photogigs
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.KeyEvent
-import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -19,10 +18,8 @@ import com.google.firebase.database.ValueEventListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.post_main_row.view.*
 import kotlinx.android.synthetic.main.profile_main.*
 import kotlinx.android.synthetic.main.profile_main_bottom.view.*
-import kotlinx.android.synthetic.main.profile_main_top.*
 import kotlinx.android.synthetic.main.profile_main_top.view.*
 import kotlinx.android.synthetic.main.profile_main_user_gallery.view.*
 
@@ -41,6 +38,12 @@ class ProfileMain : AppCompatActivity() {
 
         profile_main_recyclerView.layoutManager = LinearLayoutManager(this)
         profile_main_recyclerView.adapter = adapter
+
+        profile_main_floating_button.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 0)
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -51,6 +54,15 @@ class ProfileMain : AppCompatActivity() {
             return true;
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            val intent = Intent(this, PostAdd::class.java)
+            intent.putExtra("IMAGE", data.data.toString())
+            startActivity(intent)
+        }
     }
 
     private fun showBottomBar() {
@@ -105,16 +117,6 @@ class ProfileMainTop : Item<ViewHolder>() {
                 val intent = Intent(it.context, ProfileEdit::class.java)
                 it.context.startActivity(intent)
             }
-
-
-
-//        viewHolder.itemView.cv.setOnClickListener {
-//            val intent = Intent(it.context, ProfileEdit::class.java)
-//            it.context.startActivity(intent)
-//        }
-
-
-
     }
 
     override fun getLayout(): Int {
@@ -125,12 +127,6 @@ class ProfileMainTop : Item<ViewHolder>() {
 
 
 class ProfileMainBottom : Item<ViewHolder>() {
-
-//    val adapter = GroupAdapter<ViewHolder>()
-//    profile_main_recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-//    profile_main_recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-//    profile_main_recyclerView.adapter = adapter
-
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
@@ -159,6 +155,7 @@ class ProfileMainBottom : Item<ViewHolder>() {
     override fun getLayout(): Int {
         return R.layout.profile_main_bottom
     }
+
 }
 
 class ImageGallery(val post : Post) : Item<ViewHolder>() {
@@ -174,12 +171,12 @@ class ImageGallery(val post : Post) : Item<ViewHolder>() {
             intent.putExtra("USER", post.uuid)
             it.context.startActivity(intent)
         }
-
     }
 
     override fun getLayout(): Int {
         return R.layout.profile_main_user_gallery
     }
+
 }
 
 

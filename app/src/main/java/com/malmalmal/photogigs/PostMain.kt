@@ -1,7 +1,9 @@
 package com.malmalmal.photogigs
 
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -9,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -40,7 +43,21 @@ class PostMain : AppCompatActivity() {
         fetchPost()
 
         floatingActionButtonPost.setOnClickListener {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, 0)
+        }
+    }
+
+//    choosen image action
+    private var selectedPhotoUri : Uri? = null
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            selectedPhotoUri = data.data
             val intent = Intent(this, PostAdd::class.java)
+            intent.putExtra("IMAGE", data.data.toString())
             startActivity(intent)
         }
     }
@@ -106,13 +123,22 @@ class PostMain : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener false
         }
     }
+
+    override fun onPostResume() {
+        super.onPostResume()
+        fetchPost()
+    }
 }
 
 class PostRow(private val post : Post) : Item<ViewHolder>() {
 
-    val refLikeCount = FirebaseDatabase.getInstance().getReference("/posts/${post.postId}").child("likeCount")
+    var likeTv : TextView? = null
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
+
+        likeTv = viewHolder.itemView.like_counter_textView
+
+        likeCounter()
 
         //fetch user
         val ref = FirebaseDatabase.getInstance().getReference("/users/${post.uuid}")
@@ -131,26 +157,43 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
             }
         })
 
+        //get like status
+        val uid = FirebaseAuth.getInstance().uid
+        val refLikeCount = FirebaseDatabase.getInstance().getReference("/likes/${post.postId}").child(uid!!)
+        refLikeCount.keepSynced(true)
+        refLikeCount.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    viewHolder.itemView.like_imageView.setImageResource(R.drawable.hearts)
+                } else {
+                    viewHolder.itemView.like_imageView.setImageResource(R.drawable.baseline_favorite_border_white_24dp)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+
         //like counter
         viewHolder.itemView.like_imageView.setOnClickListener {
-
-
-            var likeStatus: Boolean = true
-
-            val uid = FirebaseAuth.getInstance().uid
-
-            refLikeCount.keepSynced(true)
+            var likeStatus = true
+            val uuid = FirebaseAuth.getInstance().uid
             val refLike = FirebaseDatabase.getInstance().getReference("/likes/")
             refLike.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     if (likeStatus) {
-                        if (p0.child(post.postId).hasChild(uid!!)) {
-                            refLike.child(post.postId).child(uid).removeValue()
-                            updateCounter(false)
+                        if (p0.child(post.postId).hasChild(uuid!!)) {
+                            viewHolder.itemView.like_imageView.setImageResource(R.drawable.baseline_favorite_border_white_24dp)
+                            refLike.child(post.postId).child(uuid).removeValue()
+                            likeCounter()
+//                            updateCounter(false)
                             likeStatus = false
                         } else {
-                            refLike.child(post.postId).child(uid).setValue(uid)
-                            updateCounter(true)
+                            viewHolder.itemView.like_imageView.setImageResource(R.drawable.hearts)
+                            refLike.child(post.postId).child(uuid).setValue("1")
+                            likeCounter()
+//                            updateCounter(true)
                             likeStatus = false
                         }
                     }
@@ -181,13 +224,19 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 val total = p0.childrenCount.toString()
-                viewHolder.itemView.comment_counter_textView.text = total + " comment"
+                val inTotal = total.toInt()
+                val totals = "s"
+                if (inTotal > 1) {
+
+                    viewHolder.itemView.comment_counter_textView.text = total + " comment" + totals
+                } else {
+                    viewHolder.itemView.comment_counter_textView.text = total + " comment"
+                }
             }
 
             override fun onCancelled(p0: DatabaseError) {
 
             }
-
         })
 
         viewHolder.itemView.comment_imageView.setOnClickListener {
@@ -205,50 +254,28 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
         }
     }
 
-    fun updateCounter(inc : Boolean) {
+    fun likeCounter() {
+        //like counter
+        val refLikeCounter = FirebaseDatabase.getInstance().getReference("/likes/${post.postId}")
+        refLikeCounter.keepSynced(true)
+        refLikeCounter.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val total = p0.childrenCount.toString()
+                val inTotal = total.toInt()
+                val totals = "s"
+                if (inTotal > 1) {
 
-        refLikeCount.runTransaction(object : Transaction.Handler {
-
-            override fun doTransaction(p0: MutableData): Transaction.Result {
-                if (p0.getValue() != null) {
-                    val valueLike = p0.getValue(BigDecimal::class.java)
-                    if (inc) {
-                        valueLike!!.inc()
-                    }   else {
-                        valueLike!!.inc()
-                    }
-                    p0.value = valueLike
+                            likeTv!!.text = total + " like" + totals
+                } else {
+                    likeTv!!.text = total + " like"
                 }
-                return Transaction.success(p0)
             }
 
-            override fun onComplete(p0: DatabaseError?, p1: Boolean, p2: DataSnapshot?) {
+            override fun onCancelled(p0: DatabaseError) {
 
             }
-//            Transaction.Result doTransaction(MutableData mutableData) {
-//                if (mutableData.getValue() != null) {
-//                    int value = mutableData.getValue(Integer.class);
-//                    if(increment) {
-//                        value++;
-//                    } else {
-//                        value--;
-//                    }
-//                    mutableData.setValue(value);
-//                }
-//                return Transaction.success(mutableData);
-//            }
-//
-//            @Override
-//            public void onComplete(DatabaseError databaseError, boolean b,
-//                DataSnapshot dataSnapshot) {
-//                // Transaction completed
-//                Log.d(TAG, "likeTransaction:onComplete:" + databaseError);
-//            }
-//        });
         })
     }
-
-
 
     override fun getLayout(): Int {
 

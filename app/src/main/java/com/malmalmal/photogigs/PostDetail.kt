@@ -3,10 +3,13 @@ package com.malmalmal.photogigs
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -18,6 +21,8 @@ import com.google.firebase.database.ValueEventListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.add_info_detail.*
+import kotlinx.android.synthetic.main.add_info_detail.view.*
 import kotlinx.android.synthetic.main.comment_row.view.*
 import kotlinx.android.synthetic.main.post_detail.*
 import kotlinx.android.synthetic.main.post_main_row.view.*
@@ -31,6 +36,10 @@ class PostDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_detail)
 
+//        val h = findViewById<ConstraintLayout>(R.id.addInfo_cons)
+//        h.layoutParams.height = 1
+//        h.layoutParams.width = 1
+
         //enabled back button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -39,6 +48,7 @@ class PostDetail : AppCompatActivity() {
 
         val adapter = GroupAdapter<ViewHolder>()
         adapter.add(PostDetailRow(pid,uid))
+        adapter.add(AddInfoDetail(pid))
 
         recyclerView_post_detail.layoutManager = LinearLayoutManager(this)
         recyclerView_post_detail.adapter = adapter
@@ -48,7 +58,6 @@ class PostDetail : AppCompatActivity() {
         comment_send_button.setOnClickListener {
             sendComment(pid)
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -59,6 +68,7 @@ class PostDetail : AppCompatActivity() {
     private fun fetchComment(pid : String, uid: String) {
         val adapter = GroupAdapter<ViewHolder>()
         adapter.add(PostDetailRow(pid,uid))
+        adapter.add(AddInfoDetail(pid))
         val ref = FirebaseDatabase.getInstance().getReference("/comments/$pid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -110,8 +120,13 @@ class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
 
     private val postId = pid
     private val userId = uid
+    var likeTv : TextView? = null
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
+
+        likeTv = viewHolder.itemView.like_counter_textView
+
+        likeCounter()
 
         //fetch user
         val refUser = FirebaseDatabase.getInstance().getReference("/users/$userId")
@@ -155,6 +170,54 @@ class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
                 }
             })
 
+        //get like status
+        val uid = FirebaseAuth.getInstance().uid
+        val refLikeCount = FirebaseDatabase.getInstance().getReference("/likes/$postId").child(uid!!)
+        refLikeCount.keepSynced(true)
+        refLikeCount.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    viewHolder.itemView.like_imageView.setImageResource(R.drawable.hearts)
+                } else {
+                    viewHolder.itemView.like_imageView.setImageResource(R.drawable.baseline_favorite_border_white_24dp)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+
+        //like counter
+        viewHolder.itemView.like_imageView.setOnClickListener {
+            var likeStatus = true
+            val uuid = FirebaseAuth.getInstance().uid
+            val refLike = FirebaseDatabase.getInstance().getReference("/likes/")
+            refLike.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (likeStatus) {
+                        if (p0.child(postId).hasChild(uuid!!)) {
+                            viewHolder.itemView.like_imageView.setImageResource(R.drawable.baseline_favorite_border_white_24dp)
+                            refLike.child(postId).child(uuid).removeValue()
+                            likeCounter()
+//                            updateCounter(false)
+                            likeStatus = false
+                        } else {
+                            viewHolder.itemView.like_imageView.setImageResource(R.drawable.hearts)
+                            refLike.child(postId).child(uuid).setValue("1")
+                            likeCounter()
+//                            updateCounter(true)
+                            likeStatus = false
+                        }
+                    }
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+            })
+        }
+
         //fetch comment counter
         val refMessageCounter = FirebaseDatabase.getInstance().getReference("/comments/$postId")
         refMessageCounter.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -171,8 +234,64 @@ class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
         })
     }
 
+    fun likeCounter() {
+        //fetch like counter
+        val refLikeCounter = FirebaseDatabase.getInstance().getReference("/likes/$postId")
+        refLikeCounter.keepSynced(true)
+        refLikeCounter.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val total = p0.childrenCount.toString()
+                val inTotal = total.toInt()
+                val totals = "s"
+                if (inTotal > 1) {
+
+                    likeTv!!.text = total + " like" + totals
+                } else {
+                    likeTv!!.text = total + " like"
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+    }
+
     override fun getLayout(): Int {
         return R.layout.post_main_row
+    }
+}
+
+class AddInfoDetail(val pid : String) : Item<ViewHolder>() {
+    override fun bind(v: ViewHolder, p1: Int) {
+        v.itemView.addInfo_cons.layoutParams.height = 0
+        v.itemView.addInfo_imageView.setOnClickListener {
+            v.itemView.addInfo_cons.requestLayout()
+//            val m = v.itemView.addInfo_cons.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+//            val ok = m.
+//            v.itemView.addInfo_cons.layoutParams.height = ok
+        }
+
+        //fetch add Info
+        val refAddInfo = FirebaseDatabase.getInstance().getReference("/addInfo/$pid")
+        refAddInfo.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val addInfo = p0.getValue(AddInfo::class.java)
+                    v.itemView.kamera_textView.text = addInfo!!.kamera
+                    v.itemView.lensa_textView.text = addInfo.lensa
+                    v.itemView.lokasi_textView.text = addInfo.lokasi
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.add_info_detail
     }
 }
 
@@ -205,6 +324,4 @@ class PostCommentRow(private val comment : Comment) : Item<ViewHolder>() {
     }
 }
 
-class Comment(val uid : String, val comment : String, val pd : String) {
-    constructor() : this("", "", "")
-}
+
