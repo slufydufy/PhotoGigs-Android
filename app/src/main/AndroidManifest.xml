@@ -68,6 +68,12 @@
         <activity android:name=".PostAdd"
                   android:launchMode="singleTop"
                   android:label="Add Post"
+                android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity android:name=".PostDetailEdit"
+            android:launchMode="singleTop"
+            android:label="Edit Post"
             android:windowSoftInputMode="stateHidden">
         </activity>
 

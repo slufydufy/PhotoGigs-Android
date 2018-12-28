@@ -10,10 +10,11 @@
         android:id="@+id/post_add_top_imageView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_add_photo_alternate_white_48dp" />
+        app:srcCompat="@drawable/placeholder1" />
 
     <EditText
         android:id="@+id/caption_textView"

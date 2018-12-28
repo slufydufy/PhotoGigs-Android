@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:itemTextAppearance">@style/popUp</item>
     </style>
 
     <style name="AppTransparent" parent="AppTheme">
@@ -24,5 +25,9 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="colorPrimary">@android:color/transparent</item>
+    </style>
+
+    <style name="popUp" parent="@style/TextAppearance.AppCompat.Widget.ActionMode.Title">
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

@@ -1,5 +1,9 @@
 package com.malmalmal.photogigs
 
+import android.app.ActionBar
+import android.app.ActionBar.*
+import android.app.ActionBar.LayoutParams.*
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +11,9 @@ import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -18,6 +23,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -32,23 +38,25 @@ import java.util.*
 
 class PostDetail : AppCompatActivity() {
 
+    var dpid : String? = null
+    var uuids : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_detail)
-
-//        val h = findViewById<ConstraintLayout>(R.id.addInfo_cons)
-//        h.layoutParams.height = 1
-//        h.layoutParams.width = 1
 
         //enabled back button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val pid = intent.getStringExtra("POST")
         val uid = intent.getStringExtra("USER")
+        dpid = pid
+        uuids = uid
 
         val adapter = GroupAdapter<ViewHolder>()
         adapter.add(PostDetailRow(pid,uid))
         adapter.add(AddInfoDetail(pid))
+        adapter.add(PostCommentTitle())
 
         recyclerView_post_detail.layoutManager = LinearLayoutManager(this)
         recyclerView_post_detail.adapter = adapter
@@ -58,6 +66,7 @@ class PostDetail : AppCompatActivity() {
         comment_send_button.setOnClickListener {
             sendComment(pid)
         }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -65,10 +74,82 @@ class PostDetail : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
+    //enable option button action bar
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.option_menu, menu)
+        val uid = FirebaseAuth.getInstance().uid
+        if (uuids == uid) {
+            return super.onCreateOptionsMenu(menu)
+        }
+        return false
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.edit_menu -> {
+                val intent = Intent(this, PostDetailEdit::class.java)
+                intent.putExtra("PID", dpid)
+                startActivity(intent)
+            }
+            R.id.delete_menu -> {
+                deletePost(dpid!!)
+            }
+        }
+
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    //delete post Dialog
+    private fun deletePost(dpid: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Hapus Post")
+        builder.setMessage("Hapus post ini ?")
+        builder.setCancelable(true)
+        builder.setPositiveButton(
+                "Ya"
+        ) {dialog, which ->
+            val refPost = FirebaseDatabase.getInstance().getReference("/posts/")
+            val refImage = FirebaseStorage.getInstance()
+            val refaddInfo = FirebaseDatabase.getInstance().getReference("/addInfo/")
+            val refLike = FirebaseDatabase.getInstance().getReference("/likes/")
+            val refComment = FirebaseDatabase.getInstance().getReference("/comments/")
+            val refPostDel = FirebaseDatabase.getInstance().getReference("/posts/$dpid")
+
+            refPostDel.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    val post = p0.getValue(Post::class.java)
+                    val posturl = post!!.imageUrl
+                    refImage.getReferenceFromUrl(posturl).delete().addOnSuccessListener {
+                        refPost.child(dpid).removeValue()
+                    }
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+            })
+            refaddInfo.child(dpid).removeValue()
+            refLike.child(dpid).removeValue()
+            refComment.child(dpid).removeValue()
+            val intent = Intent(this, ProfileMain::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+        builder.setNeutralButton(
+                "Tidak"
+        ) {dialog, which ->
+            return@setNeutralButton
+        }
+        val dialog : AlertDialog = builder.create()
+        dialog.show()
+    }
+
     private fun fetchComment(pid : String, uid: String) {
         val adapter = GroupAdapter<ViewHolder>()
         adapter.add(PostDetailRow(pid,uid))
         adapter.add(AddInfoDetail(pid))
+        adapter.add(PostCommentTitle())
         val ref = FirebaseDatabase.getInstance().getReference("/comments/$pid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -264,12 +345,24 @@ class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
 
 class AddInfoDetail(val pid : String) : Item<ViewHolder>() {
     override fun bind(v: ViewHolder, p1: Int) {
-        v.itemView.addInfo_cons.layoutParams.height = 0
+
+        val c = v.itemView.addInfo_cons
+        c.layoutParams.height = 0
+        var isExpand = false
         v.itemView.addInfo_imageView.setOnClickListener {
-            v.itemView.addInfo_cons.requestLayout()
-//            val m = v.itemView.addInfo_cons.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//            val ok = m.
-//            v.itemView.addInfo_cons.layoutParams.height = ok
+
+            if (!isExpand) {
+                c.requestLayout()
+                val h = WRAP_CONTENT
+                c.layoutParams.height = h
+                isExpand = true
+                v.itemView.addInfo_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_up_white_24dp)
+            } else {
+                c.requestLayout()
+                c.layoutParams.height = 0
+                isExpand = false
+                v.itemView.addInfo_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
+            }
         }
 
         //fetch add Info
@@ -292,6 +385,16 @@ class AddInfoDetail(val pid : String) : Item<ViewHolder>() {
 
     override fun getLayout(): Int {
         return R.layout.add_info_detail
+    }
+}
+
+class PostCommentTitle : Item<ViewHolder>() {
+    override fun bind(p0: ViewHolder, p1: Int) {
+
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.post_detail_comment_title
     }
 }
 
