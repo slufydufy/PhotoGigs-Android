@@ -5,14 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +20,6 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.post_main.*
 import kotlinx.android.synthetic.main.post_main_row.view.*
-import java.math.BigDecimal
 
 
 class PostMain : AppCompatActivity() {
@@ -31,17 +28,29 @@ class PostMain : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_main)
 
+        //hide action bar
+        val actionBar = supportActionBar
+        actionBar!!.hide()
+
+        //check if user login, else log out
         checkUserLogin()
+
+        //show bottom bar
         showBottomBar()
 
+        //create recyclerView
         val adapter = GroupAdapter<ViewHolder>()
-
-
-        post_main_recyclerView.layoutManager = LinearLayoutManager(this)
+        val ll = LinearLayoutManager(this)
+        //reverse post order
+        ll.reverseLayout = true
+        ll.stackFromEnd = true
+        post_main_recyclerView.layoutManager = ll
         post_main_recyclerView.adapter = adapter
 
+        //fetch post
         fetchPost()
 
+        //floating button intent
         floatingActionButtonPost.setOnClickListener {
                 val intent = Intent(Intent.ACTION_PICK)
                 intent.type = "image/*"
@@ -62,10 +71,11 @@ class PostMain : AppCompatActivity() {
         }
     }
 
+    //back button action
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish()
-            return true;
+            return true
         }
         return super.onKeyDown(keyCode, event)
     }
@@ -124,6 +134,7 @@ class PostMain : AppCompatActivity() {
         }
     }
 
+    //reload post on loading page
     override fun onPostResume() {
         super.onPostResume()
         fetchPost()
@@ -135,10 +146,36 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
     var likeTv : TextView? = null
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
-
         likeTv = viewHolder.itemView.like_counter_textView
 
         likeCounter()
+
+        val imageUser = viewHolder.itemView.profile_pic_imageView
+
+        //intent to user profile
+        imageUser.setOnClickListener {
+            val uuid = FirebaseAuth.getInstance().uid
+            if (uuid == post.uuid) {
+                val intent = Intent(it.context, ProfileMain::class.java)
+                it.context.startActivity(intent)
+            } else {
+                val intent = Intent(it.context, UserMain::class.java)
+                intent.putExtra("USER", post.uuid)
+                it.context.startActivity(intent)
+            }
+        }
+        viewHolder.itemView.userName_textView.setOnClickListener {
+            val uuid = FirebaseAuth.getInstance().uid
+            if (uuid == post.uuid) {
+                val intent = Intent(it.context, ProfileMain::class.java)
+                it.context.startActivity(intent)
+            } else {
+                val intent = Intent(it.context, UserMain::class.java)
+                intent.putExtra("USER", post.uuid)
+                it.context.startActivity(intent)
+            }
+        }
+
 
         //fetch user
         val ref = FirebaseDatabase.getInstance().getReference("/users/${post.uuid}")
@@ -147,7 +184,6 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
                 if (p0.exists()) {
                     val user: User? = p0.getValue(User::class.java)
                     viewHolder.itemView.userName_textView.text = user!!.name
-                    val imageUser = viewHolder.itemView.profile_pic_imageView
                     val ro = RequestOptions().placeholder(R.drawable.baseline_person_white_24dp)
                     Glide.with(imageUser.context).applyDefaultRequestOptions(ro).load(user.userImageUrl).into(imageUser)
                 }
@@ -247,6 +283,13 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
         }
 
         viewHolder.itemView.comment_counter_textView.setOnClickListener {
+            val intent = Intent(it.context, PostDetail::class.java)
+            intent.putExtra("POST", post.postId)
+            intent.putExtra("USER", post.uuid)
+            it.context.startActivity(intent)
+        }
+
+        viewHolder.itemView.detail_imageView.setOnClickListener {
             val intent = Intent(it.context, PostDetail::class.java)
             intent.putExtra("POST", post.postId)
             intent.putExtra("USER", post.uuid)

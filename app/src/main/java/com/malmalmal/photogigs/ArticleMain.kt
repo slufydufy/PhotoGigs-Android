@@ -24,6 +24,9 @@ class ArticleMain : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.article_main)
 
+        val actionBar = supportActionBar
+        actionBar!!.hide()
+
         showBottomBar()
 
         val adapter = GroupAdapter<ViewHolder>()

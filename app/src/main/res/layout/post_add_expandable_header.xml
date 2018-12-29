@@ -8,28 +8,25 @@
     android:background="#000000">
 
     <TextView
-        android:id="@+id/expandable_textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:gravity="left"
-        android:text="Info Tambahan"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/expandable_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:gravity="left"
+            android:text="Info Tambahan"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
-        android:id="@+id/expand_imageView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/expandable_textView"
-        app:layout_constraintEnd_toEndOf="@+id/expandable_textView"
-        app:layout_constraintTop_toTopOf="@+id/expandable_textView"
-        app:srcCompat="@drawable/baseline_keyboard_arrow_down_white_24dp" />
+            android:id="@+id/expand_imageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:srcCompat="@drawable/baseline_keyboard_arrow_down_white_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/expandable_textView"
+            app:layout_constraintTop_toTopOf="@+id/expandable_textView"
+            app:layout_constraintStart_toEndOf="@+id/expandable_textView" android:layout_marginStart="16dp"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/post_add_cons"
@@ -57,12 +54,12 @@
         <EditText
             android:id="@+id/kamera_editText"
             android:layout_width="0dp"
-            android:layout_height="24dp"
+            android:layout_height="42dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/rounded_white_textview"
             android:ems="10"
             android:inputType="textPersonName"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:singleLine="true"
             android:textColor="@android:color/white"
             android:textSize="12sp"
@@ -86,12 +83,12 @@
         <EditText
             android:id="@+id/lensa_editText"
             android:layout_width="0dp"
-            android:layout_height="24dp"
+            android:layout_height="42dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/rounded_white_textview"
             android:ems="10"
             android:inputType="textPersonName"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:singleLine="true"
             android:textColor="@android:color/white"
             android:textSize="12sp"
@@ -116,13 +113,13 @@
         <EditText
             android:id="@+id/lokasi_editText"
             android:layout_width="0dp"
-            android:layout_height="24dp"
+            android:layout_height="42dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_white_textview"
             android:ems="10"
             android:inputType="textPersonName"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:singleLine="true"
             android:textColor="@android:color/white"
             android:textSize="12sp"

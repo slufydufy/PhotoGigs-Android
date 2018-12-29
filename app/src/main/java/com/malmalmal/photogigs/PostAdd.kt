@@ -32,20 +32,22 @@ class PostAdd : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_add)
+
         //enabled back button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        //hide progress bar on start
         addPost_progressBar.visibility = View.INVISIBLE
 
-//        openGallery()
+        //openGallery()
         val uriString = intent.getStringExtra("IMAGE")
         val uri = Uri.parse(uriString)
         selectedPhotoUri = uri
 
+        //create recyclerView
         val adapter = GroupAdapter<ViewHolder>()
         adapter.add(PostAddTop(uri))
         adapter.add(InfoTambahan())
-
         post_add_recycleView.layoutManager = LinearLayoutManager(this)
         post_add_recycleView.adapter = adapter
     }
@@ -64,7 +66,6 @@ class PostAdd : AppCompatActivity() {
 
     //post image to firebase storage
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
         when (item?.itemId) {
             R.id.menu_post -> {
                 addPost_progressBar.visibility = View.VISIBLE
@@ -84,6 +85,7 @@ class PostAdd : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
     //save post to firebase database
     private fun savePost(imageUrlFireBase : String) {
         val userId = FirebaseAuth.getInstance().uid
@@ -132,6 +134,7 @@ class PostAdd : AppCompatActivity() {
 class PostAddTop(private val uri : Uri) : Item<ViewHolder>() {
 
     override fun bind(p0: ViewHolder, p1: Int) {
+        //show picked image from gallery
         val image = p0.itemView.post_add_top_imageView
         Glide.with(image.context).load(uri).into(image)
     }
@@ -142,16 +145,15 @@ class PostAddTop(private val uri : Uri) : Item<ViewHolder>() {
 }
 
 class InfoTambahan : Item<ViewHolder>() /*,ExpandableItem*/ {
-
-//    private lateinit var expandableGroup: ExpandableGroup
-
     override fun bind(p0: ViewHolder, p1: Int) {
 
+        //hide additional info on create
         val c = p0.itemView.post_add_cons
         c.layoutParams.height = 0
         var isExpanded = false
-        p0.itemView.expand_imageView.setOnClickListener {
 
+        //show - hide additional Info
+        p0.itemView.expandable_textView.setOnClickListener {
             if (!isExpanded) {
                 c.requestLayout()
                 val h = WRAP_CONTENT
@@ -164,29 +166,25 @@ class InfoTambahan : Item<ViewHolder>() /*,ExpandableItem*/ {
                 isExpanded = false
                 p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
             }
-
         }
 
-
-//        p0.itemView.expand_imageView.setImageIcon(rotateImage())
-//        p0.itemView.expandable_root.setOnClickListener {
-//            expandableGroup.onToggleExpanded()
-//            p0.itemView.expand_imageView.setImageIcon(rotateImage())
-//        }
+        p0.itemView.expand_imageView.setOnClickListener {
+            if (!isExpanded) {
+                c.requestLayout()
+                val h = WRAP_CONTENT
+                c.layoutParams.height = h
+                isExpanded = true
+                p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_up_white_24dp)
+            } else {
+                c.requestLayout()
+                c.layoutParams.height = 0
+                isExpanded = false
+                p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
+            }
+        }
     }
 
     override fun getLayout(): Int {
         return R.layout.post_add_expandable_header
     }
-
-//    override fun setExpandableGroup(p0: ExpandableGroup) {
-//        expandableGroup = p0
-//    }
-
-//    private fun rotateImage() : Icon {
-//        if (expandableGroup.isExpanded)
-//            R.drawable.baseline_keyboard_arrow_up_white_24dp
-//        else
-//            R.drawable.baseline_keyboard_arrow_down_white_24dp
-//    }
 }

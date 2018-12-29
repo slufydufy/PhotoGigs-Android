@@ -60,9 +60,9 @@ class DetailContent(val content : String) : Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.itemView.okokaja.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
+//        viewHolder.itemView.okokaja.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
 
-//        viewHolder.itemView.textView7.setText(Html.fromHtml(content))
+        viewHolder.itemView.textView7.setText(Html.fromHtml(content))
     }
 
     override fun getLayout(): Int {

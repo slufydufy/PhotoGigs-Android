@@ -65,6 +65,11 @@
                   android:launchMode="singleTop">
         </activity>
 
+        <activity android:name=".UserMain"
+            android:label=""
+            android:launchMode="singleTop">
+        </activity>
+
         <activity android:name=".PostAdd"
                   android:launchMode="singleTop"
                   android:label="Add Post"

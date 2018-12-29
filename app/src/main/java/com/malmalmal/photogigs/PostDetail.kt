@@ -209,6 +209,10 @@ class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
 
         likeCounter()
 
+        //hide comment image and detail image
+        viewHolder.itemView.comment_imageView.visibility = View.INVISIBLE
+        viewHolder.itemView.detail_imageView.visibility = View.INVISIBLE
+
         //fetch user
         val refUser = FirebaseDatabase.getInstance().getReference("/users/$userId")
         refUser.addListenerForSingleValueEvent(object: ValueEventListener {
@@ -349,6 +353,20 @@ class AddInfoDetail(val pid : String) : Item<ViewHolder>() {
         val c = v.itemView.addInfo_cons
         c.layoutParams.height = 0
         var isExpand = false
+        v.itemView.addInfo_textView.setOnClickListener {
+            if (!isExpand) {
+                c.requestLayout()
+                val h = WRAP_CONTENT
+                c.layoutParams.height = h
+                isExpand = true
+                v.itemView.addInfo_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_up_white_24dp)
+            } else {
+                c.requestLayout()
+                c.layoutParams.height = 0
+                isExpand = false
+                v.itemView.addInfo_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
+            }
+        }
         v.itemView.addInfo_imageView.setOnClickListener {
 
             if (!isExpand) {
@@ -388,6 +406,7 @@ class AddInfoDetail(val pid : String) : Item<ViewHolder>() {
     }
 }
 
+//show comment title
 class PostCommentTitle : Item<ViewHolder>() {
     override fun bind(p0: ViewHolder, p1: Int) {
 
@@ -402,6 +421,7 @@ class PostCommentRow(private val comment : Comment) : Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
+        //fetch user
         val refUser = FirebaseDatabase.getInstance().getReference("/users/${comment.uid}")
         refUser.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -418,6 +438,7 @@ class PostCommentRow(private val comment : Comment) : Item<ViewHolder>() {
             }
         })
 
+        //set comment and date
         viewHolder.itemView.comment_textView.text = comment.comment
         viewHolder.itemView.comment_date_textView.text = comment.pd
     }
