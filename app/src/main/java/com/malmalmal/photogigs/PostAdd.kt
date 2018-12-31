@@ -89,7 +89,7 @@ class PostAdd : AppCompatActivity() {
     //save post to firebase database
     private fun savePost(imageUrlFireBase : String) {
         val userId = FirebaseAuth.getInstance().uid
-        val sdf = SimpleDateFormat("MMM dd yyyy")
+        val sdf = SimpleDateFormat("dd MMM yyyy")
         val timeStamp = Timestamp(System.currentTimeMillis())
         val date = sdf.format(timeStamp)
         val postId = UUID.randomUUID().toString()

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -22,10 +23,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.profile_edit.*
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.util.*
 
 
+@Suppress("DEPRECATION")
 class ProfileEdit : AppCompatActivity() {
 
 
@@ -85,7 +87,7 @@ class ProfileEdit : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     val user = p0.getValue(User::class.java)
-                    username_textView.setText(user!!.name)
+                    name_textView.setText(user!!.name)
                     aboutInfo = user.about
                     if (user.about.isEmpty()) {
                         about_textView.setText("")
@@ -110,7 +112,11 @@ class ProfileEdit : AppCompatActivity() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data
-            Glide.with(view.context).load(selectedPhotoUri).into(profile_imageView)
+            val iStream = contentResolver.openInputStream(data.data)
+            var selectedImage = BitmapFactory.decodeStream(iStream)
+            selectedImage = getResizedBitmap(selectedImage, 150)
+            Glide.with(view.context).load(selectedImage).into(profile_imageView)
+
         }
     }
 
@@ -131,14 +137,25 @@ class ProfileEdit : AppCompatActivity() {
                 } else {
 
                     profile_progressBar.visibility = View.VISIBLE
-                    val filename = UUID.randomUUID().toString()
-                    val ref = FirebaseStorage.getInstance().getReference("/profileImage/$filename")
+//                    val filename = UUID.randomUUID().toString()
+//                    val iStream = contentResolver.openInputStream(i)
+//                    var selectedImage = BitmapFactory.decodeStream(iStream)
+//                    selectedImage = getResizedBitmap(selectedImage, 150)
+
+
                     val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
-
-
+                    Log.d("IMAGE","asli: ${bitmap.byteCount}")
                     val baos = ByteArrayOutputStream()
+
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos)
                     val data = baos.toByteArray()
+                    val decode = BitmapFactory.decodeStream(ByteArrayInputStream(data))
+                    Log.d("IMAGE","kompres: ${decode.byteCount}")
+
+
+                    val filename = FirebaseAuth.getInstance().uid
+                    val ref = FirebaseStorage.getInstance().getReference("/profileImage/$filename")
+
                     ref.putBytes(data)
                         .addOnSuccessListener {
 
@@ -158,7 +175,7 @@ class ProfileEdit : AppCompatActivity() {
     private fun saveUserInfoToFirebase(piu : String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        if (username_textView.text.isEmpty()) {
+        if (name_textView.text.isEmpty()) {
             Toast.makeText(this, "username, harus diisi", Toast.LENGTH_SHORT).show()
             return
         }
@@ -169,7 +186,7 @@ class ProfileEdit : AppCompatActivity() {
             aboutInfo = about_textView.text.toString()
         }
 
-        val user = User(uid, username_textView.text.toString(), piu, aboutInfo!!)
+        val user = User(uid, name_textView.text.toString(), piu, aboutInfo!!)
         ref.setValue(user)
             .addOnSuccessListener {
                 val intent = Intent(this, ProfileMain::class.java)
@@ -181,4 +198,21 @@ class ProfileEdit : AppCompatActivity() {
                 Log.d("profile save", "error : $it")
             }
     }
+
+    fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
+        var width = image.width
+        var height = image.height
+
+        val bitmapRatio = width.toFloat() / height.toFloat()
+        if (bitmapRatio > 1) {
+            width = maxSize
+            height = (width / bitmapRatio).toInt()
+        } else {
+            height = maxSize
+            width = (height * bitmapRatio).toInt()
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true)
+    }
+
+
 }

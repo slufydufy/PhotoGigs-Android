@@ -20,6 +20,9 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.post_main.*
 import kotlinx.android.synthetic.main.post_main_row.view.*
+import kotlinx.android.synthetic.main.post_main_welcome.view.*
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 
 
 class PostMain : AppCompatActivity() {
@@ -105,6 +108,7 @@ class PostMain : AppCompatActivity() {
                     post_main_recyclerView.adapter = adapter
                     post_progressBar.visibility = View.INVISIBLE
                 }
+                adapter.add(PostMainWelcome())
             }
             override fun onCancelled(p0: DatabaseError) {
             }
@@ -323,5 +327,36 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
     override fun getLayout(): Int {
 
         return R.layout.post_main_row
+    }
+}
+
+class PostMainWelcome : Item<ViewHolder>() {
+    override fun bind(v: ViewHolder, p1: Int) {
+
+        //fetch username
+        val uid = FirebaseAuth.getInstance().uid
+        val refUser = FirebaseDatabase.getInstance().getReference("/users/$uid/name")
+        refUser.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                        val isi = p0.value
+                        v.itemView.name_textView.text ="Hi $isi,"
+                    }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+
+        //get current date
+        val sdf = SimpleDateFormat("dd MMM yyyy")
+        val timeStamp = Timestamp(System.currentTimeMillis())
+        val date = sdf.format(timeStamp)
+        v.itemView.today_tV.text = date
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.post_main_welcome
     }
 }

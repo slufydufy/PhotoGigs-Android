@@ -1,19 +1,15 @@
 package com.malmalmal.photogigs
 
-import android.app.ActionBar
-import android.app.ActionBar.*
 import android.app.ActionBar.LayoutParams.*
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -27,7 +23,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.add_info_detail.*
 import kotlinx.android.synthetic.main.add_info_detail.view.*
 import kotlinx.android.synthetic.main.comment_row.view.*
 import kotlinx.android.synthetic.main.post_detail.*
