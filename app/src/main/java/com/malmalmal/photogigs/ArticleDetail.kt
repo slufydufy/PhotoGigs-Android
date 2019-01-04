@@ -3,6 +3,7 @@ package com.malmalmal.photogigs
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Html
 import com.bumptech.glide.Glide
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -59,8 +60,9 @@ class DetailContent(val content : String) : Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.itemView.okokaja.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
+//        viewHolder.itemView.okokaja.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null)
 
+        viewHolder.itemView.textView7.setText(Html.fromHtml(content))
     }
 
     override fun getLayout(): Int {

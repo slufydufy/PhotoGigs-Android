@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:background="@drawable/rounded_button"
-            android:text="REGISTER"
+            android:text="DAFTAR"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="@+id/password_register"
             app:layout_constraintStart_toStartOf="@+id/password_register"

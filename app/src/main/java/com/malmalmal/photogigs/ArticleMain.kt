@@ -1,5 +1,6 @@
 package com.malmalmal.photogigs
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +24,9 @@ class ArticleMain : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.article_main)
 
+        val actionBar = supportActionBar
+        actionBar!!.hide()
+
         showBottomBar()
 
         val adapter = GroupAdapter<ViewHolder>()
@@ -33,8 +37,9 @@ class ArticleMain : AppCompatActivity() {
         fetchArticle()
 
         floatingActionButtonArticle.setOnClickListener {
-            val intent = Intent(this, PostAdd::class.java)
-            startActivity(intent)
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 0)
         }
     }
 
@@ -46,6 +51,16 @@ class ArticleMain : AppCompatActivity() {
             return true;
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    //    choosen image action
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            val intent = Intent(this, PostAdd::class.java)
+            intent.putExtra("IMAGE", data.data.toString())
+            startActivity(intent)
+        }
     }
 
     private fun fetchArticle() {

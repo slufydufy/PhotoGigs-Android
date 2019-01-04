@@ -21,21 +21,20 @@
             app:layout_constraintEnd_toEndOf="@+id/article_detail_imageView"
             app:layout_constraintStart_toStartOf="@+id/article_detail_imageView"
             app:layout_constraintTop_toTopOf="@+id/article_detail_imageView"/>
+
     <TextView
-            android:text="Subtitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/subtitle_textView"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="@id/article_detail_imageView"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:textColor="@android:color/white"
-            app:fontFamily="@font/basic"/>
+        android:id="@+id/subtitle_textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Subtitle"
+        android:textColor="@android:color/white"
+        app:fontFamily="@font/basic"
+        app:layout_constraintBottom_toBottomOf="@id/article_detail_imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
     <TextView
             android:text="Title"
             android:layout_width="0dp"

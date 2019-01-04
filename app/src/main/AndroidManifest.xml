@@ -65,8 +65,21 @@
                   android:launchMode="singleTop">
         </activity>
 
+        <activity android:name=".UserMain"
+            android:label=""
+            android:launchMode="singleTop">
+        </activity>
+
         <activity android:name=".PostAdd"
-                  android:label="Add Post">
+                  android:launchMode="singleTop"
+                  android:label="Add Post"
+                android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity android:name=".PostDetailEdit"
+            android:launchMode="singleTop"
+            android:label="Edit Post"
+            android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity android:name=".ProfileEdit"
