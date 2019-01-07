@@ -9,6 +9,14 @@
     >
 
 
+    <TextView
+            android:text="Daftar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5" android:textColor="@android:color/white"
+            android:textSize="24sp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="24dp" app:layout_constraintStart_toStartOf="parent"
+    />
     <EditText
             android:id="@+id/username_register"
             android:layout_width="0dp"
@@ -73,13 +81,5 @@
             app:layout_constraintEnd_toEndOf="@+id/password_register"
             app:layout_constraintStart_toStartOf="@+id/password_register"
             app:layout_constraintTop_toBottomOf="@+id/password_register"/>
-    <TextView
-            android:text="Daftar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView5" android:textColor="@android:color/white"
-            android:textSize="24sp" android:layout_marginTop="24dp" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="24dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="24dp"/>
 
 </android.support.constraint.ConstraintLayout>

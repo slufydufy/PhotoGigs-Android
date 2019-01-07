@@ -48,6 +48,7 @@ class PostMain : AppCompatActivity() {
         ll.reverseLayout = true
         ll.stackFromEnd = true
         post_main_recyclerView.layoutManager = ll
+        post_main_recyclerView.addItemDecoration(CustomItemDecoration(20,0,0,0))
         post_main_recyclerView.adapter = adapter
 
         //fetch post
@@ -61,7 +62,7 @@ class PostMain : AppCompatActivity() {
         }
     }
 
-//    choosen image action
+//    choosen image to post
     private var selectedPhotoUri : Uri? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -77,7 +78,7 @@ class PostMain : AppCompatActivity() {
     //back button action
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish()
+
             return true
         }
         return super.onKeyDown(keyCode, event)
@@ -97,7 +98,7 @@ class PostMain : AppCompatActivity() {
     //fetch post
     private fun fetchPost() {
         val adapter = GroupAdapter<ViewHolder>()
-        val ref = FirebaseDatabase.getInstance().getReference("/posts").orderByChild("pd")
+        val ref = FirebaseDatabase.getInstance().getReference("/posts").orderByChild("order")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 p0.children.forEach {
@@ -121,15 +122,18 @@ class PostMain : AppCompatActivity() {
         post_bottomNavigationView.menu.getItem(0).setChecked(true)
         post_bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
+                R.id.bottom_news -> {
+                    val intent = Intent(this, NewsMain::class.java)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
                 R.id.bottom_article -> {
                     val intent = Intent(this, ArticleMain::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.bottom_profile -> {
                     val intent = Intent(this, ProfileMain::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -139,10 +143,10 @@ class PostMain : AppCompatActivity() {
     }
 
     //reload post on loading page
-    override fun onPostResume() {
-        super.onPostResume()
-        fetchPost()
-    }
+//    override fun onPostResume() {
+//        super.onPostResume()
+//        fetchPost()
+//    }
 }
 
 class PostRow(private val post : Post) : Item<ViewHolder>() {
@@ -201,7 +205,7 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
         val uid = FirebaseAuth.getInstance().uid
         val refLikeCount = FirebaseDatabase.getInstance().getReference("/likes/${post.postId}").child(uid!!)
         refLikeCount.keepSynced(true)
-        refLikeCount.addListenerForSingleValueEvent(object : ValueEventListener {
+        refLikeCount.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     viewHolder.itemView.like_imageView.setImageResource(R.drawable.hearts)
@@ -220,7 +224,7 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
             var likeStatus = true
             val uuid = FirebaseAuth.getInstance().uid
             val refLike = FirebaseDatabase.getInstance().getReference("/likes/")
-            refLike.addValueEventListener(object : ValueEventListener {
+            refLike.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     if (likeStatus) {
                         if (p0.child(post.postId).hasChild(uuid!!)) {
@@ -260,8 +264,8 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
 
         //fetch message counter
         val refMessageCounter = FirebaseDatabase.getInstance().getReference("/comments/${post.postId}")
-        refMessageCounter.addListenerForSingleValueEvent(object : ValueEventListener {
-
+        refLikeCount.keepSynced(true)
+        refMessageCounter.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 val total = p0.childrenCount.toString()
                 val inTotal = total.toInt()
@@ -305,7 +309,7 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
         //like counter
         val refLikeCounter = FirebaseDatabase.getInstance().getReference("/likes/${post.postId}")
         refLikeCounter.keepSynced(true)
-        refLikeCounter.addListenerForSingleValueEvent(object : ValueEventListener {
+        refLikeCounter.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 val total = p0.childrenCount.toString()
                 val inTotal = total.toInt()

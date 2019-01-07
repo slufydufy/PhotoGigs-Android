@@ -8,153 +8,237 @@
     android:background="#000000">
 
     <TextView
-        android:id="@+id/addInfo_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:gravity="left"
-        android:text="Info Tambahan"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/addInfo_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:gravity="left"
+            android:text="Info Tambahan"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" android:textSize="18sp"/>
 
     <ImageView
-        android:id="@+id/addInfo_imageView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/addInfo_textView"
-        app:layout_constraintStart_toEndOf="@+id/addInfo_textView"
-        app:layout_constraintTop_toTopOf="@+id/addInfo_textView"
-        app:srcCompat="@drawable/baseline_keyboard_arrow_down_white_24dp" />
+            android:id="@+id/addInfo_imageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/addInfo_textView"
+            app:layout_constraintStart_toEndOf="@+id/addInfo_textView"
+            app:layout_constraintTop_toTopOf="@+id/addInfo_textView"
+            app:srcCompat="@drawable/baseline_keyboard_arrow_up_white_24dp"/>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/addInfo_cons"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addInfo_textView">
-
-        <TextView
-            android:id="@+id/textView"
+            android:id="@+id/addInfo_cons"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:text="Kamera"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/kamera_textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/addInfo_textView">
 
         <View
-            android:id="@+id/view4"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:background="#202020"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/kamera_textView"
-            app:layout_constraintTop_toBottomOf="@+id/kamera_textView" />
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:id="@+id/view2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/lokasi_textView"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+        <ImageView
+                android:layout_width="32dp"
+                android:layout_height="38dp" app:srcCompat="@drawable/cameratype"
+                android:id="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="@+id/textView"
+                app:layout_constraintBottom_toBottomOf="@+id/kamera_textView"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"/>
+        <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Kamera"
+                android:textColor="#00FF90"
+                android:textSize="10sp"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toEndOf="@+id/imageView3"
+                android:layout_marginStart="8dp" android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/view2" android:layout_marginTop="16dp"/>
 
         <TextView
-            android:id="@+id/textView9"
-            android:layout_width="0dp"
-            android:layout_height="11dp"
-            android:layout_marginTop="8dp"
-            android:text="Lensa"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="@+id/kamera_textView"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/kamera_textView"
-            app:layout_constraintTop_toBottomOf="@+id/view4" />
+                android:id="@+id/kamera_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView"/>
+
+        <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp" app:srcCompat="@drawable/flash"
+                android:id="@+id/imageView4"
+                app:layout_constraintStart_toStartOf="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="@+id/textView9"
+                app:layout_constraintBottom_toBottomOf="@+id/lensa_textView"/>
+        <TextView
+                android:id="@+id/textView9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Lensa"
+                android:textColor="#00FF90"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="@+id/kamera_textView"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/view2" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/kamera_textView"/>
 
         <TextView
-            android:id="@+id/lensa_textView"
-            android:layout_width="0dp"
-            android:layout_height="17dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView9"
-            app:layout_constraintStart_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                android:id="@+id/lensa_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView9"
+                app:layout_constraintStart_toStartOf="@+id/textView9"
+                app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView9"/>
 
-        <View
-            android:id="@+id/view5"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:background="#202020"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/lensa_textView"
-            app:layout_constraintTop_toBottomOf="@+id/lensa_textView" />
+        <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp" app:srcCompat="@drawable/diafragma"
+                android:id="@+id/imageView5"
+                app:layout_constraintStart_toStartOf="@+id/imageView4"
+                app:layout_constraintBottom_toBottomOf="@+id/lokasi_textView"
+                app:layout_constraintTop_toTopOf="@+id/textView10"/>
+        <TextView
+                android:id="@+id/textView10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Lokasi"
+                android:textColor="#00FF90"
+                android:textSize="10sp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/lensa_textView"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toStartOf="@+id/view2" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/lensa_textView"/>
 
         <TextView
-            android:id="@+id/textView10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Lokasi"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="@+id/lensa_textView"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/lensa_textView"
-            app:layout_constraintTop_toBottomOf="@+id/view5" />
-
+                android:id="@+id/lokasi_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/textView10"
+                app:layout_constraintEnd_toEndOf="@+id/textView10"
+                app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView10" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp" app:srcCompat="@drawable/diafragma"
+                android:id="@+id/imageView6" app:layout_constraintStart_toEndOf="@+id/view2"
+                app:layout_constraintTop_toTopOf="@+id/textView11"
+                app:layout_constraintBottom_toBottomOf="@+id/kamera_textView2" android:layout_marginStart="32dp"/>
         <TextView
-            android:id="@+id/lokasi_textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView10"
-            app:layout_constraintStart_toStartOf="@+id/textView10"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                android:id="@+id/textView11"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Diafragma"
+                android:textColor="#00FF90"
+                android:textSize="10sp"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp" android:layout_marginTop="16dp"/>
+        <TextView
+                android:id="@+id/kamera_textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
 
-        <View
-            android:id="@+id/view6"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="2dp"
-            android:background="#202020"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/lokasi_textView"
-            app:layout_constraintTop_toBottomOf="@+id/lokasi_textView" />
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView11"
+                app:layout_constraintStart_toStartOf="@+id/textView11"
+                app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView11"/>
+        <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp" app:srcCompat="@drawable/iso"
+                android:id="@+id/imageView7"
+                app:layout_constraintStart_toStartOf="@+id/imageView6"
+                app:layout_constraintTop_toTopOf="@+id/textView12"
+                app:layout_constraintBottom_toBottomOf="@+id/kamera_textView3"/>
+        <TextView
+                android:id="@+id/textView12"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="ISO"
+                android:textColor="#00FF90"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView7"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/kamera_textView2"/>
+        <TextView
+                android:id="@+id/kamera_textView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView12"
+                app:layout_constraintStart_toStartOf="@+id/textView12"
+                app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView12"/>
+        <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp" app:srcCompat="@drawable/speed"
+                android:id="@+id/imageView8"
+                app:layout_constraintTop_toTopOf="@+id/textView13"
+                app:layout_constraintBottom_toBottomOf="@+id/kamera_textView4"
+                app:layout_constraintStart_toStartOf="@+id/imageView7"/>
+        <TextView
+                android:id="@+id/textView13"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Speed"
+                android:textColor="#00FF90"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView8"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/kamera_textView3"/>
+        <TextView
+                android:id="@+id/kamera_textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView13"
+                app:layout_constraintStart_toStartOf="@+id/textView13"
+                app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView13"/>
 
     </android.support.constraint.ConstraintLayout>
 

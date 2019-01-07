@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -16,15 +18,17 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.common.util.DataUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.profile_edit.*
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
+import java.io.*
+import java.net.URI
 
 
 @Suppress("DEPRECATION")
@@ -78,6 +82,7 @@ class ProfileEdit : AppCompatActivity() {
     //fetch user info
     var profileImageData : String? = ""
     var aboutInfo : String? = ""
+    var selectedPhoto : Bitmap? = null
 
     private fun fetchUser() {
         val uuid = FirebaseAuth.getInstance().uid
@@ -112,12 +117,80 @@ class ProfileEdit : AppCompatActivity() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data
+
+            val file = File(data.data.path)
+            decode(file)
             val iStream = contentResolver.openInputStream(data.data)
             var selectedImage = BitmapFactory.decodeStream(iStream)
             selectedImage = getResizedBitmap(selectedImage, 150)
+//
+//            val okokok = data.data
+//
+//            val column = arrayOf(MediaStore.Images.Media.ORIENTATION)
+//            val cursor = this.contentResolver.query(okokok, column, null, null)
+//            if (cursor != null) {
+//                cursor.moveToFirst()
+//                val colIn = cursor.getColumnIndex((column[0]))
+//                val orien = cursor.getInt(colIn)
+//                Log.d("EXIF", "nih: $orien")
+//                Log.d("EXIF", "nih: $orien")
+
+            val oldEx = ExifInterface(data.data.path)
+            val exData = oldEx.getAttribute(ExifInterface.TAG_ORIENTATION)
+            Log.d("EXIFDATA", "nih: $exData")
+            Log.d("EXIFDATA", "nih: $exData")
             Glide.with(view.context).load(selectedImage).into(profile_imageView)
 
         }
+
+
+//            Glide.with(view.context).load(selectedImage).into(profile_imageView)
+
+
+
+
+//        }
+    }
+
+    fun decode(file : File) : Bitmap? {
+        try {
+            val bitmapOption = BitmapFactory.Options()
+            bitmapOption.inJustDecodeBounds = true
+            BitmapFactory.decodeStream(FileInputStream(file), null, bitmapOption)
+            val displaymetric = applicationContext.resources.displayMetrics
+
+            val scaleW = bitmapOption.outWidth / displaymetric.widthPixels
+            val scaleH = bitmapOption.outHeight / displaymetric.heightPixels
+            val scale = Math.max(scaleW, scaleH)
+
+            val bitmapOptions = BitmapFactory.Options()
+            bitmapOptions.inSampleSize = scale
+            selectedPhoto = BitmapFactory.decodeStream(FileInputStream(file), null, bitmapOptions)
+            try {
+                val exif = ExifInterface(file.absolutePath)
+                val rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+                if (rotation > 0) {
+                    selectedPhoto = convertBitmapToCorrectOrientation(selectedPhoto!!, rotation)
+                }
+                Glide.with(view.context).load(selectedPhoto).into(profile_imageView)
+            } catch (e : IOException) {
+                e.printStackTrace()
+            }
+            return selectedPhoto!!
+        } catch (filenotfound : FileNotFoundException) {
+            filenotfound.printStackTrace()
+        }
+        return null
+    }
+
+    fun convertBitmapToCorrectOrientation(photo : Bitmap, rotation : Int ) : Bitmap {
+        var width = photo.width
+        var height = photo.height
+
+        var matrix = Matrix()
+        matrix.preRotate(rotation.toFloat())
+
+        return Bitmap.createBitmap(photo, 0, 0, width, height, matrix, false)
     }
 
     //enable save button action bar
@@ -143,20 +216,22 @@ class ProfileEdit : AppCompatActivity() {
 //                    selectedImage = getResizedBitmap(selectedImage, 150)
 
 
+
+
                     val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
                     Log.d("IMAGE","asli: ${bitmap.byteCount}")
                     val baos = ByteArrayOutputStream()
-
+//
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos)
                     val data = baos.toByteArray()
-                    val decode = BitmapFactory.decodeStream(ByteArrayInputStream(data))
-                    Log.d("IMAGE","kompres: ${decode.byteCount}")
-
+                    //val decode = BitmapFactory.decodeStream(ByteArrayInputStream(data))
+ //                   Log.d("IMAGE","kompres: ${decode.byteCount}")
+////                    val e = ExifInterface()
 
                     val filename = FirebaseAuth.getInstance().uid
                     val ref = FirebaseStorage.getInstance().getReference("/profileImage/$filename")
 
-                    ref.putBytes(data)
+                    ref.putFile(selectedPhotoUri!!)
                         .addOnSuccessListener {
 
                             //get image url from firebase

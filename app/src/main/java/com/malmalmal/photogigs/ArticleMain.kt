@@ -46,7 +46,6 @@ class ArticleMain : AppCompatActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             val intent = Intent(this, PostMain::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             return true;
         }
@@ -88,12 +87,16 @@ class ArticleMain : AppCompatActivity() {
 
     fun showBottomBar() {
         article_bottomNavigationView.itemIconTintList = null
-        this.article_bottomNavigationView.menu.getItem(1).setChecked(true)
+        this.article_bottomNavigationView.menu.getItem(2).setChecked(true)
         article_bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottom_home -> {
                     val intent = Intent(this, PostMain::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bottom_news -> {
+                    val intent = Intent(this, NewsMain::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }

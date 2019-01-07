@@ -105,7 +105,7 @@ class UserMainBottom(val id : String) : Item<ViewHolder>() {
         //set recyclerView layout
         val rV = v.itemView.profile_main_bottom_recycleView
         rV.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        rV.addItemDecoration(CustomItemDecoration(5,5))
+        rV.addItemDecoration(CustomItemDecoration(5,5,5,5))
 
         //fetch post and add item to recyclerView
         val adapter = GroupAdapter<ViewHolder>()

@@ -91,12 +91,14 @@ class PostAdd : AppCompatActivity() {
         val userId = FirebaseAuth.getInstance().uid
         val sdf = SimpleDateFormat("dd MMM yyyy")
         val timeStamp = Timestamp(System.currentTimeMillis())
+        val order = timeStamp.toString()
+        Log.d("ORDER", "suksess $timeStamp")
         val date = sdf.format(timeStamp)
         val postId = UUID.randomUUID().toString()
         val ca = findViewById<EditText>(R.id.caption_textView)
         val captionText = ca.text.toString()
         val postRef = FirebaseDatabase.getInstance().getReference("/posts/$postId")
-        val post = Post(postId,date,imageUrlFireBase,captionText,userId!!)
+        val post = Post(postId,date,imageUrlFireBase,captionText,userId!!,order)
         postRef.setValue(post)
             .addOnSuccessListener {
                 Log.d("add post", "suksess $it")
@@ -147,39 +149,39 @@ class PostAddTop(private val uri : Uri) : Item<ViewHolder>() {
 class InfoTambahan : Item<ViewHolder>() /*,ExpandableItem*/ {
     override fun bind(p0: ViewHolder, p1: Int) {
 
-        //hide additional info on create
         val c = p0.itemView.post_add_cons
-        c.layoutParams.height = 0
-        var isExpanded = false
+        var isExpanded = true
 
         //show - hide additional Info
         p0.itemView.expandable_textView.setOnClickListener {
-            if (!isExpanded) {
+            if (isExpanded) {
+                c.requestLayout()
+                c.layoutParams.height = 0
+                isExpanded = false
+                p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
+
+            } else {
                 c.requestLayout()
                 val h = WRAP_CONTENT
                 c.layoutParams.height = h
                 isExpanded = true
                 p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_up_white_24dp)
-            } else {
-                c.requestLayout()
-                c.layoutParams.height = 0
-                isExpanded = false
-                p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
             }
         }
 
         p0.itemView.expand_imageView.setOnClickListener {
-            if (!isExpanded) {
+            if (isExpanded) {
+                c.requestLayout()
+                c.layoutParams.height = 0
+                isExpanded = false
+                p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
+
+            } else {
                 c.requestLayout()
                 val h = WRAP_CONTENT
                 c.layoutParams.height = h
                 isExpanded = true
                 p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_up_white_24dp)
-            } else {
-                c.requestLayout()
-                c.layoutParams.height = 0
-                isExpanded = false
-                p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
             }
         }
     }

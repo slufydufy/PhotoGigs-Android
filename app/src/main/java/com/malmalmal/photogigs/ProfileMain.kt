@@ -49,7 +49,6 @@ class ProfileMain : AppCompatActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             val intent = Intent(this, PostMain::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             return true;
         }
@@ -67,12 +66,16 @@ class ProfileMain : AppCompatActivity() {
 
     private fun showBottomBar() {
         profile_main__bottomNavigationView.itemIconTintList = null
-        profile_main__bottomNavigationView.menu.getItem(2).setChecked(true)
+        profile_main__bottomNavigationView.menu.getItem(3).setChecked(true)
         profile_main__bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottom_home -> {
                     val intent = Intent(this, PostMain::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.bottom_news -> {
+                    val intent = Intent(this, NewsMain::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -132,7 +135,7 @@ class ProfileMainBottom : Item<ViewHolder>() {
 
         val rV = viewHolder.itemView.profile_main_bottom_recycleView
         rV.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        rV.addItemDecoration(CustomItemDecoration(5,5))
+        rV.addItemDecoration(CustomItemDecoration(5,5,5,5))
 
         val uuid = FirebaseAuth.getInstance().uid
         val adapter = GroupAdapter<ViewHolder>()

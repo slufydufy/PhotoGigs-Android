@@ -45,12 +45,17 @@
                        android:value=".MainLogin"/>
         </activity>
 
-        <activity android:name=".ArticleMain"
+        <activity android:name=".NewsMain"
                   android:label=""
                   android:launchMode="singleTop"
                   android:theme="@style/noTransition">
         </activity>
 
+        <activity android:name=".ArticleMain"
+                  android:label=""
+                  android:launchMode="singleTop"
+                  android:theme="@style/noTransition">
+        </activity>
 
         <activity android:name=".ArticleDetail"
                   android:launchMode="singleTop"

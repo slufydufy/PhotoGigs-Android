@@ -171,7 +171,7 @@ class PostDetail : AppCompatActivity() {
         }
         val uuid = FirebaseAuth.getInstance().uid
         val commentId = UUID.randomUUID().toString()
-        val sdf = SimpleDateFormat("MMM dd yyyy")
+        val sdf = SimpleDateFormat("dd MMM yyyy")
         val timeStamp = Timestamp(System.currentTimeMillis())
         val date = sdf.format(timeStamp)
         val commentText = commentAdd_text.text.toString()
@@ -346,20 +346,19 @@ class AddInfoDetail(val pid : String) : Item<ViewHolder>() {
     override fun bind(v: ViewHolder, p1: Int) {
 
         val c = v.itemView.addInfo_cons
-        c.layoutParams.height = 0
-        var isExpand = false
+        var isExpand = true
         v.itemView.addInfo_textView.setOnClickListener {
-            if (!isExpand) {
+            if (isExpand) {
+                c.requestLayout()
+                c.layoutParams.height = 0
+                isExpand = false
+                v.itemView.addInfo_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
+            } else {
                 c.requestLayout()
                 val h = WRAP_CONTENT
                 c.layoutParams.height = h
                 isExpand = true
                 v.itemView.addInfo_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_up_white_24dp)
-            } else {
-                c.requestLayout()
-                c.layoutParams.height = 0
-                isExpand = false
-                v.itemView.addInfo_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
             }
         }
         v.itemView.addInfo_imageView.setOnClickListener {
