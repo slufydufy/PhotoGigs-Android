@@ -35,7 +35,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/imageView15"
             android:textColor="@android:color/darker_gray"/>
     <TextView
-            android:text="The photos not showing when viewing user from android, and the user photo from their device (ios) has dissapeared, probably service issue. The photos not showing when viewing user from android, and the user photo from their device (ios) has dissapeared, probably service issue."
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/textView18"
