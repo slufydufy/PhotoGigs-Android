@@ -74,7 +74,7 @@ class PostDetailEdit : AppCompatActivity() {
                 val kamera = k.text.toString()
                 val l = findViewById<EditText>(R.id.lensa_editText)
                 val lensa = l.text.toString()
-                val lok = findViewById<EditText>(R.id.lokasi_editText)
+                val lok = findViewById<EditText>(R.id.flash_editText)
                 val lokasi = lok.text.toString()
                 val infoRef = FirebaseDatabase.getInstance().getReference("/addInfo/$ppid")
                 infoRef.child("kamera").setValue(kamera)
@@ -133,7 +133,10 @@ class PostDetailEditInfo(private val pid: String) : Item<ViewHolder>() {
                     val addInfo = p0.getValue(AddInfo::class.java)
                     v.itemView.kamera_editText.setText(addInfo!!.kamera)
                     v.itemView.lensa_editText.setText(addInfo.lensa)
-                    v.itemView.lokasi_editText.setText(addInfo.lokasi)
+                    v.itemView.flash_editText.setText(addInfo.flash)
+                    v.itemView.diafragma_editText.setText(addInfo.diafragma)
+                    v.itemView.iso_editText.setText(addInfo.iso)
+                    v.itemView.speed_editText.setText(addInfo.speed)
                 }
             }
 
@@ -143,21 +146,20 @@ class PostDetailEditInfo(private val pid: String) : Item<ViewHolder>() {
         })
 
         val c = v.itemView.post_add_cons
-        c.layoutParams.height = 0
-        var isExpanded = false
+        var isExpanded = true
         v.itemView.expand_imageView.setOnClickListener {
 
-            if (!isExpanded) {
+            if (isExpanded) {
+                c.requestLayout()
+                c.layoutParams.height = 0
+                isExpanded = false
+                v.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
+            } else {
                 c.requestLayout()
                 val h = ActionBar.LayoutParams.WRAP_CONTENT
                 c.layoutParams.height = h
                 isExpanded = true
                 v.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_up_white_24dp)
-            } else {
-                c.requestLayout()
-                c.layoutParams.height = 0
-                isExpanded = false
-                v.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
             }
 
         }

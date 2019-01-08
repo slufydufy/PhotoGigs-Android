@@ -24,6 +24,7 @@ class NewsMain : AppCompatActivity() {
         adapter.add(NewsMainRow())
 
         newsMain_recyclerView.layoutManager = LinearLayoutManager(this)
+        newsMain_recyclerView.addItemDecoration(CustomItemDecoration(0,20,0,0))
         newsMain_recyclerView.adapter = adapter
 
 

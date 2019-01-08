@@ -7,34 +7,34 @@
                                              android:background="#000000">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_post_detail"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/commentAdd_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/recyclerView_post_detail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/commentAdd_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="#000000"/>
 
     <EditText
-        android:id="@+id/commentAdd_text"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/rounded_white_textview"
-        android:ems="10"
-        android:hint="berikan komentar positif"
-        android:inputType="text"
-        android:paddingLeft="20dp"
-        android:singleLine="true"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/comment_send_button"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/commentAdd_text"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_white_textview"
+            android:ems="10"
+            android:hint="berikan komentar positif"
+            android:inputType="text"
+            android:paddingLeft="20dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/comment_send_button"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
         android:id="@+id/comment_send_button"

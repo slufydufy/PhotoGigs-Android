@@ -4,6 +4,7 @@ import android.app.ActionBar.LayoutParams.*
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -54,6 +55,7 @@ class PostDetail : AppCompatActivity() {
         adapter.add(PostCommentTitle())
 
         recyclerView_post_detail.layoutManager = LinearLayoutManager(this)
+        recyclerView_post_detail.addItemDecoration(CustomItemDecoration(0,20,0,0))
         recyclerView_post_detail.adapter = adapter
 
         fetchComment(pid,uid)
@@ -200,13 +202,13 @@ class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
+        viewHolder.itemView.postMainRow_cons.setBackgroundColor(Color.parseColor("#000000"))
         likeTv = viewHolder.itemView.like_counter_textView
 
         likeCounter()
 
-        //hide comment image and detail image
+        //hide comment image
         viewHolder.itemView.comment_imageView.visibility = View.INVISIBLE
-        viewHolder.itemView.detail_imageView.visibility = View.INVISIBLE
 
         //fetch user
         val refUser = FirebaseDatabase.getInstance().getReference("/users/$userId")
@@ -385,7 +387,10 @@ class AddInfoDetail(val pid : String) : Item<ViewHolder>() {
                     val addInfo = p0.getValue(AddInfo::class.java)
                     v.itemView.kamera_textView.text = addInfo!!.kamera
                     v.itemView.lensa_textView.text = addInfo.lensa
-                    v.itemView.lokasi_textView.text = addInfo.lokasi
+                    v.itemView.flash_textView.text = addInfo.flash
+                    v.itemView.diafragma_textView.text = addInfo.diafragma
+                    v.itemView.iso_textView.text = addInfo.iso
+                    v.itemView.speed_textView.text = addInfo.speed
                 }
             }
 

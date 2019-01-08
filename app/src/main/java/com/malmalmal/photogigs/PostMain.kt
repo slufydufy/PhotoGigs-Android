@@ -48,7 +48,7 @@ class PostMain : AppCompatActivity() {
         ll.reverseLayout = true
         ll.stackFromEnd = true
         post_main_recyclerView.layoutManager = ll
-        post_main_recyclerView.addItemDecoration(CustomItemDecoration(20,0,0,0))
+        post_main_recyclerView.addItemDecoration(CustomItemDecoration(0,20,0,0))
         post_main_recyclerView.adapter = adapter
 
         //fetch post
@@ -257,8 +257,9 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
         Glide.with(postImage.context).applyDefaultRequestOptions(ro).load(post.imageUrl).into(postImage)
 
         postImage.setOnClickListener {
-            val intent = Intent(it.context, ImageFullscreen::class.java)
-            intent.putExtra("IMAGE", post.imageUrl)
+            val intent = Intent(it.context, PostDetail::class.java)
+            intent.putExtra("POST", post.postId)
+            intent.putExtra("USER", post.uuid)
             it.context.startActivity(intent)
         }
 
@@ -291,13 +292,6 @@ class PostRow(private val post : Post) : Item<ViewHolder>() {
         }
 
         viewHolder.itemView.comment_counter_textView.setOnClickListener {
-            val intent = Intent(it.context, PostDetail::class.java)
-            intent.putExtra("POST", post.postId)
-            intent.putExtra("USER", post.uuid)
-            it.context.startActivity(intent)
-        }
-
-        viewHolder.itemView.detail_imageView.setOnClickListener {
             val intent = Intent(it.context, PostDetail::class.java)
             intent.putExtra("POST", post.postId)
             intent.putExtra("USER", post.uuid)
