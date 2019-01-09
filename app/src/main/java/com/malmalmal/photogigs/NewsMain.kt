@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.KeyEvent
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -20,14 +25,12 @@ class NewsMain : AppCompatActivity() {
 
         val adapter = GroupAdapter<ViewHolder>()
 
-        adapter.add(NewsMainRow())
-        adapter.add(NewsMainRow())
 
         newsMain_recyclerView.layoutManager = LinearLayoutManager(this)
         newsMain_recyclerView.addItemDecoration(CustomItemDecoration(0,20,0,0))
         newsMain_recyclerView.adapter = adapter
 
-
+        fetchEvent()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -38,6 +41,28 @@ class NewsMain : AppCompatActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
+
+    fun fetchEvent() {
+        val adapter = GroupAdapter<ViewHolder>()
+        val refEvent = FirebaseDatabase.getInstance().getReference("/events")
+            refEvent.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    p0.children.forEach {
+                        val event = it.getValue(Events::class.java)
+                        if (event != null) {
+                            adapter.add(NewsMainRow(event))
+                        }
+                        newsMain_recyclerView.adapter = adapter
+
+                    }
+                }
+
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+            })
+    }
+
 
     //show bottom bar view
     private fun showBottomBar() {
@@ -67,7 +92,7 @@ class NewsMain : AppCompatActivity() {
 
 }
 
-class NewsMainRow : Item<ViewHolder>() {
+class NewsMainRow(val event : Events) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val adapter = GroupAdapter<ViewHolder>()
         val rv = viewHolder.itemView.newsMain_row_pp_recyclerView
@@ -77,6 +102,8 @@ class NewsMainRow : Item<ViewHolder>() {
         adapter.add(PpOnly())
         adapter.add(PpOnly())
         rv.adapter = adapter
+        val img = viewHolder.itemView.imageView14
+        
     }
 
     override fun getLayout(): Int {
