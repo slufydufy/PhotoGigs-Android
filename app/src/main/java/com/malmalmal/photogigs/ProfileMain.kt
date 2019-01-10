@@ -75,7 +75,7 @@ class ProfileMain : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.bottom_news -> {
-                    val intent = Intent(this, NewsMain::class.java)
+                    val intent = Intent(this, EventsMain::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -135,7 +135,7 @@ class ProfileMainBottom : Item<ViewHolder>() {
 
         val rV = viewHolder.itemView.profile_main_bottom_recycleView
         rV.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        rV.addItemDecoration(CustomItemDecoration(5,5,5,5))
+        rV.addItemDecoration(CustomItemDecoration(0,20,10,10))
 
         val uuid = FirebaseAuth.getInstance().uid
         val adapter = GroupAdapter<ViewHolder>()

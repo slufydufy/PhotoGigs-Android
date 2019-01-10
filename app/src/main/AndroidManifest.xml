@@ -45,7 +45,7 @@
                        android:value=".MainLogin"/>
         </activity>
 
-        <activity android:name=".NewsMain"
+        <activity android:name=".EventsMain"
                   android:label=""
                   android:launchMode="singleTop"
                   android:theme="@style/noTransition">

@@ -92,7 +92,6 @@ class PostAdd : AppCompatActivity() {
         val sdf = SimpleDateFormat("dd MMM yyyy")
         val timeStamp = Timestamp(System.currentTimeMillis())
         val order = timeStamp.toString()
-        Log.d("ORDER", "suksess $timeStamp")
         val date = sdf.format(timeStamp)
         val postId = UUID.randomUUID().toString()
         val ca = findViewById<EditText>(R.id.caption_textView)

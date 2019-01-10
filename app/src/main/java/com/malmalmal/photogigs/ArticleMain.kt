@@ -96,7 +96,7 @@ class ArticleMain : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.bottom_news -> {
-                    val intent = Intent(this, NewsMain::class.java)
+                    val intent = Intent(this, EventsMain::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }

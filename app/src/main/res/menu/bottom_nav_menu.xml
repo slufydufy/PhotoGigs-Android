@@ -3,19 +3,19 @@
 
     <item android:id="@+id/bottom_home"
           android:icon="@drawable/selector_home"
-          android:title="Home"
+          android:title="PG"
           />
 
     <item android:id="@+id/bottom_news"
           android:icon="@drawable/selector_news"
-          android:title="Update"/>
+          android:title="Terbaru"/>
 
     <item android:id="@+id/bottom_article"
           android:icon="@drawable/selector_article"
-          android:title="Article"/>
+          android:title="Misi"/>
 
     <item android:id="@+id/bottom_profile"
           android:icon="@drawable/selector_profile"
-          android:title="Profile"/>
+          android:title="Profil"/>
 
 </menu>
