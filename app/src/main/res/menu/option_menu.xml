@@ -7,5 +7,5 @@
         android:title="edit" />
     <item
         android:id="@+id/delete_menu"
-        android:title="hapus" />
+        android:title="delete" />
 </menu>

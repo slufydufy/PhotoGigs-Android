@@ -31,7 +31,7 @@ import java.io.*
 import java.net.URI
 
 
-@Suppress("DEPRECATION")
+
 class ProfileEdit : AppCompatActivity() {
 
 
@@ -59,10 +59,10 @@ class ProfileEdit : AppCompatActivity() {
     private fun signOutDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Sign Out")
-        builder.setMessage("Apakah anda ingin keluar ?")
+        builder.setMessage("Are you sure want to sign out ?")
         builder.setCancelable(true)
         builder.setPositiveButton(
-            "Ya"
+            "Yes"
         ) { dialog, which ->
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(this, MainLogin::class.java)
@@ -70,7 +70,7 @@ class ProfileEdit : AppCompatActivity() {
             startActivity(intent)
         }
         builder.setNeutralButton(
-            "Tidak"
+            "Cancel"
         ) {dialog, which ->
             return@setNeutralButton
         }
@@ -142,14 +142,6 @@ class ProfileEdit : AppCompatActivity() {
             Glide.with(view.context).load(selectedImage).into(profile_imageView)
 
         }
-
-
-//            Glide.with(view.context).load(selectedImage).into(profile_imageView)
-
-
-
-
-//        }
     }
 
     fun decode(file : File) : Bitmap? {
@@ -203,7 +195,7 @@ class ProfileEdit : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when (item?.itemId) {
-            R.id.menu_save_profile -> {
+            R.id.menu_save -> {
                 if (selectedPhotoUri == null) {
 
                     saveUserInfoToFirebase(profileImageData!!)

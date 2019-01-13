@@ -32,8 +32,8 @@ class PostMain : AppCompatActivity() {
         setContentView(R.layout.post_main)
 
         //hide action bar
-        val actionBar = supportActionBar
-        actionBar!!.hide()
+//        val actionBar = supportActionBar
+//        actionBar!!.hide()
 
         //check if user login, else log out
         checkUserLogin()
@@ -128,7 +128,7 @@ class PostMain : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.bottom_article -> {
-                    val intent = Intent(this, ArticleMain::class.java)
+                    val intent = Intent(this, MissionMain::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }

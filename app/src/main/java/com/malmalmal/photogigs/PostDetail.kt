@@ -100,11 +100,11 @@ class PostDetail : AppCompatActivity() {
     //delete post Dialog
     private fun deletePost(dpid: String) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Hapus Post")
-        builder.setMessage("Hapus post ini ?")
+        builder.setTitle("Delete Post")
+        builder.setMessage("Are you sure want to delete this post ?")
         builder.setCancelable(true)
         builder.setPositiveButton(
-                "Ya"
+                "Yes"
         ) {dialog, which ->
             val refPost = FirebaseDatabase.getInstance().getReference("/posts/")
             val refImage = FirebaseStorage.getInstance()
@@ -134,7 +134,7 @@ class PostDetail : AppCompatActivity() {
             startActivity(intent)
         }
         builder.setNeutralButton(
-                "Tidak"
+                "Cancel"
         ) {dialog, which ->
             return@setNeutralButton
         }

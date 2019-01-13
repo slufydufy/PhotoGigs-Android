@@ -16,6 +16,7 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.event_main.*
 import kotlinx.android.synthetic.main.event_main_row.view.*
+import java.text.SimpleDateFormat
 
 class EventsMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,10 +26,12 @@ class EventsMain : AppCompatActivity() {
         showBottomBar()
 
         val adapter = GroupAdapter<ViewHolder>()
-
-
-        newsMain_recyclerView.layoutManager = LinearLayoutManager(this)
-        newsMain_recyclerView.addItemDecoration(CustomItemDecoration(0,20,0,0))
+        val ll = LinearLayoutManager(this)
+        //reverse post order
+        ll.reverseLayout = true
+        ll.stackFromEnd = true
+        newsMain_recyclerView.layoutManager = ll
+        newsMain_recyclerView.addItemDecoration(CustomItemDecoration(0,5,0,0))
         newsMain_recyclerView.adapter = adapter
 
         fetchEvent()
@@ -45,11 +48,11 @@ class EventsMain : AppCompatActivity() {
 
     fun fetchEvent() {
         val adapter = GroupAdapter<ViewHolder>()
-        val refEvent = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/eventArtikel/en-US")
+        val refEvent = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/eventArtikel/en-US").orderByChild("sdate")
             refEvent.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(p0: DataSnapshot) {
                     p0.children.forEach {
-                        val event = it.getValue(Event::class.java)
+                        val event = it.getValue(Eventm::class.java)
                         if (event != null) {
                             adapter.add(EventsMainRow(event))
                         }
@@ -77,7 +80,7 @@ class EventsMain : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.bottom_article -> {
-                    val intent = Intent(this, ArticleMain::class.java)
+                    val intent = Intent(this, MissionMain::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }
@@ -93,27 +96,33 @@ class EventsMain : AppCompatActivity() {
 
 }
 
-class EventsMainRow(val event : Event) : Item<ViewHolder>() {
+class EventsMainRow(val eventm : Eventm) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
-        //set main image
-        val mainImg = viewHolder.itemView.main_imageView
-        val ro = RequestOptions().placeholder(R.drawable.placeholder1)
-        Glide.with(mainImg.context).applyDefaultRequestOptions(ro).load(event.img).into(mainImg)
 
-        viewHolder.itemView.pdate_textView.text = event.sdate
-        viewHolder.itemView.eventTitle_textView.text = event.etitle
+        //parse and format post date
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val date = sdf.parse(eventm.sdate)
+        val dateform = SimpleDateFormat("dd")
+        val monthform = SimpleDateFormat("MMMM")
+        val day = dateform.format(date)
+        val month = monthform.format(date)
 
-        //create pp recyclerView
-        val adapter = GroupAdapter<ViewHolder>()
-        val rv = viewHolder.itemView.newsMain_row_pp_recyclerView
-        rv.layoutManager = LinearLayoutManager(rv.context, LinearLayoutManager.HORIZONTAL, false)
-        rv.addItemDecoration(CustomItemDecoration(0,0,8,8))
-        adapter.add(PpOnly())
-        adapter.add(PpOnly())
-        adapter.add(PpOnly())
-        rv.adapter = adapter
-        val img = viewHolder.itemView.main_imageView
+        //set value
+        viewHolder.itemView.pdate_textView.text = day
+        viewHolder.itemView.month_textView.text = month
+        viewHolder.itemView.eventTitle_textView.text = eventm.etitle
+        viewHolder.itemView.lokasi_textView.text = eventm.lok
 
+//        val img = viewHolder.itemView.banner_imageView
+//        val ro = RequestOptions().placeholder(R.drawable.placeholder1)
+//        Glide.with(img.context).applyDefaultRequestOptions(ro).load(eventm.img).into(img)
+
+        val card = viewHolder.itemView.event_row_card
+        card.setOnClickListener {
+            val intent = Intent(card.context, EventDetail::class.java)
+            intent.putExtra("EVENT", eventm.id.toString())
+            it.context.startActivity(intent)
+        }
     }
 
     override fun getLayout(): Int {
@@ -121,12 +130,3 @@ class EventsMainRow(val event : Event) : Item<ViewHolder>() {
     }
 }
 
-class PpOnly : Item<ViewHolder>() {
-    override fun bind(viewHolder: ViewHolder, position: Int) {
-
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.pp_only
-    }
-}
