@@ -80,7 +80,7 @@ class ProfileMain : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.bottom_article -> {
-                    val intent = Intent(this, ArticleMain::class.java)
+                    val intent = Intent(this, MissionMain::class.java)
                     startActivity(intent)
                     return@setOnNavigationItemSelectedListener true
                 }

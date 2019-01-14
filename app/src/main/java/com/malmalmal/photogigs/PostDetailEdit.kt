@@ -55,7 +55,7 @@ class PostDetailEdit : AppCompatActivity() {
 
     //enabled post button action bar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.post_menu, menu)
+        menuInflater.inflate(R.menu.save_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -63,7 +63,7 @@ class PostDetailEdit : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         addPost_progressBar.visibility = View.VISIBLE
         when (item?.itemId) {
-            R.id.menu_post -> {
+            R.id.menu_save -> {
                 addPost_progressBar.visibility = View.VISIBLE
                 val c = findViewById<EditText>(R.id.caption_textView)
                 val capText = c.text.toString()

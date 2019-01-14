@@ -8,14 +8,14 @@
 
     <item android:id="@+id/bottom_news"
           android:icon="@drawable/selector_news"
-          android:title="Terbaru"/>
+          android:title="Event"/>
 
     <item android:id="@+id/bottom_article"
           android:icon="@drawable/selector_article"
-          android:title="Misi"/>
+          android:title="Mission"/>
 
     <item android:id="@+id/bottom_profile"
           android:icon="@drawable/selector_profile"
-          android:title="Profil"/>
+          android:title="Profile"/>
 
 </menu>

@@ -16,8 +16,8 @@
 
     <style name="noTransition" parent="AppTheme">
         <item name="android:windowAnimationStyle">@null</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="colorPrimary">@android:color/transparent</item>
+        <!--<item name="windowActionBarOverlay">true</item>-->
+        <!--<item name="colorPrimary">@android:color/transparent</item>-->
     </style>
 
     <style name="fullScreen" parent="AppTheme">

@@ -46,7 +46,20 @@
         </activity>
 
         <activity android:name=".EventsMain"
-                  android:label=""
+                  android:label="Event"
+                  android:launchMode="singleTop"
+                  android:theme="@style/noTransition">
+        </activity>
+
+        <activity android:name=".EventDetail"
+                  android:label="Event"
+                  android:launchMode="singleTop">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".EventsMain"/>
+        </activity>
+
+        <activity android:name=".MissionMain"
+                  android:label="Mission"
                   android:launchMode="singleTop"
                   android:theme="@style/noTransition">
         </activity>
@@ -102,6 +115,7 @@
 
         <activity android:name=".ProfileMain"
                   android:launchMode="singleTop"
+                  android:label="Profile"
                   android:theme="@style/noTransition">
         </activity>
 

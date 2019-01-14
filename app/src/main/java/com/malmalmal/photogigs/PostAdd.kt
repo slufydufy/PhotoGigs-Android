@@ -60,14 +60,14 @@ class PostAdd : AppCompatActivity() {
 
     //enabled post button action bar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.post_menu, menu)
+        menuInflater.inflate(R.menu.save_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     //post image to firebase storage
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.menu_post -> {
+            R.id.menu_save -> {
                 addPost_progressBar.visibility = View.VISIBLE
                 val filename = UUID.randomUUID().toString()
                 val ref = FirebaseStorage.getInstance().getReference("/postsImage/$filename")
