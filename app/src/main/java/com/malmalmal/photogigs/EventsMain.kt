@@ -31,7 +31,7 @@ class EventsMain : AppCompatActivity() {
         ll.reverseLayout = true
         ll.stackFromEnd = true
         newsMain_recyclerView.layoutManager = ll
-        newsMain_recyclerView.addItemDecoration(CustomItemDecoration(0,5,0,0))
+        newsMain_recyclerView.addItemDecoration(CustomItemDecoration(0,0,0,0))
         newsMain_recyclerView.adapter = adapter
 
         fetchEvent()
@@ -46,7 +46,7 @@ class EventsMain : AppCompatActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
-    fun fetchEvent() {
+    private fun fetchEvent() {
         val adapter = GroupAdapter<ViewHolder>()
         val refEvent = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/eventArtikel/en-US").orderByChild("sdate")
             refEvent.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -102,27 +102,28 @@ class EventsMainRow(val eventm : Eventm) : Item<ViewHolder>() {
         //parse and format post date
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val date = sdf.parse(eventm.sdate)
-        val dateform = SimpleDateFormat("dd")
-        val monthform = SimpleDateFormat("MMMM")
-        val day = dateform.format(date)
-        val month = monthform.format(date)
+        val dateform = SimpleDateFormat("dd MMM yyyy")
+        val sdate = dateform.format(date)
+
 
         //set value
-        viewHolder.itemView.pdate_textView.text = day
-        viewHolder.itemView.month_textView.text = month
         viewHolder.itemView.eventTitle_textView.text = eventm.etitle
+        viewHolder.itemView.sdate_text.text = sdate
+        viewHolder.itemView.price_text.text = eventm.price
         viewHolder.itemView.lokasi_textView.text = eventm.lok
+        val img = viewHolder.itemView.banner_imageView
+        val ro = RequestOptions().placeholder(R.drawable.placeholder1)
+        Glide.with(img.context).applyDefaultRequestOptions(ro).load(eventm.img).into(img)
 
-//        val img = viewHolder.itemView.banner_imageView
-//        val ro = RequestOptions().placeholder(R.drawable.placeholder1)
-//        Glide.with(img.context).applyDefaultRequestOptions(ro).load(eventm.img).into(img)
-
-        val card = viewHolder.itemView.event_row_card
-        card.setOnClickListener {
-            val intent = Intent(card.context, EventDetail::class.java)
+        //intent to event detail
+        val row = viewHolder.itemView.event_main_row_cons
+        row.setOnClickListener {
+            val intent = Intent(row.context, EventDetail::class.java)
             intent.putExtra("EVENT", eventm.id.toString())
             it.context.startActivity(intent)
         }
+
+
     }
 
     override fun getLayout(): Int {

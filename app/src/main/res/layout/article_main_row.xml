@@ -53,7 +53,7 @@
                 android:text="Article Sub View"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
-                app:fontFamily="@font/basic"
+                app:fontFamily="@font/quicksand"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -71,7 +71,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:fontFamily="@font/basic"
+                app:fontFamily="@font/quicksand_bold"
                 app:layout_constraintBottom_toTopOf="@+id/subTitle_textView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

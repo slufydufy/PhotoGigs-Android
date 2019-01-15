@@ -28,7 +28,7 @@
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/post_add_top_imageView" android:fontFamily="@font/basic"/>
+            app:layout_constraintTop_toBottomOf="@+id/post_add_top_imageView" android:fontFamily="@font/quicksand"/>
     <EditText
             android:id="@+id/caption_textView"
             android:layout_width="0dp"
@@ -46,6 +46,6 @@
             app:layout_constraintEnd_toEndOf="@+id/textView11"
             app:layout_constraintStart_toStartOf="@+id/textView11"
             app:layout_constraintTop_toBottomOf="@+id/textView11" android:inputType="text"
-            android:fontFamily="@font/basic"/>
+            android:fontFamily="@font/quicksand"/>
 
 </android.support.constraint.ConstraintLayout>

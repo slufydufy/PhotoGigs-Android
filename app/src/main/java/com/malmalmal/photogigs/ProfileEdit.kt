@@ -139,7 +139,7 @@ class ProfileEdit : AppCompatActivity() {
             val exData = oldEx.getAttribute(ExifInterface.TAG_ORIENTATION)
             Log.d("EXIFDATA", "nih: $exData")
             Log.d("EXIFDATA", "nih: $exData")
-            Glide.with(view.context).load(selectedImage).into(profile_imageView)
+            Glide.with(profile_imageView.context).load(selectedImage).into(profile_imageView)
 
         }
     }
@@ -164,7 +164,7 @@ class ProfileEdit : AppCompatActivity() {
                 if (rotation > 0) {
                     selectedPhoto = convertBitmapToCorrectOrientation(selectedPhoto!!, rotation)
                 }
-                Glide.with(view.context).load(selectedPhoto).into(profile_imageView)
+                Glide.with(profile_imageView.context).load(selectedPhoto).into(profile_imageView)
             } catch (e : IOException) {
                 e.printStackTrace()
             }

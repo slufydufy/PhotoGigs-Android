@@ -35,7 +35,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/comment_send_button"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" android:fontFamily="@font/basic"/>
+            app:layout_constraintStart_toStartOf="parent" android:fontFamily="@font/quicksand"/>
 
     <Button
         android:id="@+id/comment_send_button"

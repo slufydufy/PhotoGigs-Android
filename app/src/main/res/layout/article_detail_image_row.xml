@@ -31,7 +31,7 @@
         android:layout_marginBottom="8dp"
         android:text="Subtitle"
         android:textColor="@android:color/white"
-        app:fontFamily="@font/basic"
+        app:fontFamily="@font/quicksand"
         app:layout_constraintBottom_toBottomOf="@id/article_detail_imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -46,5 +46,5 @@
             app:layout_constraintEnd_toEndOf="@+id/subtitle_textView"
             android:textSize="18sp" android:textStyle="bold"
             android:textColor="@android:color/white"
-            app:fontFamily="@font/basic"/>
+            app:fontFamily="@font/quicksand_bold"/>
 </android.support.constraint.ConstraintLayout>
