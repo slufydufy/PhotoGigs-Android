@@ -44,7 +44,8 @@
                     android:id="@+id/organizer_textView"
                     app:layout_constraintTop_toTopOf="@+id/imageView16"
                     app:layout_constraintStart_toEndOf="@+id/imageView16" android:layout_marginStart="8dp"
-                    android:textColor="@android:color/white" android:textStyle="bold" android:fontFamily="@font/basic"/>
+                    android:textColor="@android:color/white" android:textStyle="bold"
+                    android:fontFamily="@font/roboto_medium"/>
             <TextView
                     android:text="Active"
                     android:layout_width="wrap_content"
@@ -52,7 +53,8 @@
                     android:id="@+id/status_textView" app:layout_constraintStart_toStartOf="@+id/organizer_textView"
                     android:textSize="12sp"
                     android:textColor="@android:color/white"
-                    app:layout_constraintTop_toBottomOf="@+id/organizer_textView" android:fontFamily="@font/basic"/>
+                    app:layout_constraintTop_toBottomOf="@+id/organizer_textView"
+                    android:fontFamily="@font/roboto_light"/>
             <TextView
                     android:text="PhotoGigs Monthly : Natural Life"
                     android:layout_width="0dp"
@@ -60,7 +62,7 @@
                     android:id="@+id/title_textView" android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="@+id/imageView16" android:textColor="@android:color/white"
                     android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="@+id/view4"
-                    android:fontFamily="@font/basic" app:layout_constraintHorizontal_bias="0.0"
+                    android:fontFamily="@font/roboto_medium" app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintBottom_toTopOf="@+id/sub_textView"/>
             <TextView
                     android:text="Febuary Mission"
@@ -70,7 +72,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/view4"
                     app:layout_constraintStart_toStartOf="@+id/title_textView"
                     app:layout_constraintEnd_toEndOf="@+id/title_textView" android:textSize="12sp"
-                    android:fontFamily="@font/basic" android:textColor="@android:color/white"
+                    android:fontFamily="@font/roboto_light" android:textColor="@android:color/white"
             />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
