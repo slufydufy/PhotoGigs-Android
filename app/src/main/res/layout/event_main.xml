@@ -9,7 +9,7 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/newsMain_bottomNavigation"
-            android:background="#202020" android:id="@+id/newsMain_recyclerView">
+            android:background="#101010" android:id="@+id/newsMain_recyclerView">
     </android.support.v7.widget.RecyclerView>
     <android.support.design.widget.BottomNavigationView
             android:layout_width="0dp"

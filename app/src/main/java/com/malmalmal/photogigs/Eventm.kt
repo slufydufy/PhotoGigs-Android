@@ -1,5 +1,5 @@
 package com.malmalmal.photogigs
 
-class Eventm (val etitle : String, val infos : String, val contents : String, val edate : String, val sdate : String, val img : String, val price : String, val lok : String, val id : Long) {
-    constructor() : this("", "", "", "", "", "", "", "", 0)
+class Eventm (val etitle : String, val infos : String, val contents : String, val sdate : String, val img : String, val price : String, val lok : String, val id : Long) {
+    constructor() : this("", "", "", "", "", "", "",0)
 }
