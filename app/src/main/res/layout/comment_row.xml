@@ -43,7 +43,7 @@
                     android:layout_marginRight="8dp"
                     android:text="name"
                     android:textColor="@android:color/white"
-                    app:fontFamily="@font/basic"
+                    app:fontFamily="@font/quicksand"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:textColor="@android:color/darker_gray"
-                    app:fontFamily="@font/basic"
+                    app:fontFamily="@font/quicksand_light"
                     app:layout_constraintEnd_toEndOf="@+id/comment_username_textView"
                     app:layout_constraintStart_toStartOf="@+id/comment_username_textView"
                     app:layout_constraintTop_toBottomOf="@+id/comment_username_textView"/>
@@ -67,7 +67,7 @@
                     android:layout_marginBottom="8dp"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="10sp"
-                    app:fontFamily="@font/basic"
+                    app:fontFamily="@font/quicksand"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/comment_textView"
                     app:layout_constraintStart_toStartOf="@+id/comment_textView"

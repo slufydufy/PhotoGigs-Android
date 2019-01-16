@@ -15,5 +15,5 @@
             android:text="Comment"
             android:textColor="@android:color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:textSize="18sp" android:fontFamily="@font/basic"/>
+            app:layout_constraintTop_toTopOf="parent" android:textSize="18sp" android:fontFamily="@font/quicksand_bold"/>
 </android.support.constraint.ConstraintLayout>

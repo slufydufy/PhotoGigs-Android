@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
-import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.DataSnapshot
@@ -15,8 +14,9 @@ import com.google.firebase.database.ValueEventListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.article_detail_content_row.view.*
 import kotlinx.android.synthetic.main.event_detail.*
+import kotlinx.android.synthetic.main.event_detail_content.view.*
+import kotlinx.android.synthetic.main.event_detail_info.view.*
 import kotlinx.android.synthetic.main.event_detail_top.view.*
 import kotlinx.android.synthetic.main.event_main_row.view.*
 import java.text.SimpleDateFormat
@@ -47,7 +47,7 @@ class EventDetail : AppCompatActivity() {
         })
 
         eventDetail_recyclerView.layoutManager = LinearLayoutManager(this)
-        eventDetail_recyclerView.addItemDecoration(CustomItemDecoration(0,20,0,0))
+        eventDetail_recyclerView.addItemDecoration(CustomItemDecoration(0,0,0,0))
         eventDetail_recyclerView.adapter = adapter
 
     }
@@ -79,28 +79,26 @@ class EventDetailInfo(val eventm : Eventm) : Item<ViewHolder>() {
         //parse and format post date
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val date = sdf.parse(eventm.sdate)
-        val dateform = SimpleDateFormat("dd")
-        val monthform = SimpleDateFormat("MMMM")
-        val day = dateform.format(date)
-        val month = monthform.format(date)
+        val dateform = SimpleDateFormat("dd MMM yyyy")
+        val sdate = dateform.format(date)
 
-        viewHolder.itemView.pdate_textView.text = day
-        viewHolder.itemView.month_textView.text = month
-        viewHolder.itemView.eventTitle_textView.text = eventm.etitle
-        viewHolder.itemView.lokasi_textView.text = eventm.lok
+        viewHolder.itemView.sdate_textView.text = ": " + sdate
+        viewHolder.itemView.title_textView.text = eventm.etitle
+        viewHolder.itemView.price_textView.text = ": " + eventm.price
+        viewHolder.itemView.lok_textView.text = ": " + eventm.lok
     }
 
     override fun getLayout(): Int {
-        return R.layout.event_main_row
+        return R.layout.event_detail_info
     }
 }
 
 class EventDetailContent(val eventm : Eventm) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
-        viewHolder.itemView.textView7.setText(Html.fromHtml(eventm.contents))
+        viewHolder.itemView.eventDetailDesc_textView.setText(Html.fromHtml(eventm.contents))
     }
 
     override fun getLayout(): Int {
-        return R.layout.article_detail_content_row
+        return R.layout.event_detail_content
     }
 }
