@@ -1,6 +1,7 @@
 package com.malmalmal.photogigs
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.event_detail.*
 import kotlinx.android.synthetic.main.event_detail_content.view.*
 import kotlinx.android.synthetic.main.event_detail_info.view.*
+import kotlinx.android.synthetic.main.event_detail_tlp.view.*
 import kotlinx.android.synthetic.main.event_detail_top.view.*
 import kotlinx.android.synthetic.main.event_main_row.view.*
 import java.text.SimpleDateFormat
@@ -38,6 +40,7 @@ class EventDetail : AppCompatActivity() {
                     adapter.add(EventDetailTop(event!!))
                     adapter.add(EventDetailInfo(event))
                     adapter.add(EventDetailContent(event))
+                    adapter.add(EventDetailTlp(event))
                 }
             }
 
@@ -100,5 +103,21 @@ class EventDetailContent(val eventm : Eventm) : Item<ViewHolder>() {
 
     override fun getLayout(): Int {
         return R.layout.event_detail_content
+    }
+}
+
+class EventDetailTlp(val eventm : Eventm) : Item<ViewHolder>() {
+    override fun bind(viewHolder: ViewHolder, position: Int) {
+
+        viewHolder.itemView.infos_textView.text = eventm.infos
+
+        viewHolder.itemView.call_Btn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + eventm.infos))
+            it.context.startActivity(intent)
+        }
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.event_detail_tlp
     }
 }

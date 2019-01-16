@@ -8,7 +8,7 @@
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="#202020" android:id="@+id/missionMain_recyclerView"
+            android:background="#101010" android:id="@+id/missionMain_recyclerView"
             app:layout_constraintBottom_toTopOf="@+id/missionMain_bottomBar"/>
     <android.support.design.widget.BottomNavigationView
             android:layout_width="0dp"
