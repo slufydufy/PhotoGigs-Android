@@ -30,7 +30,7 @@
                     app:layout_constraintStart_toStartOf="@+id/missionBanner_imageView"
                     app:layout_constraintEnd_toEndOf="@+id/missionBanner_imageView"
                     app:layout_constraintBottom_toBottomOf="@+id/missionBanner_imageView"
-                    android:background="#80000000"/>
+                    android:background="#60000000"/>
             <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp" app:srcCompat="@drawable/baseline_person_white_24dp"

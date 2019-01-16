@@ -36,31 +36,25 @@ import java.io.*
 
 class ProfileEdit : AppCompatActivity() {
 
+    var finalUri : Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_edit)
         profile_progressBar.visibility = View.INVISIBLE
 
-        val adapter = GroupAdapter<ViewHolder>()
-
-//        adapter.add(ProfileEditTop())
-//        adapter.add(ProfileEditBot())
-
-        profileEdit_recyclerView.layoutManager = LinearLayoutManager(this)
-        profileEdit_recyclerView.adapter = adapter
 
         //pick profile image
-//        profile_imageView.setOnClickListener {
-//            val intent = Intent(Intent.ACTION_PICK)
-//            intent.type = "image/*"
-//            startActivityForResult(intent, 0)
-//        }
+        profile_edit_ppImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 0)
+        }
 
-        //sign out btn action
-//        signout_button.setOnClickListener {
-//            signOutDialog()
-//        }
+//        sign out action
+        signOut_textView.setOnClickListener {
+            signOutDialog()
+        }
 
         fetchUser()
     }
@@ -98,31 +92,23 @@ class ProfileEdit : AppCompatActivity() {
     //fetch user info
     var profileImageData : String? = ""
     var aboutInfo : String? = ""
-    var selectedPhoto : Bitmap? = null
 
     private fun fetchUser() {
         val uuid = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uuid")
-
-        val adapter = GroupAdapter<ViewHolder>()
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     val user = p0.getValue(User::class.java)
-//                    name_textView.setText(user!!.name)
-                    aboutInfo = user!!.about
-//                    if (user.about.isEmpty()) {
-//                        about_text.setText("")
-//                    } else {about_text.setText(user.about)}
+                    userName_editText.setText(user!!.name)
+                    aboutInfo = user.about
+                    if (user.about.isEmpty()) {
+                        about_editText.setText("")
+                    } else {about_editText.setText(user.about)}
 
                     profileImageData = user.userImageUrl
-//                    val ro = RequestOptions().placeholder(R.drawable.user123)
-//                    Glide.with(profile_imageView.context).applyDefaultRequestOptions(ro).load(profileImageData).into(profile_imageView)
-
-
-                    adapter.add(ProfileEditTop(user))
-                    adapter.add(ProfileEditBot(user))
-                    profileEdit_recyclerView.adapter = adapter
+                    val ro = RequestOptions().placeholder(R.drawable.user123)
+                    Glide.with(profile_edit_ppImage.context).applyDefaultRequestOptions(ro).load(profileImageData).into(profile_edit_ppImage)
                 }
             }
 
@@ -141,74 +127,10 @@ class ProfileEdit : AppCompatActivity() {
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data
 
-            val file = File(data.data.path)
-//            decode(file)
-            val iStream = contentResolver.openInputStream(data.data)
-            var selectedImage = BitmapFactory.decodeStream(iStream)
-            selectedImage = getResizedBitmap(selectedImage, 150)
-/*
-            val okokok = data.data
-
-            val column = arrayOf(MediaStore.Images.Media.ORIENTATION)
-            val cursor = this.contentResolver.query(okokok, column, null, null)
-            if (cursor != null) {
-                cursor.moveToFirst()
-                val colIn = cursor.getColumnIndex((column[0]))
-                val orien = cursor.getInt(colIn)
-                Log.d("EXIF", "nih: $orien")
-                Log.d("EXIF", "nih: $orien") */
-
-            val oldEx = ExifInterface(data.data.path)
-            val exData = oldEx.getAttribute(ExifInterface.TAG_ORIENTATION)
-            Log.d("EXIFDATA", "nih: $exData")
-            Log.d("EXIFDATA", "nih: $exData")
-//            Glide.with(profile_imageView.context).load(selectedImage).into(profile_imageView)
+            Glide.with(profile_edit_ppImage.context).load(selectedPhotoUri).into(profile_edit_ppImage)
 
         }
     }
-
-//    fun decode(file : File) : Bitmap? {
-//        try {
-//            val bitmapOption = BitmapFactory.Options()
-//            bitmapOption.inJustDecodeBounds = true
-//            BitmapFactory.decodeStream(FileInputStream(file), null, bitmapOption)
-//            val displaymetric = applicationContext.resources.displayMetrics
-//
-//            val scaleW = bitmapOption.outWidth / displaymetric.widthPixels
-//            val scaleH = bitmapOption.outHeight / displaymetric.heightPixels
-//            val scale = Math.max(scaleW, scaleH)
-//
-//            val bitmapOptions = BitmapFactory.Options()
-//            bitmapOptions.inSampleSize = scale
-//            selectedPhoto = BitmapFactory.decodeStream(FileInputStream(file), null, bitmapOptions)
-//            try {
-//                val exif = ExifInterface(file.absolutePath)
-//                val rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
-//                if (rotation > 0) {
-//                    selectedPhoto = convertBitmapToCorrectOrientation(selectedPhoto!!, rotation)
-//                }
-//                Glide.with(profile_imageView.context).load(selectedPhoto).into(profile_imageView)
-//            } catch (e : IOException) {
-//                e.printStackTrace()
-//            }
-//            return selectedPhoto!!
-//        } catch (filenotfound : FileNotFoundException) {
-//            filenotfound.printStackTrace()
-//        }
-//        return null
-//    }
-
-    fun convertBitmapToCorrectOrientation(photo : Bitmap, rotation : Int ) : Bitmap {
-        var width = photo.width
-        var height = photo.height
-
-        var matrix = Matrix()
-        matrix.preRotate(rotation.toFloat())
-
-        return Bitmap.createBitmap(photo, 0, 0, width, height, matrix, false)
-    }
-
-
 
     //save menu button action
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -221,30 +143,17 @@ class ProfileEdit : AppCompatActivity() {
                 } else {
 
                     profile_progressBar.visibility = View.VISIBLE
-         /*           val filename = UUID.randomUUID().toString()
-                    val iStream = contentResolver.openInputStream(i)
-                    var selectedImage = BitmapFactory.decodeStream(iStream)
-                    selectedImage = getResizedBitmap(selectedImage, 150) */
-
-
-
-
-                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
+                   val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
                     Log.d("IMAGE","asli: ${bitmap.byteCount}")
                     val baos = ByteArrayOutputStream()
 
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos)
                     val data = baos.toByteArray()
-                    //val decode = BitmapFactory.decodeStream(ByteArrayInputStream(data))
-               /*     Log.d("IMAGE","kompres: ${decode.byteCount}")
-                    val e = ExifInterface() */
 
                     val filename = FirebaseAuth.getInstance().uid
                     val ref = FirebaseStorage.getInstance().getReference("/profileImage/$filename")
-
-                    ref.putFile(selectedPhotoUri!!)
+                    ref.putBytes(data)
                         .addOnSuccessListener {
-
                             //get image url from firebase
                             ref.downloadUrl.addOnSuccessListener {
                                 saveUserInfoToFirebase(it.toString())
@@ -260,32 +169,30 @@ class ProfileEdit : AppCompatActivity() {
     //save change to firebase
     private fun saveUserInfoToFirebase(piu : String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
-//        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-//        if (name_textView.text.isEmpty())
-        {
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        if (userName_editText.text.isEmpty()) {
             Toast.makeText(this, "username, harus diisi", Toast.LENGTH_SHORT).show()
-//            return
+            return
         }
 
-//        if (about_text.text.isEmpty())
-        {
+        if (about_editText.text.isEmpty()) {
             aboutInfo = ""
         }
-//        else {
-//            aboutInfo = about_text.text.toString()
+        else {
+            aboutInfo = about_editText.text.toString()
         }
 
-//        val user = User(uid, name_textView.text.toString(), piu, aboutInfo!!)
-//        ref.setValue(user)
-//            .addOnSuccessListener {
-//                val intent = Intent(this, ProfileMain::class.java)
-//                startActivity(intent)
-//                profile_progressBar.visibility = View.INVISIBLE
-//            }
-//
-//            .addOnFailureListener {
-//                Log.d("profile save", "error : $it")
-//            }
+        val user = User(uid, userName_editText.text.toString(), piu, aboutInfo!!)
+        ref.setValue(user)
+            .addOnSuccessListener {
+                val intent = Intent(this, ProfileMain::class.java)
+                startActivity(intent)
+                profile_progressBar.visibility = View.INVISIBLE
+            }
+
+            .addOnFailureListener {
+                Log.d("profile save", "error : $it")
+            }
     }
 
     fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap {
@@ -304,34 +211,40 @@ class ProfileEdit : AppCompatActivity() {
     }
 
 
+}
+
+//class ProfileEditTop(val user : User, val uri : Uri) : Item<ViewHolder>() {
+//    override fun bind(viewHolder: ViewHolder, position: Int) {
+//
+//        val img = viewHolder.itemView.profile_editPP_imageView
+//
+//        if (uri == null) {
+//            val ro = RequestOptions().placeholder(R.drawable.user123)
+//            Glide.with(img.context).applyDefaultRequestOptions(ro).load(user.userImageUrl).into(img)
+//        } else {
+//            val ro = RequestOptions().placeholder(R.drawable.user123)
+//            Glide.with(img.context).applyDefaultRequestOptions(ro).load(uri).into(img)
+//        }
+//
+//        img.setOnClickListener {
+//            val intent = Intent(img.context, ChangePP::class.java)
+//            it.context.startActivity(intent)
+//        }
+//    }
+//
+//    override fun getLayout(): Int {
+//        return R.layout.profile_edit_top
+//    }
 //}
-
-class ProfileEditTop(val user : User) : Item<ViewHolder>() {
-    override fun bind(viewHolder: ViewHolder, position: Int) {
-
-        val img = viewHolder.itemView.profile_editPP_imageView
-        val ro = RequestOptions().placeholder(R.drawable.user123)
-        Glide.with(img.context).applyDefaultRequestOptions(ro).load(user.userImageUrl).into(img)
-
-        img.setOnClickListener {
-            val intent = Intent(img.context, ChangePP::class.java)
-            it.context.startActivity(intent)
-        }
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.profile_edit_top
-    }
-}
-
-class ProfileEditBot(val user : User) : Item<ViewHolder>() {
-    override fun bind(viewHolder: ViewHolder, position: Int) {
-
-        viewHolder.itemView.userName_text.setText(user.name)
-        viewHolder.itemView.about_text.setText(user.about)
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.profile_edit_bot
-    }
-}
+//
+//class ProfileEditBot(val user : User) : Item<ViewHolder>() {
+//    override fun bind(viewHolder: ViewHolder, position: Int) {
+//
+//        viewHolder.itemView.userName_text.setText(user.name)
+//        viewHolder.itemView.about_text.setText(user.about)
+//    }
+//
+//    override fun getLayout(): Int {
+//        return R.layout.profile_edit_bot
+//    }
+//}
