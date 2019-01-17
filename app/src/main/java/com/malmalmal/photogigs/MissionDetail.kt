@@ -47,6 +47,7 @@ class MissionDetail : AppCompatActivity() {
 
         mission_fab.setOnClickListener {
             val intent = Intent(this, MissionList::class.java)
+            intent.putExtra("MISSION", mid)
             it.context.startActivity(intent)
         }
     }

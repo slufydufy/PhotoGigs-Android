@@ -1,15 +1,13 @@
 package com.malmalmal.photogigs
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -18,9 +16,14 @@ import kotlinx.android.synthetic.main.mission_detail.*
 import kotlinx.android.synthetic.main.profile_main_user_gallery.view.*
 
 class MissionList : AppCompatActivity() {
+
+    var missId : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.event_detail)
+
+        val mid = intent.getStringExtra("MISSION")
+        missId = mid
 
         val adapter = GroupAdapter<ViewHolder>()
 
@@ -40,7 +43,7 @@ class MissionList : AppCompatActivity() {
                 p0.children.forEach {
                     val post = it.getValue(Post::class.java)
                     if (post != null) {
-                        adapter.add(MissionListRow(post))
+                        adapter.add(MissionListRow(post, missId!!))
                     }
                     eventDetail_recyclerView.adapter = adapter
                 }
@@ -51,11 +54,37 @@ class MissionList : AppCompatActivity() {
     }
 }
 
-class MissionListRow(val post : Post) : Item<ViewHolder>() {
+class MissionListRow(val post : Post, val mid : String) : Item<ViewHolder>() {
+
+
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val img = viewHolder.itemView.gallery_imageView
         val ro = RequestOptions().placeholder(R.drawable.placeholder1)
         Glide.with(img.context).applyDefaultRequestOptions(ro).load(post.imageUrl).into(img)
+
+        img.setOnClickListener {
+
+            val postRef = FirebaseDatabase.getInstance().getReference("/posts/${post.postId}")
+            val missRef = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/mission/en-US/$mid/posts/${post.postId}")
+            copyPost(postRef, missRef)
+
+            val intent = Intent(img.context, MissionMain::class.java)
+            it.context.startActivity(intent)
+        }
+    }
+
+    private fun copyPost(fromPath : DatabaseReference, toPath : DatabaseReference ) {
+        fromPath.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                toPath.setValue(p0.getValue()).addOnSuccessListener {
+                    //success message
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
     }
 
     override fun getLayout(): Int {

@@ -48,7 +48,7 @@ class PostMain : AppCompatActivity() {
         ll.reverseLayout = true
         ll.stackFromEnd = true
         post_main_recyclerView.layoutManager = ll
-        post_main_recyclerView.addItemDecoration(CustomItemDecoration(0,20,0,0))
+        post_main_recyclerView.addItemDecoration(CustomItemDecoration(0,40,0,0))
         post_main_recyclerView.adapter = adapter
 
         //fetch post
