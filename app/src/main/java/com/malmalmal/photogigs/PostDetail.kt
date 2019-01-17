@@ -55,7 +55,7 @@ class PostDetail : AppCompatActivity() {
         adapter.add(PostCommentTitle())
 
         recyclerView_post_detail.layoutManager = LinearLayoutManager(this)
-        recyclerView_post_detail.addItemDecoration(CustomItemDecoration(0,20,0,0))
+        recyclerView_post_detail.addItemDecoration(CustomItemDecoration(0,0,0,0))
         recyclerView_post_detail.adapter = adapter
 
         fetchComment(pid,uid)
@@ -202,13 +202,9 @@ class PostDetailRow(pid : String, uid : String) : Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
-        viewHolder.itemView.postMainRow_cons.setBackgroundColor(Color.parseColor("#000000"))
         likeTv = viewHolder.itemView.like_counter_textView
 
         likeCounter()
-
-        //hide comment image
-        viewHolder.itemView.comment_imageView.visibility = View.INVISIBLE
 
         //fetch user
         val refUser = FirebaseDatabase.getInstance().getReference("/users/$userId")

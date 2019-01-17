@@ -99,7 +99,6 @@ class ProfileMainTop : Item<ViewHolder>() {
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
-//                    profile_main_progressBar.visibility = View.INVISIBLE
                     val user = p0.getValue(User::class.java)
                     viewHolder.itemView.user_textView.text = user!!.name
 
@@ -111,6 +110,18 @@ class ProfileMainTop : Item<ViewHolder>() {
 
             override fun onCancelled(p0: DatabaseError) {
                 Log.d("fetch user", "err : $p0")
+            }
+        })
+
+        val refPost = FirebaseDatabase.getInstance().getReference("/posts").orderByChild("uuid").equalTo("$uuid")
+        refPost.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val total = p0.childrenCount.toString()
+                viewHolder.itemView.post_textView.text = total + " post"
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
             }
         })
 
@@ -137,6 +148,7 @@ class ProfileMainBottom : Item<ViewHolder>() {
         rV.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         rV.addItemDecoration(CustomItemDecoration(0,20,10,10))
 
+        //fetch post
         val uuid = FirebaseAuth.getInstance().uid
         val adapter = GroupAdapter<ViewHolder>()
         val ref = FirebaseDatabase.getInstance().getReference("/posts").orderByChild("uuid").equalTo("$uuid")

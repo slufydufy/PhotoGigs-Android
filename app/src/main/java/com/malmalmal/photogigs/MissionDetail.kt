@@ -1,5 +1,6 @@
 package com.malmalmal.photogigs
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -26,7 +27,6 @@ class MissionDetail : AppCompatActivity() {
 
         val adapter = GroupAdapter<ViewHolder>()
 
-
         val refMission = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/mission/en-US/$mid")
         refMission.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
@@ -42,11 +42,13 @@ class MissionDetail : AppCompatActivity() {
 
             }
         })
-
-
-
         missionDetail_recyclerView.layoutManager = LinearLayoutManager(this)
         missionDetail_recyclerView.adapter = adapter
+
+        mission_fab.setOnClickListener {
+            val intent = Intent(this, MissionList::class.java)
+            it.context.startActivity(intent)
+        }
     }
 
 

@@ -72,6 +72,11 @@
                        android:value=".MissionMain"/>
         </activity>
 
+        <activity android:name=".MissionList"
+                  android:label="Post"
+                  android:launchMode="singleTop">
+        </activity>
+
         <activity android:name=".ArticleMain"
                   android:label=""
                   android:launchMode="singleTop"

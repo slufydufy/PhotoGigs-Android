@@ -9,4 +9,12 @@
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/missionDetail_recyclerView"/>
+    <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" app:srcCompat="@drawable/send"
+            android:id="@+id/mission_fab"
+            app:backgroundTint="@android:color/white" android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>
