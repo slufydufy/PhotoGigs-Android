@@ -11,8 +11,7 @@ import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.event_detail.*
-import kotlinx.android.synthetic.main.mission_detail.*
+import kotlinx.android.synthetic.main.mission_list.*
 import kotlinx.android.synthetic.main.profile_main_user_gallery.view.*
 
 class MissionList : AppCompatActivity() {
@@ -20,17 +19,25 @@ class MissionList : AppCompatActivity() {
     var missId : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.event_detail)
+        setContentView(R.layout.mission_list)
+
+        //enabled back button
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val mid = intent.getStringExtra("MISSION")
         missId = mid
 
         val adapter = GroupAdapter<ViewHolder>()
 
-        eventDetail_recyclerView.layoutManager = LinearLayoutManager(this)
-        eventDetail_recyclerView.addItemDecoration(CustomItemDecoration(0,20,0,0))
-        eventDetail_recyclerView.adapter = adapter
+        missionList_recyclerView.layoutManager = LinearLayoutManager(this)
+        missionList_recyclerView.addItemDecoration(CustomItemDecoration(0,20,0,0))
+        missionList_recyclerView.adapter = adapter
         fetchPost()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
     private fun fetchPost() {
@@ -45,7 +52,7 @@ class MissionList : AppCompatActivity() {
                     if (post != null) {
                         adapter.add(MissionListRow(post, missId!!))
                     }
-                    eventDetail_recyclerView.adapter = adapter
+                    missionList_recyclerView.adapter = adapter
                 }
             }
             override fun onCancelled(p0: DatabaseError) {
@@ -58,6 +65,9 @@ class MissionListRow(val post : Post, val mid : String) : Item<ViewHolder>() {
 
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
+
+        viewHolder.itemView.userGallery_card.radius = 0f
+
         val img = viewHolder.itemView.gallery_imageView
         val ro = RequestOptions().placeholder(R.drawable.placeholder1)
         Glide.with(img.context).applyDefaultRequestOptions(ro).load(post.imageUrl).into(img)

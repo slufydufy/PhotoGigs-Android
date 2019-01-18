@@ -31,12 +31,14 @@ class EventDetail : AppCompatActivity() {
         val eid = intent.getStringExtra("EVENT")
 
         val adapter = GroupAdapter<ViewHolder>()
+        var eventFe : Eventm? = null
 
         val refEvent = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/eventArtikel/en-US/$eid")
         refEvent.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     val event = p0.getValue(Eventm::class.java)
+                    eventFe = event!!
                     adapter.add(EventDetailTop(event!!))
                     adapter.add(EventDetailInfo(event))
                     adapter.add(EventDetailContent(event))
@@ -53,6 +55,10 @@ class EventDetail : AppCompatActivity() {
         eventDetail_recyclerView.addItemDecoration(CustomItemDecoration(0,0,0,0))
         eventDetail_recyclerView.adapter = adapter
 
+        call_button.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + eventFe!!.infos))
+            it.context.startActivity(intent)
+        }
     }
 }
 
@@ -111,10 +117,6 @@ class EventDetailTlp(val eventm : Eventm) : Item<ViewHolder>() {
 
         viewHolder.itemView.infos_textView.text = eventm.infos
 
-        viewHolder.itemView.call_Btn.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + eventm.infos))
-            it.context.startActivity(intent)
-        }
     }
 
     override fun getLayout(): Int {

@@ -12,8 +12,8 @@
             app:srcCompat="@drawable/user123"
             android:id="@+id/comment_profile_imageView"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
             android:id="@+id/comment_date_textView"
@@ -42,12 +42,12 @@
             android:id="@+id/comment_username_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:text="name"
             android:textColor="@android:color/white"
             app:fontFamily="@font/quicksand"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/comment_profile_imageView" android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="12dp"/>
 </android.support.constraint.ConstraintLayout>
