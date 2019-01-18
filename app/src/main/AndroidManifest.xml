@@ -60,13 +60,13 @@
         </activity>
 
         <activity android:name=".MissionMain"
-                  android:label="Mission"
+                  android:label="Quest"
                   android:launchMode="singleTop"
                   android:theme="@style/noTransition">
         </activity>
 
         <activity android:name=".MissionDetail"
-                  android:label="Mission"
+                  android:label="Quest Detail"
                   android:launchMode="singleTop">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value=".MissionMain"/>

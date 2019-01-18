@@ -14,17 +14,20 @@
             android:id="@+id/eventDetail_recyclerView"
             app:layout_constraintBottom_toTopOf="@+id/call_button" android:layout_marginBottom="8dp"/>
     <Button
-            android:text="Call Organizer"
+            android:text="Call"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/call_button" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="24dp" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/call_button"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="24dp"
-            android:drawableLeft="@android:drawable/sym_action_call" android:textAllCaps="false"
+            android:textAllCaps="false"
             android:textAlignment="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textColor="@android:color/white" android:textStyle="bold"
-            android:backgroundTint="@color/colorAccent"/>
+            android:textColor="@android:color/white"
+            android:textSize="18sp" android:backgroundTint="@color/colorAccent"/>
 </android.support.constraint.ConstraintLayout>

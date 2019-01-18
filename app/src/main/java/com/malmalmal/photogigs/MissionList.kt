@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -77,10 +78,11 @@ class MissionListRow(val post : Post, val mid : String) : Item<ViewHolder>() {
             val postRef = FirebaseDatabase.getInstance().getReference("/posts/${post.postId}")
             val missRef = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/mission/en-US/$mid/posts/${post.postId}")
             copyPost(postRef, missRef)
-
+            Toast.makeText(img.context, "Your photos has been submitted..!", Toast.LENGTH_LONG).show()
             val intent = Intent(img.context, MissionMain::class.java)
             it.context.startActivity(intent)
         }
+
     }
 
     private fun copyPost(fromPath : DatabaseReference, toPath : DatabaseReference ) {

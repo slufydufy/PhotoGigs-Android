@@ -58,18 +58,30 @@ class MissionDetail : AppCompatActivity() {
 
 class MissionDetailTop(val mission : Mission) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
-
+        //fetch banner image
         val img = viewHolder.itemView.banner_imageView
         val ro = RequestOptions().placeholder(R.drawable.placeholder1)
         Glide.with(img.context).applyDefaultRequestOptions(ro).load(mission.img).into(img)
-
+        //fetch pp image
         val imgPP = viewHolder.itemView.orgPP_imageView
         val roPP = RequestOptions().placeholder(R.drawable.baseline_person_white_24dp)
         Glide.with(imgPP.context).applyDefaultRequestOptions(roPP).load(mission.imgPP).into(imgPP)
-
+        //fetch info
         viewHolder.itemView.org_textView.text = mission.org
         viewHolder.itemView.title_textView.text = mission.mistitle
         viewHolder.itemView.status_textView.text = "Active"
+        //fetch photos submitted
+        val missRef = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/mission/en-US/${mission.id}/posts")
+        missRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val total = p0.childrenCount.toString()
+                viewHolder.itemView.participant_textView.text = total + " Joined"
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
     }
 
     override fun getLayout(): Int {

@@ -12,7 +12,7 @@
 
     <item android:id="@+id/bottom_article"
           android:icon="@drawable/selector_article"
-          android:title="Mission"/>
+          android:title="Quest"/>
 
     <item android:id="@+id/bottom_profile"
           android:icon="@drawable/selector_profile"
