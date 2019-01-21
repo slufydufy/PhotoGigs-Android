@@ -1,6 +1,8 @@
 package com.malmalmal.photogigs
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -34,6 +36,7 @@ class MissionList : AppCompatActivity() {
         missionList_recyclerView.addItemDecoration(CustomItemDecoration(0,20,0,0))
         missionList_recyclerView.adapter = adapter
         fetchPost()
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

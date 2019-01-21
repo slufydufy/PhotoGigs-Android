@@ -71,8 +71,6 @@ class UserMain : AppCompatActivity() {
 class UserMainTop(private val uuid : String) : Item<ViewHolder>() {
 
     override fun bind(v: ViewHolder, p1: Int) {
-        //hide edit user image
-        v.itemView.edit_imageView.visibility = View.INVISIBLE
 
         //fetch user
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uuid")

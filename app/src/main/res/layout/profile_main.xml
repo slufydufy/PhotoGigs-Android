@@ -27,7 +27,7 @@
             app:backgroundTint="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/profile_main__bottomNavigationView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/camera_float1"/>
+            app:srcCompat="@drawable/round_image_white_24dp"/>
 
     <android.support.v7.widget.RecyclerView
             android:layout_width="0dp"
@@ -35,7 +35,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/profile_main_recyclerView"
-            android:background="#101010"
+            android:background="#282828"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/profile_main__bottomNavigationView">
 
@@ -48,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/profile_main__bottomNavigationView"
             app:menu="@menu/bottom_nav_menu"
-            android:background="#000000"
-            app:labelVisibilityMode="labeled"
+            android:background="#282828"
+            app:labelVisibilityMode="unlabeled"
             app:itemTextColor="#FFFFFF"/>
 </android.support.constraint.ConstraintLayout>

@@ -4,7 +4,7 @@
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="wrap_content"
-                                             android:background="#101010">
+                                             android:background="#282828">
 
     <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/white"
             app:fontFamily="@font/quicksand_light"
             app:layout_constraintEnd_toEndOf="@+id/comment_username_textView"
             app:layout_constraintStart_toStartOf="@+id/comment_username_textView"

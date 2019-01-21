@@ -27,12 +27,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.Item
-import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.profile_edit.*
-import kotlinx.android.synthetic.main.profile_edit_bot.view.*
-import kotlinx.android.synthetic.main.profile_edit_top.view.*
 import java.io.*
 
 
@@ -53,36 +48,7 @@ class ProfileEdit : AppCompatActivity() {
             startActivityForResult(intent, 0)
         }
 
-//        sign out action
-        signOut_textView.setOnClickListener {
-            signOutDialog()
-        }
-
         fetchUser()
-    }
-
-    //sign Out Dialog
-    private fun signOutDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Sign Out")
-        builder.setMessage("Are you sure want to sign out ?")
-        builder.setCancelable(true)
-        builder.setPositiveButton(
-            "Yes"
-        ) { dialog, which ->
-            FirebaseAuth.getInstance().signOut()
-            val intent = Intent(this, MainLogin::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        }
-        builder.setNeutralButton(
-            "Cancel"
-        ) {dialog, which ->
-            return@setNeutralButton
-        }
-
-        val dialog : AlertDialog = builder.create()
-        dialog.show()
     }
 
     //enable save button action bar
@@ -213,12 +179,6 @@ class ProfileEdit : AppCompatActivity() {
         }
         return Bitmap.createScaledBitmap(image, width, height, true)
     }
-
-
-
-
-
-
 
     fun rotateImageDegree(path: String?) : Int {
         var degree : Int = 0
@@ -380,38 +340,3 @@ class ProfileEdit : AppCompatActivity() {
 
 }
 
-//class ProfileEditTop(val user : User, val uri : Uri) : Item<ViewHolder>() {
-//    override fun bind(viewHolder: ViewHolder, position: Int) {
-//
-//        val img = viewHolder.itemView.profile_editPP_imageView
-//
-//        if (uri == null) {
-//            val ro = RequestOptions().placeholder(R.drawable.user123)
-//            Glide.with(img.context).applyDefaultRequestOptions(ro).load(user.userImageUrl).into(img)
-//        } else {
-//            val ro = RequestOptions().placeholder(R.drawable.user123)
-//            Glide.with(img.context).applyDefaultRequestOptions(ro).load(uri).into(img)
-//        }
-//
-//        img.setOnClickListener {
-//            val intent = Intent(img.context, ChangePP::class.java)
-//            it.context.startActivity(intent)
-//        }
-//    }
-//
-//    override fun getLayout(): Int {
-//        return R.layout.profile_edit_top
-//    }
-//}
-//
-//class ProfileEditBot(val user : User) : Item<ViewHolder>() {
-//    override fun bind(viewHolder: ViewHolder, position: Int) {
-//
-//        viewHolder.itemView.userName_text.setText(user.name)
-//        viewHolder.itemView.about_text.setText(user.about)
-//    }
-//
-//    override fun getLayout(): Int {
-//        return R.layout.profile_edit_bot
-//    }
-//}

@@ -55,10 +55,10 @@ class EventDetail : AppCompatActivity() {
         eventDetail_recyclerView.addItemDecoration(CustomItemDecoration(0,0,0,0))
         eventDetail_recyclerView.adapter = adapter
 
-        call_button.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + eventFe!!.infos))
-            it.context.startActivity(intent)
-        }
+//        call_button.setOnClickListener {
+//            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + eventFe!!.infos))
+//            it.context.startActivity(intent)
+//        }
     }
 }
 
@@ -116,6 +116,13 @@ class EventDetailTlp(val eventm : Eventm) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
         viewHolder.itemView.infos_textView.text = eventm.infos
+
+        val btn = viewHolder.itemView.call_button
+        btn.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + eventm.infos))
+            it.context.startActivity(intent)
+        }
+
 
     }
 

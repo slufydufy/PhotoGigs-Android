@@ -3,7 +3,7 @@ package com.malmalmal.photogigs
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.GridLayoutManager
 import android.view.KeyEvent
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -26,12 +26,12 @@ class EventsMain : AppCompatActivity() {
         showBottomBar()
 
         val adapter = GroupAdapter<ViewHolder>()
-        val ll = LinearLayoutManager(this)
+        val ll = GridLayoutManager(this, 2)
         //reverse post order
         ll.reverseLayout = true
-        ll.stackFromEnd = true
+        ll.reverseLayout = true
         newsMain_recyclerView.layoutManager = ll
-        newsMain_recyclerView.addItemDecoration(CustomItemDecoration(0,0,0,0))
+        newsMain_recyclerView.addItemDecoration(CustomItemDecoration(0,18,0,0))
         newsMain_recyclerView.adapter = adapter
 
         fetchEvent()
@@ -109,9 +109,9 @@ class EventsMainRow(val eventm : Eventm) : Item<ViewHolder>() {
         //set value
         viewHolder.itemView.eventTitle_textView.text = eventm.etitle
         viewHolder.itemView.sdate_text.text = sdate
-        viewHolder.itemView.price_text.text = eventm.price
-        viewHolder.itemView.lokasi_textView.text = eventm.lok
-        val img = viewHolder.itemView.banner_imageView
+//        viewHolder.itemView.price_text.text = eventm.price
+//        viewHolder.itemView.lokasi_textView.text = eventm.lok
+        val img = viewHolder.itemView.banner_imgView
         val ro = RequestOptions().placeholder(R.drawable.placeholder1)
         Glide.with(img.context).applyDefaultRequestOptions(ro).load(eventm.img).into(img)
 

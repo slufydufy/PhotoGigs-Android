@@ -77,18 +77,15 @@
                   android:launchMode="singleTop">
         </activity>
 
-        <activity android:name=".ArticleMain"
-                  android:label=""
-                  android:launchMode="singleTop"
-                  android:theme="@style/noTransition">
+        <activity android:name=".MissionDetailAllPhotos"
+                  android:label="All Mission Photos"
+                  android:launchMode="singleTop">
         </activity>
 
-        <activity android:name=".ArticleDetail"
+        <activity android:name=".MissionNewPost"
                   android:launchMode="singleTop"
-                  android:label=""
-                  android:theme="@style/AppTransparent">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".ArticleMain"/>
+                  android:label="Add Post"
+                  android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity android:name=".PostDetail"
@@ -104,7 +101,7 @@
         <activity android:name=".PostAdd"
                   android:launchMode="singleTop"
                   android:label="Add Post"
-                android:windowSoftInputMode="stateHidden">
+                  android:windowSoftInputMode="stateHidden">
         </activity>
 
         <activity android:name=".PostDetailEdit"

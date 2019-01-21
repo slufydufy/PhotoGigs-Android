@@ -1,10 +1,8 @@
 package com.malmalmal.photogigs
 
-
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.ActionBar.LayoutParams.*
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -13,41 +11,40 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
-import com.xwray.groupie.*
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.post_add.*
-import kotlinx.android.synthetic.main.post_add_expandable_header.view.*
-import kotlinx.android.synthetic.main.post_add_top.view.*
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PostAdd : AppCompatActivity() {
-
+class MissionNewPost : AppCompatActivity() {
     var selectedPhotoUri : Uri? = null
+    var missId : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_add)
+        addPost_progressBar.visibility = View.INVISIBLE
 
         //enabled back button
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        //hide progress bar on start
-        addPost_progressBar.visibility = View.INVISIBLE
-
-        //openGallery()
+        //get uri from FAB
         val uriString = intent.getStringExtra("IMAGE")
         val uri = Uri.parse(uriString)
         selectedPhotoUri = uri
 
-        //create recyclerView
+        val mid = intent.getStringExtra("MISSION")
+        missId = mid
+
         val adapter = GroupAdapter<ViewHolder>()
         adapter.add(PostAddTop(uri))
         adapter.add(InfoTambahan())
+
         post_add_recycleView.layoutManager = LinearLayoutManager(this)
         post_add_recycleView.adapter = adapter
     }
@@ -147,69 +144,32 @@ class PostAdd : AppCompatActivity() {
         val infoRef = FirebaseDatabase.getInstance().getReference("/addInfo/$postId")
         val addInfo = AddInfo(postId, k, l, f, d, i, s)
         infoRef.setValue(addInfo)
-                .addOnSuccessListener {
-                    Log.d("add info", "sukses $it")
-                }
-                .addOnFailureListener {
-                    Log.d("add info", "error $it")
-                }
-    }
-}
-
-class PostAddTop(private val uri : Uri) : Item<ViewHolder>() {
-
-    override fun bind(p0: ViewHolder, p1: Int) {
-        //show picked image from gallery
-        val image = p0.itemView.post_add_top_imageView
-        Glide.with(image.context).load(uri).into(image)
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.post_add_top
-    }
-}
-
-class InfoTambahan : Item<ViewHolder>() /*,ExpandableItem*/ {
-    override fun bind(p0: ViewHolder, p1: Int) {
-
-        val c = p0.itemView.post_add_cons
-        var isExpanded = true
-
-        //show - hide additional Info
-        p0.itemView.expandable_textView.setOnClickListener {
-            if (isExpanded) {
-                c.requestLayout()
-                c.layoutParams.height = 0
-                isExpanded = false
-                p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
-
-            } else {
-                c.requestLayout()
-                val h = WRAP_CONTENT
-                c.layoutParams.height = h
-                isExpanded = true
-                p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_up_white_24dp)
+            .addOnSuccessListener {
+                Log.d("add info", "sukses $it")
+                val postRef = FirebaseDatabase.getInstance().getReference("/posts/$postId")
+                val missRef = FirebaseDatabase.getInstance().getReference("/flamelink/environments/production/content/mission/en-US/$missId/posts/$postId")
+                copyPost(postRef, missRef)
+                Toast.makeText(this, "Your photos has been submitted..!", Toast.LENGTH_LONG).show()
+                val intent = Intent(this, MissionMain::class.java)
+                this.startActivity(intent)
             }
-        }
-
-        p0.itemView.expand_imageView.setOnClickListener {
-            if (isExpanded) {
-                c.requestLayout()
-                c.layoutParams.height = 0
-                isExpanded = false
-                p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_down_white_24dp)
-
-            } else {
-                c.requestLayout()
-                val h = WRAP_CONTENT
-                c.layoutParams.height = h
-                isExpanded = true
-                p0.itemView.expand_imageView.setImageResource(R.drawable.baseline_keyboard_arrow_up_white_24dp)
+            .addOnFailureListener {
+                Log.d("add info", "error $it")
             }
-        }
     }
 
-    override fun getLayout(): Int {
-        return R.layout.post_add_expandable_header
+    private fun copyPost(fromPath : DatabaseReference, toPath : DatabaseReference) {
+        fromPath.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                toPath.setValue(p0.getValue()).addOnSuccessListener {
+                    //success message
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
     }
+
 }

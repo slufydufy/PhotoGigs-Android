@@ -1,6 +1,7 @@
 package com.malmalmal.photogigs
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -8,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -44,6 +47,7 @@ class ProfileMain : AppCompatActivity() {
             intent.type = "image/*"
             startActivityForResult(intent, 0)
         }
+
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -55,6 +59,7 @@ class ProfileMain : AppCompatActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
+    //activity result to post add
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
@@ -62,6 +67,55 @@ class ProfileMain : AppCompatActivity() {
             intent.putExtra("IMAGE", data.data.toString())
             startActivity(intent)
         }
+    }
+
+    //enable option button action bar
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.profile_menu, menu)
+            return super.onCreateOptionsMenu(menu)
+    }
+
+    //option menu action
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.editProfile_menu -> {
+                val intent = Intent(this, ProfileEdit::class.java)
+                this.startActivity(intent)
+            }
+            R.id.changePwd_menu -> {
+//                change password function
+            }
+            R.id.signOut_menu -> {
+                signOutDialog()
+            }
+        }
+
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    //sign Out Dialog
+    private fun signOutDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Sign Out")
+        builder.setMessage("Are you sure want to sign out ?")
+        builder.setCancelable(true)
+        builder.setPositiveButton(
+            "Yes"
+        ) { dialog, which ->
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(this, MainLogin::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+        builder.setNeutralButton(
+            "Cancel"
+        ) {dialog, which ->
+            return@setNeutralButton
+        }
+
+        val dialog : AlertDialog = builder.create()
+        dialog.show()
     }
 
     private fun showBottomBar() {
@@ -125,12 +179,6 @@ class ProfileMainTop : Item<ViewHolder>() {
             }
         })
 
-        val btn = viewHolder.itemView.edit_imageView
-        btn.setOnClickListener {
-
-                val intent = Intent(it.context, ProfileEdit::class.java)
-                it.context.startActivity(intent)
-            }
     }
 
     override fun getLayout(): Int {

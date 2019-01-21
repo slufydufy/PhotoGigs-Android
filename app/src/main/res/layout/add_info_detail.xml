@@ -5,7 +5,7 @@
     android:id="@+id/addInfo_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#101010">
+    android:background="#282828">
 
     <TextView
             android:id="@+id/addInfo_textView"
@@ -61,14 +61,14 @@
                 android:textSize="10sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
-                app:layout_constraintEnd_toEndOf="@+id/imageView3" app:layout_constraintHorizontal_bias="0.0"
-                android:textAlignment="center" android:fontFamily="@font/quicksand"/>
+                app:layout_constraintEnd_toEndOf="@+id/imageView3"
+                android:textAlignment="center" android:fontFamily="@font/quicksand"
+                app:layout_constraintHorizontal_bias="0.52"/>
 
         <TextView
                 android:id="@+id/kamera_textView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-
                 android:ems="10"
                 android:gravity="center_vertical"
                 android:singleLine="true"
@@ -99,7 +99,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView3"
                 app:layout_constraintStart_toStartOf="@+id/imageView4"
                 app:layout_constraintEnd_toEndOf="@+id/imageView4" android:textAlignment="center"
-                android:fontFamily="@font/quicksand"/>
+                android:fontFamily="@font/quicksand" app:layout_constraintHorizontal_bias="0.32"/>
 
         <TextView
                 android:id="@+id/lensa_textView"

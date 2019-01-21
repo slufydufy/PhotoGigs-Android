@@ -100,7 +100,7 @@ class MissionMainRow(val mission : Mission) : Item<ViewHolder>() {
 
         viewHolder.itemView.title_textView.text = mission.mistitle
         viewHolder.itemView.sub_textView.text = mission.brief
-        viewHolder.itemView.status_textView.text = "Active"
+        viewHolder.itemView.status_textView.text = mission.mstatus
         viewHolder.itemView.organizer_textView.text = mission.org
 
         val img = viewHolder.itemView.missionBanner_imageView
