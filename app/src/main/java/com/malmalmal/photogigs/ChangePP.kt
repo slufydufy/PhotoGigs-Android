@@ -44,7 +44,7 @@ class ChangePP : AppCompatActivity() {
 //            bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos)
 //            val dataImg = baos.toByteArray()
 
-            
+
             val uriPath = data.data.path
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, data.data)
             val tempFilePath = getTempFilePath(uriPath)
