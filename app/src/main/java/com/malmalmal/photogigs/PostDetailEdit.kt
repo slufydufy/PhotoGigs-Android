@@ -92,9 +92,9 @@ class PostDetailEdit : AppCompatActivity() {
                 infoRef.child("speed").setValue(speed)
 
                 val uid = FirebaseAuth.getInstance().uid
-                val intent = Intent(this, PostDetail::class.java)
-                intent.putExtra("POST", ppid)
-                intent.putExtra("USER", uid)
+                val intent = Intent(this, ProfileMain::class.java)
+//                intent.putExtra("POST", ppid)
+//                intent.putExtra("USER", uid)
                 startActivity(intent)
 
                 addPost_progressBar.visibility = View.INVISIBLE

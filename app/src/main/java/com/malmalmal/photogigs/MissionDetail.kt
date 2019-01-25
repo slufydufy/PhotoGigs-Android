@@ -171,6 +171,7 @@ class MissionDetailTop(val mission : Mission) : Item<ViewHolder>() {
         val allText = viewHolder.itemView.participant_textView
         allText.setOnClickListener {
             val intent = Intent(allText.context, MissionDetailAllPhotos::class.java)
+            intent.putExtra("MISSION", mission.id.toString())
             it.context.startActivity(intent)
         }
     }
